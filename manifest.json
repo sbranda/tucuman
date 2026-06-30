@@ -1,7 +1,7 @@
 {
-  "name": "Tucumán en 5 días",
-  "short_name": "Tucumán 5D",
-  "description": "Guía interactiva de viaje: itinerario, mapa, curiosidades y tips para 5 días en Tucumán.",
+  "name": "Viaje Tucumán",
+  "short_name": "Viaje Tucumán",
+  "description": "Guía interactiva de viaje: itinerario, mapa, curiosidades y tips para Tucumán.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
