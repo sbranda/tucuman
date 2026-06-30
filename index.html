@@ -21,6 +21,31 @@
     --gris:#6B6660;
   }
   *{box-sizing:border-box;}
+
+  /* ---------- ACCESSIBILITY ---------- */
+  .skip-link{
+    position:absolute;top:-100px;left:8px;z-index:99999;
+    background:var(--verde);color:#fff;padding:10px 16px;border-radius:8px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:13px;font-weight:700;text-decoration:none;
+    transition:top .15s;
+  }
+  .skip-link:focus{top:8px;}
+
+  a:focus-visible, button:focus-visible, input:focus-visible,
+  [tabindex]:focus-visible, .stop:focus-within{
+    outline:3px solid var(--ocre);
+    outline-offset:2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+  }
   html,body{margin:0;padding:0;}
   html{height:100%;}
   body{
@@ -373,6 +398,8 @@
 </head>
 <body>
 
+<a href="#sections" class="skip-link">Saltar al contenido principal</a>
+
 <div class="install-banner" id="installBanner">
   📲 Instalá esta guía en tu pantalla de inicio <button id="installBtn">Instalar</button>
 </div>
@@ -390,8 +417,8 @@
 
 <!-- SETTINGS MODAL -->
 <div class="modal-backdrop" id="settingsBackdrop">
-  <div class="modal-card">
-    <h3>Configurar tu viaje</h3>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">Configurar tu viaje</h3>
     <p class="modal-sub">La app arma el orden de paradas sola: siempre capital → Tafí del Valle → capital.</p>
 
     <label class="modal-label">Fecha de llegada</label>
@@ -418,13 +445,13 @@
 
 <div id="sections"></div>
 
-<div class="bottomnav">
-  <button class="nav-btn active" data-target="itinerario"><span class="ic">🗺️</span>Itinerario</button>
-  <button class="nav-btn" data-target="mapa"><span class="ic">📍</span>Mapa</button>
-  <button class="nav-btn" data-target="curiosidades"><span class="ic">💡</span>Curiosidades</button>
-  <button class="nav-btn" data-target="tips"><span class="ic">🎒</span>Tips</button>
-  <button class="nav-btn" data-target="checklist"><span class="ic">✅</span>Checklist</button>
-</div>
+<nav class="bottomnav" aria-label="Secciones de la guía">
+  <button class="nav-btn active" data-target="itinerario" aria-current="page"><span class="ic" aria-hidden="true">🗺️</span>Itinerario</button>
+  <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa</button>
+  <button class="nav-btn" data-target="curiosidades"><span class="ic" aria-hidden="true">💡</span>Curiosidades</button>
+  <button class="nav-btn" data-target="tips"><span class="ic" aria-hidden="true">🎒</span>Tips</button>
+  <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Checklist</button>
+</nav>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
@@ -839,7 +866,7 @@ const sectionsRoot = document.getElementById('sections');
 
 function buildItinerarioSection(){
   const wrap = document.createElement('div');
-  wrap.className = 'section'; wrap.id = 'sec-itinerario';
+  wrap.className = 'section'; wrap.id = 'sec-itinerario'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Itinerario'); wrap.setAttribute('tabindex','-1');
 
   const subTabs = document.createElement('div');
   subTabs.className = 'tabbar'; subTabs.style.position='static'; subTabs.style.borderBottom='none'; subTabs.style.padding='0 0 14px';
@@ -889,8 +916,8 @@ function buildItinerarioSection(){
             ${s.price ? `<span class="badge">💰 ${s.price}</span>` : ''}
             ${s.checklist && s.checklist.length ? `<span class="badge stop-progress-badge" data-progress-for="${stopId}">✅ 0/${s.checklist.length}</span>` : ''}
           </div>
-          <button class="pill-toggle" data-target="${stopId}">
-            <span class="arrow">▶</span><span class="toggle-label"> Ver más: historia, curiosidad y tips</span>
+          <button class="pill-toggle" data-target="${stopId}" aria-expanded="false" aria-controls="${stopId}">
+            <span class="arrow" aria-hidden="true">▶</span><span class="toggle-label"> Ver más: historia, curiosidad y tips</span>
           </button>
           <div class="extra" id="${stopId}">
             ${s.history ? `<div class="block">
@@ -949,7 +976,7 @@ function showDay(id){
 
 function buildCuriosidadesSection(){
   const wrap = document.createElement('div');
-  wrap.className = 'section'; wrap.id = 'sec-curiosidades';
+  wrap.className = 'section'; wrap.id = 'sec-curiosidades'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Curiosidades'); wrap.setAttribute('tabindex','-1');
   wrap.innerHTML = `<h2 class="section-title">Curiosidades de Tucumán</h2>
     <p class="section-sub">Todas las curiosidades reunidas en un solo lugar, por día.</p>`;
 
@@ -970,7 +997,7 @@ function buildCuriosidadesSection(){
 
 function buildTipsSection(){
   const wrap = document.createElement('div');
-  wrap.className = 'section'; wrap.id = 'sec-tips';
+  wrap.className = 'section'; wrap.id = 'sec-tips'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Tips'); wrap.setAttribute('tabindex','-1');
   wrap.innerHTML = `<h2 class="section-title">Tips prácticos</h2>
     <p class="section-sub">Lo esencial para que el viaje salga redondo.</p>`;
   TIPS.forEach(t=>{
@@ -984,7 +1011,7 @@ function buildTipsSection(){
 
 function buildChecklistSection(){
   const wrap = document.createElement('div');
-  wrap.className = 'section'; wrap.id = 'sec-checklist';
+  wrap.className = 'section'; wrap.id = 'sec-checklist'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Checklist'); wrap.setAttribute('tabindex','-1');
   wrap.innerHTML = `<h2 class="section-title">Checklist de viaje</h2>
     <p class="section-sub">Se guarda automáticamente en este dispositivo.</p>
     <div id="checklistItems"></div>`;
@@ -993,7 +1020,7 @@ function buildChecklistSection(){
 
 function buildMapaSection(){
   const wrap = document.createElement('div');
-  wrap.className = 'section'; wrap.id = 'sec-mapa';
+  wrap.className = 'section'; wrap.id = 'sec-mapa'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Mapa'); wrap.setAttribute('tabindex','-1');
 
   const filter = document.createElement('div');
   filter.className = 'map-day-filter';
@@ -1003,6 +1030,8 @@ function buildMapaSection(){
 
   const mapDiv = document.createElement('div');
   mapDiv.id = 'leafletMap';
+  mapDiv.setAttribute('role', 'application');
+  mapDiv.setAttribute('aria-label', 'Mapa interactivo con las paradas del itinerario');
   wrap.appendChild(mapDiv);
 
   return wrap;
@@ -1021,9 +1050,9 @@ function renderAll(){
 
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('sec-itinerario').classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>{ b.classList.remove('active'); b.removeAttribute('aria-current'); });
   const itinBtn = document.querySelector('.nav-btn[data-target="itinerario"]');
-  if(itinBtn) itinBtn.classList.add('active');
+  if(itinBtn){ itinBtn.classList.add('active'); itinBtn.setAttribute('aria-current', 'page'); }
 
   initStopChecklists();
   initVisitedToggles();
@@ -1036,8 +1065,10 @@ document.addEventListener('click', (e)=>{
   const target = document.getElementById(btn.dataset.target);
   target.classList.toggle('open');
   btn.classList.toggle('open');
+  const isOpen = target.classList.contains('open');
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   const label = btn.querySelector('.toggle-label');
-  label.textContent = target.classList.contains('open') ? ' Ocultar' : ' Ver más: historia, curiosidad y tips';
+  label.textContent = isOpen ? ' Ocultar' : ' Ver más: historia, curiosidad y tips';
 });
 
 /* ===================== MAPA (Leaflet) ===================== */
@@ -1120,10 +1151,13 @@ document.querySelectorAll('.map-chip').forEach(chip=>{
 /* ===================== BOTTOM NAV ===================== */
 document.querySelectorAll('.nav-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach(b=>{ b.classList.remove('active'); b.removeAttribute('aria-current'); });
     btn.classList.add('active');
+    btn.setAttribute('aria-current', 'page');
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.getElementById('sec-'+btn.dataset.target).classList.add('active');
+    const activeSection = document.getElementById('sec-'+btn.dataset.target);
+    activeSection.classList.add('active');
+    if(btn.dataset.target !== 'mapa'){ activeSection.focus({ preventScroll: true }); }
     if(btn.dataset.target === 'mapa'){
       initMap();
       requestAnimationFrame(()=>requestAnimationFrame(()=>{
@@ -1269,7 +1303,14 @@ arrivalTimeInput.addEventListener('change', ()=>{
 });
 
 const settingsBackdrop = document.getElementById('settingsBackdrop');
-document.getElementById('settingsBtn').addEventListener('click', ()=>{
+const settingsBtnEl = document.getElementById('settingsBtn');
+
+function closeSettingsModal(){
+  settingsBackdrop.classList.remove('open');
+  settingsBtnEl.focus();
+}
+
+settingsBtnEl.addEventListener('click', ()=>{
   pendingArrivalDate = tripConfig.arrivalDate;
   pendingArrivalTime = tripConfig.arrivalTime;
   pendingTotalDays = tripConfig.totalDays;
@@ -1277,12 +1318,14 @@ document.getElementById('settingsBtn').addEventListener('click', ()=>{
   arrivalTimeInput.value = pendingArrivalTime;
   renderDayStepper();
   settingsBackdrop.classList.add('open');
+  arrivalDateInput.focus();
 });
-document.getElementById('settingsCancel').addEventListener('click', ()=>{
-  settingsBackdrop.classList.remove('open');
-});
+document.getElementById('settingsCancel').addEventListener('click', closeSettingsModal);
 settingsBackdrop.addEventListener('click', (e)=>{
-  if(e.target === settingsBackdrop) settingsBackdrop.classList.remove('open');
+  if(e.target === settingsBackdrop) closeSettingsModal();
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape' && settingsBackdrop.classList.contains('open')) closeSettingsModal();
 });
 
 document.getElementById('settingsApply').addEventListener('click', async ()=>{
