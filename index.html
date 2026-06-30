@@ -270,8 +270,16 @@
   .section-sub{font-size:13px;color:var(--gris);margin:0 0 16px;font-style:italic;}
 
   /* ---------- MAPA ---------- */
-  #sec-mapa{padding:0;max-width:none;overflow:hidden;display:none;flex-direction:column;height:calc(100vh - 145px);height:calc(100dvh - 145px);}
-  #sec-mapa.active{display:flex;}
+  #sec-mapa{padding:0;max-width:none;display:none;flex-direction:column;}
+  #sec-mapa.active{
+    display:flex;
+    position:fixed;
+    top:0;left:0;right:0;bottom:0;
+    height:100vh;height:100dvh;
+    z-index:2000;
+    background:var(--crema);
+    padding-bottom:calc(64px + env(safe-area-inset-bottom));
+  }
   .map-day-filter{
     flex:0 0 auto;
     display:flex;gap:6px;overflow-x:auto;padding:10px 14px;background:var(--crema);
@@ -884,12 +892,7 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
     document.getElementById('sec-'+btn.dataset.target).classList.add('active');
     if(btn.dataset.target === 'mapa'){
       initMap();
-      document.body.style.overflow = 'hidden';
-      document.body.style.height = '100%';
       setTimeout(()=>leafletMap && leafletMap.invalidateSize(), 150);
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.height = '';
     }
     window.scrollTo({top:0, behavior:'smooth'});
   });
