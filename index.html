@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tucumán en 5 días</title>
+<meta name="theme-color" content="#1F3D2E">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon-192.svg">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<style>
+  :root{
+    --verde:#1F3D2E;
+    --verde-claro:#2F5942;
+    --terracota:#C2622F;
+    --ocre:#E8B05C;
+    --crema:#F5EFE3;
+    --crema-osc:#E9DFC9;
+    --indigo:#2B2A4C;
+    --texto:#2A2A28;
+    --gris:#6B6660;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--crema);
+    color:var(--texto);
+    font-family:'Iowan Old Style','Georgia',serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:90px;
+  }
+  .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    height:54vh;
+    min-height:320px;
+    overflow:hidden;
+    background:var(--verde);
+  }
+  .hero img{
+    width:100%;height:100%;object-fit:cover;
+    opacity:0.55;
+  }
+  .hero-overlay{
+    position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(31,61,46,0.15) 0%, rgba(31,61,46,0.55) 70%, var(--crema) 100%);
+    display:flex;flex-direction:column;justify-content:flex-end;
+    padding:24px 20px 28px;
+  }
+  .eyebrow{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    text-transform:uppercase;letter-spacing:0.14em;font-size:11px;
+    color:var(--ocre);font-weight:600;margin-bottom:8px;
+  }
+  .hero h1{
+    color:#fff;font-size:2.1rem;line-height:1.05;margin:0 0 8px;
+    font-weight:700;text-shadow:0 2px 14px rgba(0,0,0,0.35);
+  }
+  .hero p{
+    color:#EFE7D6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:13.5px;margin:0;max-width:32em;line-height:1.5;
+  }
+
+  /* ---------- NAV TABS ---------- */
+  .tabbar{
+    position:sticky;top:0;z-index:30;
+    background:var(--crema);
+    display:flex;overflow-x:auto;gap:6px;
+    padding:10px 14px;border-bottom:1px solid var(--crema-osc);
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .tabbar::-webkit-scrollbar{display:none;}
+  .tab{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    flex:0 0 auto;
+    padding:7px 14px;border-radius:99px;
+    background:transparent;border:1px solid var(--crema-osc);
+    color:var(--gris);font-size:13px;font-weight:600;
+    cursor:pointer;white-space:nowrap;transition:all .15s;
+  }
+  .tab.active{background:var(--verde);color:#fff;border-color:var(--verde);}
+
+  /* ---------- SECTIONS ---------- */
+  .section{display:none;padding:18px 18px 6px;max-width:680px;margin:0 auto;}
+  .section.active{display:block;animation:fadein .25s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .day-banner{
+    background:var(--verde);color:#fff;border-radius:14px;
+    padding:16px 18px;margin-bottom:4px;
+    position:relative;overflow:hidden;
+  }
+  .day-banner::after{
+    content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;
+    background:radial-gradient(circle, rgba(232,176,92,0.25), transparent 70%);
+  }
+  .day-banner .num{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--ocre);font-weight:700;
+  }
+  .day-banner h2{margin:2px 0 4px;font-size:1.5rem;}
+  .day-banner .base{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:12.5px;color:#D9E5DC;
+  }
+  .narrative{
+    font-style:italic;color:var(--gris);font-size:14.5px;line-height:1.55;
+    margin:14px 2px 18px;
+  }
+
+  /* ---------- STOP CARD ---------- */
+  .stop{
+    background:#fff;border-radius:14px;overflow:hidden;margin-bottom:16px;
+    box-shadow:0 1px 3px rgba(0,0,0,0.06);
+    border:1px solid var(--crema-osc);
+  }
+  .stop img{width:100%;height:170px;object-fit:cover;display:block;background:var(--crema-osc);}
+  .stop-body{padding:14px 16px 16px;}
+  .stop-time{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    display:inline-block;background:var(--ocre);color:var(--verde);
+    font-weight:700;font-size:11.5px;padding:3px 9px;border-radius:6px;margin-bottom:8px;
+  }
+  .stop h3{margin:0 0 6px;font-size:1.15rem;color:var(--verde);}
+  .stop .desc{font-size:14px;line-height:1.55;color:var(--texto);margin:0 0 10px;}
+
+  .badges{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;}
+  .badge{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10.5px;font-weight:600;color:var(--verde-claro);
+    background:var(--crema);border:1px solid var(--crema-osc);
+    padding:3px 8px;border-radius:6px;
+  }
+
+  .pill-toggle{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:12px;font-weight:600;color:var(--terracota);
+    background:none;border:none;padding:0;cursor:pointer;
+    display:flex;align-items:center;gap:5px;margin-top:6px;
+  }
+  .pill-toggle .arrow{transition:transform .2s;}
+  .pill-toggle.open .arrow{transform:rotate(90deg);}
+
+  .extra{
+    display:none;margin-top:10px;padding-top:10px;border-top:1px dashed var(--crema-osc);
+  }
+  .extra.open{display:block;}
+  .extra .block{margin-bottom:10px;}
+  .extra .block:last-child{margin-bottom:0;}
+  .extra .label{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10.5px;text-transform:uppercase;letter-spacing:0.08em;font-weight:700;
+    color:var(--terracota);margin-bottom:3px;display:flex;align-items:center;gap:5px;
+  }
+  .extra .label.tip{color:var(--verde-claro);}
+  .extra .label.hist{color:var(--indigo);}
+  .extra .label.acc{color:#1F6B8C;}
+  .extra p{font-size:13px;line-height:1.5;color:var(--gris);margin:0;}
+
+  /* ---------- TIPS PAGE ---------- */
+  .tip-card{
+    background:#fff;border-radius:12px;padding:14px 16px;margin-bottom:12px;
+    border-left:4px solid var(--ocre);box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+  .tip-card h4{margin:0 0 4px;color:var(--verde);font-size:1rem;}
+  .tip-card p{margin:0;font-size:13.5px;color:var(--gris);line-height:1.5;}
+
+  /* ---------- CHECKLIST ---------- */
+  .check-item{
+    display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;
+    padding:12px 14px;margin-bottom:8px;border:1px solid var(--crema-osc);cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  .check-item input{width:19px;height:19px;accent-color:var(--terracota);}
+  .check-item span{font-size:14px;}
+  .check-item.done span{color:var(--gris);text-decoration:line-through;}
+
+  /* ---------- CURIOSITY BANNER ---------- */
+  .curio-banner{
+    background:linear-gradient(135deg, var(--indigo), #3a3868);
+    color:#fff;border-radius:14px;padding:16px 18px;margin:16px 0;
+    font-size:13.5px;line-height:1.55;
+  }
+  .curio-banner .label{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ocre);
+    font-weight:700;margin-bottom:6px;
+  }
+
+  /* ---------- FOOTER NAV ---------- */
+  .bottomnav{
+    position:fixed;bottom:0;left:0;right:0;z-index:40;
+    background:#fff;border-top:1px solid var(--crema-osc);
+    display:flex;justify-content:space-around;
+    padding:8px 4px calc(8px + env(safe-area-inset-bottom));
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  .nav-btn{
+    background:none;border:none;display:flex;flex-direction:column;align-items:center;
+    gap:3px;color:var(--gris);font-size:10.5px;font-weight:600;cursor:pointer;flex:1;
+  }
+  .nav-btn .ic{font-size:19px;}
+  .nav-btn.active{color:var(--terracota);}
+
+  .install-banner{
+    display:none;
+    background:var(--ocre);color:var(--verde);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:12.5px;font-weight:600;text-align:center;padding:9px 14px;
+  }
+  .install-banner.show{display:block;}
+  .install-banner button{
+    margin-left:10px;background:var(--verde);color:#fff;border:none;border-radius:6px;
+    padding:4px 10px;font-size:11.5px;font-weight:700;cursor:pointer;
+  }
+
+  .section-title{
+    font-size:1.4rem;color:var(--verde);margin:6px 0 4px;
+  }
+  .section-sub{font-size:13px;color:var(--gris);margin:0 0 16px;font-style:italic;}
+
+  /* ---------- MAPA ---------- */
+  #sec-mapa{padding:0;max-width:none;}
+  .map-day-filter{
+    display:flex;gap:6px;overflow-x:auto;padding:10px 14px;background:var(--crema);
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+  }
+  .map-day-filter::-webkit-scrollbar{display:none;}
+  .map-chip{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    flex:0 0 auto;padding:6px 13px;border-radius:99px;font-size:12.5px;font-weight:600;
+    border:1px solid var(--crema-osc);background:#fff;color:var(--gris);cursor:pointer;
+  }
+  .map-chip.active{background:var(--terracota);color:#fff;border-color:var(--terracota);}
+  #leafletMap{
+    width:100%;height:calc(100vh - 230px);min-height:380px;background:var(--crema-osc);
+  }
+  .leaflet-popup-content{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
+  .popup-time{color:var(--terracota);font-weight:700;font-size:11px;}
+  .popup-name{color:var(--verde);font-weight:700;font-size:13.5px;margin:2px 0 3px;}
+  .popup-desc{font-size:12px;color:var(--gris);line-height:1.4;margin:0;}
+  .day-marker-icon{
+    background:var(--verde);color:#fff;border-radius:50%;width:28px;height:28px;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;
+    border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.35);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<div class="install-banner" id="installBanner">
+  📲 Instalá esta guía en tu pantalla de inicio <button id="installBtn">Instalar</button>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <img id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/VistadeTafidelValle.jpg?width=900" alt="Valle de Tafí">
+  <div class="hero-overlay">
+    <div class="eyebrow">Guía interactiva · 5 días</div>
+    <h1>Tucumán</h1>
+    <p>Capital, montaña y ruinas milenarias. Historia, valles calchaquíes y sabores del norte argentino — con curiosidades, tips y fotos de cada parada.</p>
+  </div>
+</div>
+
+<div class="tabbar" id="tabbar"></div>
+
+<div id="sections"></div>
+
+<div class="bottomnav">
+  <button class="nav-btn active" data-target="itinerario"><span class="ic">🗺️</span>Itinerario</button>
+  <button class="nav-btn" data-target="mapa"><span class="ic">📍</span>Mapa</button>
+  <button class="nav-btn" data-target="curiosidades"><span class="ic">💡</span>Curiosidades</button>
+  <button class="nav-btn" data-target="tips"><span class="ic">🎒</span>Tips</button>
+  <button class="nav-btn" data-target="checklist"><span class="ic">✅</span>Checklist</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+
+<script>
+/* ===================== DATA ===================== */
+const IMG = (file) => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=900`;
+
+const DAYS = [
+  {
+    id:"dia1", num:1, title:"Capital histórica", base:"San Miguel de Tucumán",
+    narrative:"Llegada y recorrido por el centro histórico, cuna de la independencia argentina.",
+    stops:[
+      {
+        time:"10:00", name:"Casa Histórica de la Independencia",
+        lat:-26.8331348, lng:-65.2038418,
+        img:IMG("Casa Histórica de Tucumán 04.JPG"),
+        desc:"Donde 29 diputados firmaron la independencia el 9 de julio de 1816. El edificio actual es en gran parte una reconstrucción de los años 40, ya que el original sufrió demoliciones y refacciones a lo largo del siglo XIX.",
+        history:"La casa perteneció originalmente a la familia Laguna y fue alquilada en 1816 para sesionar el Congreso porque Buenos Aires, sede natural, estaba ocupada por tropas realistas y no era segura. Tras la independencia, el edificio cambió de manos varias veces y partes fueron demolidas en 1869 para abrir una calle. Recién en 1941 el estado nacional encaró una reconstrucción histórica basándose en planos, fotografías y relatos de la época para devolverle el aspecto colonial que tiene hoy. Es Monumento Histórico Nacional desde 1941 y sigue siendo sede de actos oficiales cada 9 de julio.",
+        curiosity:"La sala donde se firmó el Acta no es la original: fue reconstruida en 1943 a partir de pinturas y descripciones de la época, porque la casa real había sido modificada drásticamente. La cúpula azul que se ve hoy tampoco existía en 1816, se agregó después.",
+        tip:"Cerrado los lunes. De noche hay un espectáculo de luz y sonido (\"Tucumán, Casa de la Libertad\") que cuenta la historia sobre la fachada — conviene reservar con anticipación en la web oficial.",
+        duration:"1-1h30", price:"Gratis", access:"Paneles con texto escrito en todas las salas — el contenido se sigue bien sin depender del audio de la visita guiada."
+      },
+      {
+        time:"12:00", name:"Parque 9 de Julio",
+        lat:-26.8292678, lng:-65.1916518,
+        img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
+        desc:"Con 40 hectáreas, es uno de los parques urbanos más grandes de Argentina, diseñado por Carlos Thays (el mismo paisajista del Jardín Botánico de Buenos Aires y Parque Sarmiento en Córdoba).",
+        history:"El predio perteneció a la antigua Quinta Agronómica de la provincia, un terreno experimental de fines del siglo XIX usado para aclimatar especies vegetales traídas de otras partes del mundo. En 1916, para el centenario de la independencia, el gobierno tucumano contrató a Thays para transformarlo en parque público al estilo de los grandes paseos europeos, con lagos artificiales, glorietas y un sistema de avenidas curvas que todavía se conserva casi intacto.",
+        curiosity:"El parque ocupa los terrenos de la ex Quinta Agronómica y todavía conserva ejemplares de árboles centenarios plantados como parte de un proyecto experimental de aclimatación de especies a fines del siglo XIX.",
+        tip:"Los fines de semana hay ferias de artesanos cerca del Cabildo. Llevá efectivo chico, no todos los puestos tienen posnet.",
+        duration:"1-2 h", price:"Gratis", access:"Espacio abierto, ideal para caminar sin depender de explicaciones orales; buena señalización con carteles en los senderos principales."
+      },
+      {
+        time:"14:30", name:"Jardín Botánico Miguel Lillo",
+        lat:-26.8309311, lng:-65.2220534,
+        img:IMG("Cerro San Javier.JPG"),
+        desc:"Un fragmento de selva de Yungas conservado en pleno centro urbano, anexo al museo de ciencias naturales más importante del norte argentino.",
+        history:"El predio y la colección nacieron de la donación del médico y naturalista Miguel Lillo, quien a comienzos del siglo XX cedió su fortuna personal y miles de especímenes botánicos y zoológicos al Estado para fundar un instituto científico. Hoy depende de la Universidad Nacional de Tucumán y es uno de los pocos lugares del país donde se puede caminar dentro de un fragmento real de selva de Yungas sin salir de una capital provincial.",
+        curiosity:"La Fundación Miguel Lillo lleva el nombre del médico y naturalista tucumano que donó toda su fortuna y su colección de especímenes al estado para crear un instituto de investigación, hoy referencia en botánica y zoología sudamericana.",
+        tip:"Entrada con donación voluntaria. Cierra temprano (18 h) y los domingos está cerrado — conviene ir a media tarde, no al final del día.",
+        duration:"1-1h30", price:"Donación voluntaria", access:"Recorrido autoguiado por senderos con carteles identificando especies; no depende de audioguía."
+      },
+      {
+        time:"20:30", name:"Cena: Los Naranjos Resto Bar",
+        lat:-26.8307884, lng:-65.2029329,
+        img:IMG("Plaza Independencia en San Miguel de Tucumán, capital de la Provincia de Tucumán.jpg"),
+        desc:"Balcón con vista directa a la Plaza Independencia y la estatua de la Libertad de Lola Mora, una de las pocas obras públicas de esta escultora tucumana en su propia provincia.",
+        history:"La Plaza Independencia ocupa el lugar de la plaza mayor fundacional de la ciudad desde el siglo XVI, reubicada acá en 1685 tras el segundo y definitivo traslado de San Miguel de Tucumán. La estatua de la Libertad que corona la fuente central es obra de Lola Mora, encargada en 1903 pero que tardó años en instalarse por disputas sobre su desnudez parcial, consideradas escandalosas para la época.",
+        curiosity:"Lola Mora, autora de la fuente de las Nereidas en Buenos Aires, nació a pocos kilómetros de acá, en Trancas. Gran parte de su obra monumental terminó fuera de Tucumán por conflictos con la Iglesia y el poder político de su época.",
+        tip:"Pedí mesa en el balcón si el clima acompaña — de noche, con la Catedral iluminada, es de las mejores postales de la ciudad.",
+        duration:"1h30-2h", price:"$$ (medio)", access:"Carta en papel disponible, sin necesidad de pedir verbalmente — buena opción para señalar platos directamente."
+      }
+    ]
+  },
+  {
+    id:"dia2", num:2, title:"Yerba Buena y último día en capital", base:"San Miguel de Tucumán",
+    narrative:"Último día en la capital. Por la noche conviene armar valijas para salir temprano rumbo a Tafí del Valle.",
+    stops:[
+      {
+        time:"10:00", name:"Plaza Vieja, Yerba Buena",
+        lat:-26.8230446, lng:-65.3057499,
+        img:IMG("San Miguel de Tucumán - panoramio.jpg"),
+        desc:"Yerba Buena queda apenas 10 minutos del centro, pero el clima cambia notablemente: está al pie del Cerro San Javier y se siente bastante más fresco y arbolado que la capital.",
+        history:"Yerba Buena era hasta mediados del siglo XX una zona de quintas y fincas de descanso para familias tucumanas adineradas, gracias a su clima más templado que el centro. Desde los años 80 se urbanizó fuerte y hoy es el municipio con mejor índice de calidad de vida del Gran Tucumán, sede de buena parte de la vida universitaria y gastronómica de la provincia.",
+        curiosity:"El nombre del Cerro San Javier (y de Yerba Buena) viene de la antigua presencia de yerba mate silvestre y plantas aromáticas en sus laderas, antes de que la zona se urbanizara.",
+        tip:"Si hay tiempo, el Cristo Bendicente en lo alto del cerro se ve iluminado de noche desde toda la ciudad — es la referencia geográfica de los tucumanos.",
+        duration:"1 h", price:"Gratis", access:"Zona peatonal tranquila, buena cartelería de calles y comercios."
+      },
+      {
+        time:"13:30", name:"Almuerzo: Il Postino",
+        lat:-26.8268899, lng:-65.2038176,
+        img:IMG("Tucuman govthouse.jpg"),
+        desc:"Pizzería clásica tucumana, conocida por sus calzones y la variedad de la carta. Buena relación precio-calidad y siempre con movimiento de gente local.",
+        history:"Forma parte de una generación de pizzerías de barrio que se multiplicaron en Tucumán desde mediados del siglo XX, con fuerte influencia de la inmigración italiana que llegó a la provincia atraída por la industria azucarera. El estilo \"a la piedra\" con mucho relleno se consolidó como variante regional, distinta de la pizza porteña más fina.",
+        curiosity:"La pizza al molde \"a la piedra\" con mucho relleno es una marca registrada de la cocina porteña-tucumana adaptada; en el NOA conviven con las empanadas como comida social por excelencia.",
+        tip:"Suele haber espera al mediodía entre semana — si podés, andá antes de las 13 h.",
+        duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, ambiente con buen nivel de luz para leer menú y comunicarse por escrito si hace falta."
+      },
+      {
+        time:"16:00", name:"Museo de Ciencias Naturales Lillo",
+        lat:-26.8314509, lng:-65.2211412,
+        img:IMG("Cerrosanjaviernieve.jpg"),
+        desc:"Colección de fósiles, minerales y fauna regional reunida durante más de un siglo de expediciones científicas por el norte argentino.",
+        history:"El museo nació junto con la Fundación Lillo en 1936 y desde entonces sus investigadores han recorrido el NOA documentando especies y formaciones geológicas. Buena parte del material expuesto proviene de expediciones propias del instituto, no de compras o donaciones externas, lo que lo hace una referencia académica además de atractivo turístico.",
+        curiosity:"Entre las piezas más comentadas está un molde de huevo de dinosaurio hallado en Valle de la Luna y ejemplares de fauna de las Yungas que no se ven en ningún otro museo del país.",
+        tip:"Las visitas guiadas (cuando hay personal disponible) mejoran mucho la experiencia — preguntá en la entrada si hay alguna programada para ese horario, aunque las vitrinas también tienen fichas escritas detalladas.",
+        duration:"1-1h30", price:"Entrada económica (consultar valor actualizado)", access:"Todas las piezas tienen cartel descriptivo individual, recorrido autoguiado posible sin depender de explicación oral."
+      }
+    ]
+  },
+  {
+    id:"dia3", num:3, title:"Llegada a Tafí del Valle", base:"Tafí del Valle — 2 noches",
+    narrative:"Traslado a Tafí del Valle (~1h30 desde la capital) y check-in. Desde acá se duermen 2 noches en la montaña.",
+    stops:[
+      {
+        time:"11:00", name:"Camino a Tafí — Cuesta del Clavillo",
+        lat:-26.95, lng:-65.55,
+        img:IMG("38-Jungas rumbo a Tafi del Valle.jpg"),
+        desc:"El viaje en sí es parte de la experiencia: en 90 km se atraviesan tres pisos ecológicos distintos, de la selva de Yungas al pastizal de altura, ganando más de 1.700 metros de altitud.",
+        history:"La ruta 307 sigue en gran parte un antiguo camino utilizado por los pueblos originarios y luego por las tropas del general Belgrano para mover ganado y cañones entre el valle y la capital durante las guerras de independencia. El asfaltado moderno es relativamente reciente (terminado recién a fines del siglo XX), antes el cruce a Tafí podía llevar un día entero.",
+        curiosity:"En pocos kilómetros el paisaje pasa de selva tropical húmeda a estepa de montaña — es uno de los gradientes ecológicos más marcados y rápidos que se pueden recorrer en auto en Argentina.",
+        tip:"El camino tiene curvas cerradas y neblina frecuente en la parte alta (El Infiernillo). Si te marea andar en curvas, tomá algo antes de salir.",
+        duration:"1h30 de viaje", price:"—", access:"Sin señal de celular en buena parte del trayecto — descargá música, mapas o contenido offline antes de salir."
+      },
+      {
+        time:"12:00", name:"Check-in en Tafí del Valle",
+        lat:-26.853002, lng:-65.7084218,
+        img:IMG("Valle De Tafí (234462759).jpeg"),
+        desc:"Pueblo de unos 2.000 msnm, antiguo asentamiento de la cultura Tafí (siglos I-VIII) y luego estancia jesuítica dedicada a la producción de quesos artesanales.",
+        history:"Antes de la llegada española, el valle fue hogar de la cultura arqueológica Tafí, conocida por sus menhires y túmulos funerarios (visibles hoy en el Parque de los Menhires, cerca de El Mollar). En el siglo XVII los jesuitas instalaron la Estancia de Tafí dedicada a la ganadería y producción de quesos; tras su expulsión en 1767 la propiedad pasó a manos privadas y luego se fue poblando el pueblo actual.",
+        curiosity:"Los quesos de Tafí del Valle tienen una tradición que se remonta a los jesuitas, expulsados en 1767. La técnica quedó en manos de las familias locales y hoy es Indicación Geográfica protegida.",
+        tip:"Las noches son frías incluso en verano (puede bajar a 5-10°C) — llevá una campera de abrigo aunque en la capital haga calor.",
+        duration:"—", price:"Según alojamiento", access:"Pueblo chico y caminable, cartelería de calles clara en el centro."
+      },
+      {
+        time:"13:30", name:"Almuerzo: Rancho el Tuichy",
+        lat:-26.8202371, lng:-65.7191014,
+        img:IMG("Mestize amaicha.jpg"),
+        desc:"Empanadas, locro y humitas caseras con vista al valle. El locro es un guiso de origen prehispánico, base de la dieta andina mucho antes de la llegada española.",
+        history:"El locro tiene raíces en la dieta de los pueblos andinos previos a la conquista, basada en maíz, zapallo y porotos cultivados en terrazas de altura. Con la llegada del ganado europeo se sumó carne de cerdo y vaca a la receta original, dando la versión mestiza que se cocina hoy en toda la región andina sudamericana.",
+        curiosity:"La receta del locro varía de provincia en provincia, pero la base de maíz blanco, zapallo y porotos es prácticamente la misma que comían los pueblos diaguitas hace siglos.",
+        tip:"Pedí las empanadas \"al horno de barro\" si las ofrecen — tienen un sabor ahumado distinto a las fritas.",
+        duration:"1-1h30", price:"$$ (medio)", access:"Carta en papel, ambiente luminoso de día — bueno para comunicación visual."
+      },
+      {
+        time:"16:00", name:"Ruta del Artesano",
+        lat:-26.8583277, lng:-65.7211985,
+        img:IMG("Indio en Tafi del Valle - Provincia de Tucuman.jpg"),
+        desc:"Talleres de telar donde artesanas locales tejen con lana de oveja u llama usando técnicas heredadas de generaciones, sin telares industriales.",
+        history:"El tejido en telar de cintura o de pie es una práctica que viene directamente de las comunidades calchaquíes prehispánicas y se mantuvo viva a través de la transmisión oral y familiar, sin pasar por procesos industriales. Hoy varias cooperativas de artesanas de Tafí trabajan bajo programas de comercio justo que buscan proteger esta tradición frente a la competencia de tejidos industriales baratos.",
+        curiosity:"Los diseños geométricos de los tejidos calchaquíes no son solo decorativos: muchos patrones identifican a la familia o comunidad que los teje, una tradición textil que antecede a la conquista.",
+        tip:"Llevá efectivo — la mayoría de las artesanas no tiene posnet y prefieren venta directa sin intermediarios.",
+        duration:"45 min - 1 h", price:"Entrada libre, compra opcional", access:"Interacción mayormente visual y demostrativa (se ve el proceso de tejido en vivo), no depende tanto de explicación hablada."
+      },
+      {
+        time:"17:30", name:"Cerro de la Cruz",
+        lat:-26.86686, lng:-65.714342,
+        img:IMG("VistadeTafidelValle-1.jpg"),
+        desc:"Caminata corta (40 min) hasta un mirador con la mejor vista panorámica del pueblo, el dique La Angostura y la cordillera de fondo.",
+        history:"La cruz en la cima fue instalada por pobladores locales como punto de fe y orientación, y con el tiempo el cerro se convirtió en el mirador no oficial más popular del pueblo, sin intervención turística formal: no hay entrada paga ni infraestructura, es un sendero que se mantiene por el uso constante de vecinos y visitantes.",
+        curiosity:"El sendero no está oficialmente señalizado más que por cruces de madera dejadas por los propios caminantes a lo largo de los años — es casi una tradición local marcar el camino así.",
+        tip:"Subí antes del atardecer: la luz baja sobre el valle es el mejor momento para fotos, pero bajá con tiempo porque no hay iluminación en el sendero.",
+        duration:"1h30 (subida + bajada + tiempo en el mirador)", price:"Gratis", access:"Sendero de tierra con pendiente, sin señalización oficial — llevar calzado con buen agarre."
+      }
+    ]
+  },
+  {
+    id:"dia4", num:4, title:"Quilmes desde Tafí", base:"Tafí del Valle",
+    narrative:"Día de excursión a los Valles Calchaquíes. Al dormir en Tafí, el viaje a Quilmes se acorta a la mitad respecto a salir desde la capital.",
+    stops:[
+      {
+        time:"09:30", name:"Dique La Angostura",
+        lat:-26.9175123, lng:-65.6955712,
+        img:IMG("Lago La Angostura, Tafí del Valle, Tucumán, Argentina.jpg"),
+        desc:"Embalse a 10 minutos de Tafí, rodeado de miradores. Abastece de agua a parte del valle y es punto de pesca y deportes náuticos en temporada.",
+        history:"Se construyó en la década de 1950 como parte de un plan provincial de obras hídricas, inundando terrenos que antes eran de pastoreo de las antiguas estancias jesuíticas. La obra cambió el paisaje del sur del valle de forma permanente y hoy es uno de los puntos más fotografiados de la zona, además de fuente de agua para riego y consumo.",
+        curiosity:"El dique se construyó en los años 50 inundando parte de las tierras donde antes pastaban las majadas de las estancias jesuíticas — varios puesteros debieron reubicarse cuando se llenó el embalse.",
+        tip:"Hay varios miradores sobre la ruta 307 antes de llegar al pueblo — el más fotografiado está cerca del cartel de bienvenida a Tafí.",
+        duration:"30-45 min", price:"Gratis", access:"Miradores accesibles directamente desde el auto, sin necesidad de caminata larga."
+      },
+      {
+        time:"11:30", name:"Ruinas de Quilmes",
+        lat:-26.4674982, lng:-66.0333735,
+        img:IMG("Ruinas de Quilmes - Tucumán.jpg"),
+        desc:"La ciudadela prehispánica más grande de Argentina: llegó a albergar hasta 5.000 personas del pueblo Quilmes antes de la conquista. Resistió casi 130 años a los incas y a los españoles.",
+        history:"Fundada hacia el siglo IX, la ciudadela de Quilmes fue el centro de una confederación de comunidades diaguitas que resistió primero el avance del Imperio Inca y luego, durante más de un siglo, las campañas militares españolas. La resistencia diaguita-calchaquí fue una de las más prolongadas del continente. Tras la rendición final en 1665, la corona española ordenó el desarraigo forzado: los sobrevivientes —unos 2.000— fueron obligados a caminar más de 1.200 km hasta Buenos Aires como castigo y para evitar nuevos levantamientos. El sitio quedó abandonado y fue redescubierto y parcialmente reconstruido recién en el siglo XX.",
+        curiosity:"Los Quilmes resistieron tanto que España terminó deportando a los sobrevivientes a pie hasta Buenos Aires en 1666 — un viaje de más de 1.200 km del que murió la mayoría. Los descendientes fundaron lo que hoy es la ciudad de Quilmes, provincia de Buenos Aires (sí, la de la cerveza).",
+        tip:"Llevá protector solar, gorro y agua: no hay sombra en el recorrido y el sol de altura quema mucho más rápido de lo que parece. Calculá 2-3 horas entre museo y ruinas.",
+        duration:"2-3 h", price:"Entrada paga (consultar valor actualizado)", access:"Museo con paneles escritos en español, inglés y portugués, más una proyección corta con subtítulos — buena opción si no se quiere depender del audio de las visitas guiadas habladas."
+      },
+      {
+        time:"20:30", name:"Cena: MUPPA",
+        lat:-26.8493388, lng:-65.6971914,
+        img:IMG("Valle De Tafí (235097791).jpeg"),
+        desc:"Propuesta gastronómica más elaborada en Tafí, con platos que reinterpretan ingredientes andinos (papines, quesos de cabra, hierbas de la zona).",
+        history:"Forma parte de una nueva generación de propuestas gastronómicas en el NOA que buscan poner en valor ingredientes de altura (papa andina, quinoa, amaranto, quesos de cabra) con técnicas de cocina contemporánea, en contraste con la oferta más tradicional de parrillas y rotiserías del pueblo.",
+        curiosity:"La cocina de altura del NOA está teniendo un resurgimiento gastronómico: chefs jóvenes están recuperando ingredientes como la quinoa local, el amaranto y los quesos artesanales en propuestas de cocina contemporánea.",
+        tip:"Cierra lunes y martes — confirmá el horario antes de ir, sobre todo fuera de temporada alta.",
+        duration:"1h30-2h", price:"$$$ (más elevado)", access:"Carta detallada por escrito, ambiente tranquilo con buena visibilidad para comunicación no verbal."
+      }
+    ]
+  },
+  {
+    id:"dia5", num:5, title:"Regreso a la capital", base:"Bajada a San Miguel de Tucumán",
+    narrative:"Bajada de la montaña a la capital para el regreso, con tiempo libre antes de partir.",
+    stops:[
+      {
+        time:"10:00", name:"Información Turística de Tafí",
+        lat:-26.852686, lng:-65.7105579,
+        img:IMG("Ruta 307 - panoramio.jpg"),
+        desc:"Última parada antes de bajar — buen momento para comprar quesos de Tafí o tejidos artesanales para llevar de regreso.",
+        history:"La oficina funciona como punto de coordinación entre las distintas cooperativas de productores de queso y artesanos del valle, y suele tener folletería con mapas y recomendaciones actualizadas de excursiones de la zona que no siempre figuran en internet.",
+        curiosity:"El queso tafinisto se elabora todavía con leche cruda de tambos familiares pequeños; cada productor tiene su propia variación de maduración y sabor.",
+        tip:"Si comprás queso para viaje largo, pedí que te lo envuelvan al vacío — aguanta mucho mejor el calor de la bajada.",
+        duration:"20-30 min", price:"Gratis", access:"Folletería impresa disponible, buena opción para consultar sin depender de conversación oral."
+      },
+      {
+        time:"12:30", name:"Ente Tucumán Turismo",
+        lat:-26.8311131, lng:-65.2045773,
+        img:IMG("Plaza Independencia 01.JPG"),
+        desc:"Vuelta a la capital (~1h30 desde Tafí). Última parada para consultas, mapas y souvenirs antes de partir.",
+        history:"Es la oficina oficial de turismo de la provincia, ubicada a metros de la Plaza Independencia, con mapas gratuitos y personal que puede orientar sobre combis, micros y excursiones de último momento.",
+        curiosity:"Tucumán es la provincia más pequeña de Argentina en superficie, pero una de las más densamente pobladas — por eso se la conoce como \"el jardín de la República\".",
+        tip:"Si te queda tiempo, la Catedral de Tucumán (frente a la plaza) tiene una cúpula poco común con relieves que vale la pena mirar desde afuera.",
+        duration:"20-30 min", price:"Gratis", access:"Mapas y folletos impresos disponibles para consulta autónoma."
+      },
+      {
+        time:"13:30", name:"Almuerzo: CRAFT Barrio Norte",
+        lat:-26.8208293, lng:-65.2024661,
+        img:IMG("Casa de gobierdo tucuman, dia.jpg"),
+        desc:"Almuerzo de despedida en un bar de ambiente cálido, ideal para cerrar el viaje con buena comida y buen café antes del vuelo o micro.",
+        history:"Forma parte de la creciente escena de bares de especialidad de Barrio Norte, una zona residencial que en la última década concentró buena parte de la renovación gastronómica de la ciudad, con locales que combinan carta de cocina y cafetería de autor.",
+        curiosity:"Tucumán es uno de los principales productores de café de especialidad torrado de Argentina — la costumbre del \"café cortado\" en bares como este es parte de la vida social de la ciudad.",
+        tip:"Pedí la mesa con tiempo si vas en horario pico de almuerzo (13-14 h), suele llenarse rápido.",
+        duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, buen nivel de luz natural durante el día."
+      }
+    ]
+  }
+];
+
+const TIPS = [
+  {icon:"🚗", title:"Movilidad", body:"Conviene auto alquilado: el camino a Tafí (Cuesta del Clavillo) y de ahí a Quilmes tienen tramos de ripio. También hay combis turísticas que salen desde la terminal de la capital."},
+  {icon:"🕒", title:"Horarios", body:"Casa Histórica cierra los lunes. Si el día 1 cae lunes, conviene reordenar con el día 2 del itinerario."},
+  {icon:"🧥", title:"Clima en altura", body:"Tafí del Valle está a ~2.000 msnm: lleva abrigo incluso en verano, las noches bajan bastante la temperatura respecto a la capital."},
+  {icon:"☀️", title:"Quilmes", body:"Protector solar, gorro, agua y calzado cómodo — la caminata por las ruinas tiene tramos de subida bajo sol directo y casi sin sombra."},
+  {icon:"🎒", title:"Equipaje", body:"Al tener dos bases (capital y Tafí), un bolso chico para las 2 noches en la montaña simplifica mucho el traslado."},
+  {icon:"💳", title:"Efectivo", body:"En Tafí y zonas rurales no todos los comercios tienen posnet — llevá efectivo para artesanías, quesos y kioscos."},
+  {icon:"📶", title:"Señal", body:"En tramos de la Cuesta del Clavillo y camino a Quilmes la señal de celular es intermitente — descargá mapas offline antes de salir."},
+  {icon:"🍽️", title:"Horarios de comida", body:"Los restaurantes del interior suelen abrir recién a las 20-21 h para la cena, más tarde que en otras provincias."}
+];
+
+const CHECKLIST_ITEMS = [
+  "Documento / DNI",
+  "Reserva alojamiento capital",
+  "Reserva alojamiento Tafí",
+  "Auto alquilado o pasajes combi",
+  "Campera de abrigo (noches en Tafí)",
+  "Protector solar y gorro",
+  "Calzado cómodo para caminata",
+  "Efectivo para artesanías y zonas rurales",
+  "Mapas offline descargados",
+  "Power bank / cargador",
+  "Reserva show nocturno Casa Histórica (opcional)",
+  "Bolso chico para las 2 noches en Tafí"
+];
+
+/* ===================== RENDER ===================== */
+const tabbar = document.getElementById('tabbar');
+const sectionsRoot = document.getElementById('sections');
+
+function buildItinerarioSection(){
+  const wrap = document.createElement('div');
+  wrap.className = 'section'; wrap.id = 'sec-itinerario';
+
+  const subTabs = document.createElement('div');
+  subTabs.className = 'tabbar'; subTabs.style.position='static'; subTabs.style.borderBottom='none'; subTabs.style.padding='0 0 14px';
+  DAYS.forEach((d,i)=>{
+    const b = document.createElement('button');
+    b.className = 'tab' + (i===0?' active':'');
+    b.textContent = `Día ${d.num}`;
+    b.onclick = ()=>{ showDay(d.id); [...subTabs.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); };
+    subTabs.appendChild(b);
+  });
+  wrap.appendChild(subTabs);
+
+  DAYS.forEach((day, idx)=>{
+    const dayDiv = document.createElement('div');
+    dayDiv.className = 'day-block';
+    dayDiv.id = 'day-'+day.id;
+    dayDiv.style.display = idx===0 ? 'block':'none';
+
+    dayDiv.innerHTML = `
+      <div class="day-banner">
+        <div class="num">Día ${day.num}</div>
+        <h2>${day.title}</h2>
+        <div class="base">📍 ${day.base}</div>
+      </div>
+      <div class="narrative">${day.narrative}</div>
+    `;
+
+    day.stops.forEach((s, sIdx)=>{
+      const stopId = `${day.id}-stop-${sIdx}`;
+      const card = document.createElement('div');
+      card.className = 'stop';
+      card.innerHTML = `
+        <img src="${s.img}" alt="${s.name}" loading="lazy" onerror="this.style.display='none'">
+        <div class="stop-body">
+          <span class="stop-time">${s.time}</span>
+          <h3>${s.name}</h3>
+          <p class="desc">${s.desc}</p>
+          <div class="badges">
+            ${s.duration ? `<span class="badge">⏱ ${s.duration}</span>` : ''}
+            ${s.price ? `<span class="badge">💰 ${s.price}</span>` : ''}
+          </div>
+          <button class="pill-toggle" data-target="${stopId}">
+            <span class="arrow">▶</span><span class="toggle-label"> Ver más: historia, curiosidad y tips</span>
+          </button>
+          <div class="extra" id="${stopId}">
+            <div class="block">
+              <div class="label hist">📜 Historia</div>
+              <p>${s.history || ''}</p>
+            </div>
+            <div class="block">
+              <div class="label">💡 Curiosidad</div>
+              <p>${s.curiosity}</p>
+            </div>
+            <div class="block">
+              <div class="label tip">🎒 Tip</div>
+              <p>${s.tip}</p>
+            </div>
+            ${s.access ? `<div class="block">
+              <div class="label acc">👂 Accesibilidad</div>
+              <p>${s.access}</p>
+            </div>` : ''}
+          </div>
+        </div>
+      `;
+      dayDiv.appendChild(card);
+    });
+
+    wrap.appendChild(dayDiv);
+  });
+
+  return wrap;
+}
+
+function showDay(id){
+  document.querySelectorAll('.day-block').forEach(d=>{
+    d.style.display = (d.id === 'day-'+id) ? 'block' : 'none';
+  });
+}
+
+function buildCuriosidadesSection(){
+  const wrap = document.createElement('div');
+  wrap.className = 'section'; wrap.id = 'sec-curiosidades';
+  wrap.innerHTML = `<h2 class="section-title">Curiosidades de Tucumán</h2>
+    <p class="section-sub">Todas las curiosidades reunidas en un solo lugar, por día.</p>`;
+
+  DAYS.forEach(day=>{
+    const banner = document.createElement('div');
+    banner.innerHTML = `<h3 style="color:var(--verde);font-size:1.05rem;margin:18px 0 8px;">Día ${day.num} · ${day.title}</h3>`;
+    wrap.appendChild(banner);
+    day.stops.forEach(s=>{
+      const c = document.createElement('div');
+      c.className = 'curio-banner';
+      c.innerHTML = `<div class="label">${s.name}</div>${s.curiosity}`;
+      wrap.appendChild(c);
+    });
+  });
+  return wrap;
+}
+
+function buildTipsSection(){
+  const wrap = document.createElement('div');
+  wrap.className = 'section'; wrap.id = 'sec-tips';
+  wrap.innerHTML = `<h2 class="section-title">Tips prácticos</h2>
+    <p class="section-sub">Lo esencial para que el viaje salga redondo.</p>`;
+  TIPS.forEach(t=>{
+    const c = document.createElement('div');
+    c.className = 'tip-card';
+    c.innerHTML = `<h4>${t.icon} ${t.title}</h4><p>${t.body}</p>`;
+    wrap.appendChild(c);
+  });
+  return wrap;
+}
+
+function buildChecklistSection(){
+  const wrap = document.createElement('div');
+  wrap.className = 'section'; wrap.id = 'sec-checklist';
+  wrap.innerHTML = `<h2 class="section-title">Checklist de viaje</h2>
+    <p class="section-sub">Se guarda automáticamente en este dispositivo.</p>
+    <div id="checklistItems"></div>`;
+  return wrap;
+}
+
+function buildMapaSection(){
+  const wrap = document.createElement('div');
+  wrap.className = 'section'; wrap.id = 'sec-mapa';
+
+  const filter = document.createElement('div');
+  filter.className = 'map-day-filter';
+  filter.innerHTML = `<button class="map-chip active" data-day="all">Todos</button>` +
+    DAYS.map(d=>`<button class="map-chip" data-day="${d.id}">Día ${d.num}</button>`).join('');
+  wrap.appendChild(filter);
+
+  const mapDiv = document.createElement('div');
+  mapDiv.id = 'leafletMap';
+  wrap.appendChild(mapDiv);
+
+  return wrap;
+}
+
+sectionsRoot.appendChild(buildItinerarioSection());
+sectionsRoot.appendChild(buildMapaSection());
+sectionsRoot.appendChild(buildCuriosidadesSection());
+sectionsRoot.appendChild(buildTipsSection());
+sectionsRoot.appendChild(buildChecklistSection());
+document.getElementById('sec-itinerario').classList.add('active');
+
+/* expand/collapse curiosity+tip */
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('.pill-toggle');
+  if(!btn) return;
+  const target = document.getElementById(btn.dataset.target);
+  target.classList.toggle('open');
+  btn.classList.toggle('open');
+  const label = btn.querySelector('.toggle-label');
+  label.textContent = target.classList.contains('open') ? ' Ocultar' : ' Ver más: historia, curiosidad y tips';
+});
+
+/* ===================== MAPA (Leaflet) ===================== */
+const DAY_COLORS = {dia1:"#1F3D2E", dia2:"#2F5942", dia3:"#C2622F", dia4:"#2B2A4C", dia5:"#8C6A1F"};
+let leafletMap = null;
+let mapLayers = [];
+
+function initMap(){
+  if(leafletMap) return;
+  leafletMap = L.map('leafletMap', {scrollWheelZoom:true}).setView([-26.78, -65.55], 9);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:'&copy; OpenStreetMap',
+    maxZoom: 18
+  }).addTo(leafletMap);
+  renderMapMarkers('all');
+  setTimeout(()=>leafletMap.invalidateSize(), 200);
+}
+
+function renderMapMarkers(filterDay){
+  mapLayers.forEach(l => leafletMap.removeLayer(l));
+  mapLayers = [];
+
+  const daysToShow = filterDay === 'all' ? DAYS : DAYS.filter(d=>d.id===filterDay);
+  const allPoints = [];
+
+  daysToShow.forEach(day=>{
+    const color = DAY_COLORS[day.id] || "#1F3D2E";
+    const routeCoords = [];
+
+    day.stops.forEach((s, i)=>{
+      if(s.lat == null) return;
+      routeCoords.push([s.lat, s.lng]);
+      allPoints.push([s.lat, s.lng]);
+
+      const icon = L.divIcon({
+        className:'',
+        html:`<div class="day-marker-icon" style="background:${color}">${day.num}</div>`,
+        iconSize:[28,28], iconAnchor:[14,14]
+      });
+      const marker = L.marker([s.lat, s.lng], {icon}).addTo(leafletMap);
+      marker.bindPopup(`
+        <div class="popup-time">${s.time} · Día ${day.num}</div>
+        <div class="popup-name">${s.name}</div>
+        <p class="popup-desc">${s.desc.slice(0,110)}${s.desc.length>110?'…':''}</p>
+      `);
+      mapLayers.push(marker);
+    });
+
+    if(routeCoords.length > 1 && filterDay !== 'all'){
+      const line = L.polyline(routeCoords, {color, weight:3, dashArray:'6,6', opacity:0.8}).addTo(leafletMap);
+      mapLayers.push(line);
+    }
+  });
+
+  if(allPoints.length){
+    leafletMap.fitBounds(allPoints, {padding:[30,30]});
+  }
+}
+
+document.querySelectorAll('.map-chip').forEach(chip=>{
+  chip.addEventListener('click', ()=>{
+    document.querySelectorAll('.map-chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    renderMapMarkers(chip.dataset.day);
+  });
+});
+
+/* ===================== BOTTOM NAV ===================== */
+document.querySelectorAll('.nav-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById('sec-'+btn.dataset.target).classList.add('active');
+    if(btn.dataset.target === 'mapa'){ initMap(); setTimeout(()=>leafletMap && leafletMap.invalidateSize(), 150); }
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+});
+
+/* ===================== CHECKLIST (persisted via window.storage) ===================== */
+async function renderChecklist(){
+  const root = document.getElementById('checklistItems');
+  root.innerHTML = '';
+  let saved = {};
+  try{
+    const res = await window.storage.get('checklist-state');
+    if(res && res.value) saved = JSON.parse(res.value);
+  }catch(e){ /* no saved state yet */ }
+
+  CHECKLIST_ITEMS.forEach((label, i)=>{
+    const key = 'item-'+i;
+    const checked = !!saved[key];
+    const row = document.createElement('label');
+    row.className = 'check-item' + (checked ? ' done' : '');
+    row.innerHTML = `<input type="checkbox" ${checked?'checked':''}><span>${label}</span>`;
+    row.querySelector('input').addEventListener('change', async (e)=>{
+      row.classList.toggle('done', e.target.checked);
+      saved[key] = e.target.checked;
+      try{ await window.storage.set('checklist-state', JSON.stringify(saved)); }catch(err){}
+    });
+    root.appendChild(row);
+  });
+}
+renderChecklist();
+
+/* ===================== PWA: service worker (real file, see sw.js) ===================== */
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e)=>{
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('installBanner').classList.add('show');
+});
+document.getElementById('installBtn').addEventListener('click', async ()=>{
+  if(!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('installBanner').classList.remove('show');
+});
+</script>
+</body>
+</html>
