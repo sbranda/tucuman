@@ -831,7 +831,17 @@ function initMap(){
     maxZoom: 18
   }).addTo(leafletMap);
   renderMapMarkers('all');
-  setTimeout(()=>leafletMap.invalidateSize(), 200);
+
+  // Reliable resize handling: recalculates whenever the container's
+  // actual size changes, instead of guessing with a fixed delay.
+  const mapEl = document.getElementById('leafletMap');
+  if('ResizeObserver' in window){
+    const ro = new ResizeObserver(()=>{ leafletMap.invalidateSize(); });
+    ro.observe(mapEl);
+  }
+  window.addEventListener('orientationchange', ()=>{
+    setTimeout(()=>leafletMap.invalidateSize(), 250);
+  });
 }
 
 function renderMapMarkers(filterDay){
@@ -892,7 +902,10 @@ document.querySelectorAll('.nav-btn').forEach(btn=>{
     document.getElementById('sec-'+btn.dataset.target).classList.add('active');
     if(btn.dataset.target === 'mapa'){
       initMap();
-      setTimeout(()=>leafletMap && leafletMap.invalidateSize(), 150);
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        if(leafletMap) leafletMap.invalidateSize();
+      }));
+      setTimeout(()=>leafletMap && leafletMap.invalidateSize(), 300);
     }
     window.scrollTo({top:0, behavior:'smooth'});
   });
