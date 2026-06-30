@@ -124,6 +124,27 @@
     display:inline-block;background:var(--ocre);color:var(--verde);
     font-weight:700;font-size:11.5px;padding:3px 9px;border-radius:6px;margin-bottom:8px;
   }
+
+  .stop-head-row{display:flex;align-items:center;justify-content:space-between;gap:8px;}
+  .visited-toggle{
+    display:flex;align-items:center;gap:5px;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:11.5px;font-weight:700;color:var(--gris);user-select:none;
+  }
+  .visited-toggle input{width:16px;height:16px;accent-color:var(--verde-claro);}
+  .visited-toggle input:checked ~ span{color:var(--verde-claro);}
+  .stop.is-visited{border-color:var(--verde-claro);background:#FBFBF6;}
+  .stop.is-visited img{filter:saturate(0.55) brightness(0.92);}
+  .stop.is-visited .stop-time{background:var(--verde-claro);color:#fff;}
+  .stop-visited-badge{
+    display:none;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    position:absolute;top:10px;right:10px;background:var(--verde-claro);color:#fff;
+    font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.25);
+  }
+  .stop.is-visited .stop-visited-badge{display:inline-block;}
+  .stop{position:relative;}
   .stop h3{margin:0 0 6px;font-size:1.15rem;color:var(--verde);}
   .stop .desc{font-size:14px;line-height:1.55;color:var(--texto);margin:0 0 10px;}
 
@@ -597,8 +618,15 @@ function buildItinerarioSection(){
       card.className = 'stop';
       card.innerHTML = `
         <img src="${s.img}" alt="${s.name}" loading="lazy" onerror="this.style.display='none'">
+        <span class="stop-visited-badge">✓ Visitado</span>
         <div class="stop-body">
-          <span class="stop-time">${s.time}</span>
+          <div class="stop-head-row">
+            <span class="stop-time">${s.time}</span>
+            <label class="visited-toggle">
+              <input type="checkbox" class="visited-check" data-stop="${stopId}">
+              <span>Visitado</span>
+            </label>
+          </div>
           <h3>${s.name}</h3>
           <p class="desc">${s.desc}</p>
           <div class="badges">
@@ -870,6 +898,30 @@ async function initStopChecklists(){
   });
 }
 initStopChecklists();
+
+/* ===================== VISITED TOGGLE (persisted via window.storage) ===================== */
+async function initVisitedToggles(){
+  let saved = {};
+  try{
+    const res = await window.storage.get('visited-stops');
+    if(res && res.value) saved = JSON.parse(res.value);
+  }catch(e){ /* no saved state yet */ }
+
+  document.querySelectorAll('.visited-check').forEach(cb=>{
+    const stopId = cb.dataset.stop;
+    const card = cb.closest('.stop');
+    const isVisited = !!saved[stopId];
+    cb.checked = isVisited;
+    card.classList.toggle('is-visited', isVisited);
+
+    cb.addEventListener('change', async ()=>{
+      saved[stopId] = cb.checked;
+      card.classList.toggle('is-visited', cb.checked);
+      try{ await window.storage.set('visited-stops', JSON.stringify(saved)); }catch(err){}
+    });
+  });
+}
+initVisitedToggles();
 
 /* ===================== PWA: service worker (real file, see sw.js) ===================== */
 if('serviceWorker' in navigator){
