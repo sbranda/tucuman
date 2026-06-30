@@ -90,6 +90,11 @@
   .modal-card h3{margin:0 0 4px;color:var(--verde);font-size:1.2rem;}
   .modal-sub{font-size:12.5px;color:var(--gris);margin:0 0 18px;line-height:1.4;}
   .modal-label{display:block;font-size:12.5px;font-weight:700;color:var(--verde);margin:14px 0 8px;}
+  .modal-input{
+    width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--crema-osc);
+    background:var(--crema);color:var(--texto);font-size:14px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
   .weekday-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:7px;}
   .weekday-chip{
     padding:9px 0;border-radius:9px;border:1.5px solid var(--crema-osc);background:var(--crema);
@@ -382,8 +387,11 @@
     <h3>Configurar tu viaje</h3>
     <p class="modal-sub">La app arma el orden de paradas sola: siempre capital → Tafí del Valle → capital.</p>
 
-    <label class="modal-label">¿Qué día llegás?</label>
-    <div class="weekday-grid" id="weekdayGrid"></div>
+    <label class="modal-label">Fecha de llegada</label>
+    <input type="date" id="arrivalDateInput" class="modal-input">
+
+    <label class="modal-label">Hora de llegada</label>
+    <input type="time" id="arrivalTimeInput" class="modal-input">
 
     <label class="modal-label">¿Cuántos días en total?</label>
     <div class="day-stepper">
@@ -392,6 +400,7 @@
       <button id="dayPlus" class="stepper-btn">+</button>
     </div>
     <p class="modal-hint">Rango disponible: 5 a 7 días.</p>
+    <p class="modal-hint" id="departurePreview"></p>
 
     <div class="modal-actions">
       <button id="settingsCancel" class="modal-btn-secondary">Cancelar</button>
@@ -697,9 +706,34 @@ const BLOCKS = [
   }
 ];
 
-/* ===================== SCHEDULE ASSEMBLY (dynamic days) ===================== */
-const WEEKDAYS = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
-const WEEKDAYS_SHORT = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+/* ===================== SCHEDULE ASSEMBLY (dynamic days, real dates) ===================== */
+function parseDateInput(str){
+  const [y, m, d] = str.split('-').map(Number);
+  return new Date(y, m - 1, d);
+}
+function addDays(date, n){
+  const d = new Date(date);
+  d.setDate(d.getDate() + n);
+  return d;
+}
+function formatWeekday(date){
+  const s = date.toLocaleDateString('es-AR', { weekday: 'long' });
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
+function formatWeekdayShort(date){
+  const s = date.toLocaleDateString('es-AR', { weekday: 'short' });
+  return s.charAt(0).toUpperCase() + s.slice(1).replace('.', '');
+}
+function formatDateShort(date){
+  return date.toLocaleDateString('es-AR', { day: 'numeric', month: 'short' }).replace('.', '');
+}
+function todayISO(){
+  const d = new Date();
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
 
 // Fixed logical order: llegada+Tafí → oficios en Tafí → Quilmes → bajada+capital → Cadillal+partida
 const CORE_ORDER = ["dia1","dia2","dia3","dia5","dia6"];
@@ -723,20 +757,30 @@ function assembleBlockOrder(totalDays){
   return order;
 }
 
-function buildScheduleDays(totalDays, arrivalWeekdayIdx){
+function buildScheduleDays(totalDays, arrivalDateStr, arrivalTime){
   const order = assembleBlockOrder(totalDays);
+  const arrival = parseDateInput(arrivalDateStr);
   return order.map((id, i)=>{
     const block = BLOCKS.find(b=>b.id===id);
-    return {
+    const date = addDays(arrival, i);
+    const day = {
       ...block,
       num: i + 1,
-      weekday: WEEKDAYS[(arrivalWeekdayIdx + i) % 7]
+      weekday: formatWeekday(date),
+      weekdayShort: formatWeekdayShort(date),
+      dateLabel: formatDateShort(date)
     };
+    if(i === 0 && arrivalTime){
+      const isLate = arrivalTime > "09:30";
+      day.narrative = `Llegada a las ${arrivalTime} hs a San Miguel de Tucumán. Sin parar en la capital, directo a la Terminal de Ómnibus para tomar la combi a Tafí del Valle y dormir ahí desde el primer día. La capital queda para el final del viaje.` +
+        (isLate ? ` Como llegás después de las 9:30, probablemente no llegues a la primera combi de la mañana — confirmá el próximo horario disponible apenas aterrices.` : '');
+    }
+    return day;
   });
 }
 
-let tripConfig = { totalDays: 6, arrivalWeekdayIdx: 2 }; // default: 6 días, llegada Martes
-let DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalWeekdayIdx);
+let tripConfig = { totalDays: 6, arrivalDate: todayISO(), arrivalTime: "08:00" };
+let DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
 
 const TIPS = [
   {icon:"❄️", title:"Vacaciones de invierno", body:"Julio es temporada alta de turismo interno en Argentina. Reservá alojamiento en Tafí del Valle con bastante anticipación — se llena más rápido que en temporada baja de verano."},
@@ -785,7 +829,7 @@ function buildItinerarioSection(){
   DAYS.forEach((d,i)=>{
     const b = document.createElement('button');
     b.className = 'tab' + (i===0?' active':'');
-    b.textContent = d.weekday ? `${d.weekday}` : `Día ${d.num}`;
+    b.textContent = d.weekdayShort ? `${d.weekdayShort} ${d.dateLabel}` : `Día ${d.num}`;
     b.onclick = ()=>{ showDay(d.id); [...subTabs.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); };
     subTabs.appendChild(b);
   });
@@ -799,7 +843,7 @@ function buildItinerarioSection(){
 
     dayDiv.innerHTML = `
       <div class="day-banner">
-        <div class="num">${day.weekday ? day.weekday + ' · Día ' + day.num : 'Día ' + day.num}</div>
+        <div class="num">${day.weekday ? day.weekday + (day.dateLabel ? ' ' + day.dateLabel : '') + ' · Día ' + day.num : 'Día ' + day.num}</div>
         <h2>${day.title}</h2>
         <div class="base">📍 ${day.base}</div>
       </div>
@@ -932,7 +976,7 @@ function buildMapaSection(){
   const filter = document.createElement('div');
   filter.className = 'map-day-filter';
   filter.innerHTML = `<button class="map-chip active" data-day="all">Todos</button>` +
-    DAYS.map(d=>`<button class="map-chip" data-day="${d.id}">${d.weekday || ('Día '+d.num)}</button>`).join('');
+    DAYS.map(d=>`<button class="map-chip" data-day="${d.id}">${d.weekdayShort ? d.weekdayShort+' '+d.dateLabel : ('Día '+d.num)}</button>`).join('');
   wrap.appendChild(filter);
 
   const mapDiv = document.createElement('div');
@@ -1158,37 +1202,29 @@ initVisitedToggles();
 function updateHeroEyebrow(){
   const eyebrow = document.getElementById('heroEyebrow');
   if(!eyebrow) return;
-  const first = WEEKDAYS_SHORT[tripConfig.arrivalWeekdayIdx];
-  const lastIdx = (tripConfig.arrivalWeekdayIdx + tripConfig.totalDays - 1) % 7;
-  const last = WEEKDAYS_SHORT[lastIdx];
-  eyebrow.textContent = `Guía interactiva · ${tripConfig.totalDays} días (${first.toLowerCase()}-${last.toLowerCase()})`;
+  if(DAYS.length){
+    const first = `${DAYS[0].weekdayShort} ${DAYS[0].dateLabel}`;
+    const last = `${DAYS[DAYS.length-1].weekdayShort} ${DAYS[DAYS.length-1].dateLabel}`;
+    eyebrow.textContent = `Guía interactiva · ${tripConfig.totalDays} días (${first} – ${last})`;
+  }
 }
 
-const weekdayGrid = document.getElementById('weekdayGrid');
-let pendingArrivalIdx = tripConfig.arrivalWeekdayIdx;
+let pendingArrivalDate = tripConfig.arrivalDate;
+let pendingArrivalTime = tripConfig.arrivalTime;
 let pendingTotalDays = tripConfig.totalDays;
 
-function renderWeekdayGrid(){
-  weekdayGrid.innerHTML = '';
-  // show Monday..Sunday order for a friendlier picker (idx 1..6,0)
-  const displayOrder = [1,2,3,4,5,6,0];
-  displayOrder.forEach(idx=>{
-    const chip = document.createElement('button');
-    chip.className = 'weekday-chip' + (idx===pendingArrivalIdx ? ' active' : '');
-    chip.textContent = WEEKDAYS_SHORT[idx];
-    chip.dataset.idx = idx;
-    chip.onclick = ()=>{
-      pendingArrivalIdx = idx;
-      renderWeekdayGrid();
-    };
-    weekdayGrid.appendChild(chip);
-  });
+function updateDeparturePreview(){
+  const arrival = parseDateInput(pendingArrivalDate);
+  const departure = addDays(arrival, pendingTotalDays - 1);
+  const preview = document.getElementById('departurePreview');
+  preview.textContent = `Salida estimada: ${formatWeekday(departure)} ${formatDateShort(departure)} a la noche.`;
 }
 
 function renderDayStepper(){
   document.getElementById('dayCount').textContent = pendingTotalDays;
   document.getElementById('dayMinus').disabled = pendingTotalDays <= MIN_DAYS;
   document.getElementById('dayPlus').disabled = pendingTotalDays >= MAX_DAYS;
+  updateDeparturePreview();
 }
 
 document.getElementById('dayMinus').addEventListener('click', ()=>{
@@ -1200,11 +1236,23 @@ document.getElementById('dayPlus').addEventListener('click', ()=>{
   renderDayStepper();
 });
 
+const arrivalDateInput = document.getElementById('arrivalDateInput');
+const arrivalTimeInput = document.getElementById('arrivalTimeInput');
+arrivalDateInput.addEventListener('change', ()=>{
+  pendingArrivalDate = arrivalDateInput.value || pendingArrivalDate;
+  updateDeparturePreview();
+});
+arrivalTimeInput.addEventListener('change', ()=>{
+  pendingArrivalTime = arrivalTimeInput.value || pendingArrivalTime;
+});
+
 const settingsBackdrop = document.getElementById('settingsBackdrop');
 document.getElementById('settingsBtn').addEventListener('click', ()=>{
-  pendingArrivalIdx = tripConfig.arrivalWeekdayIdx;
+  pendingArrivalDate = tripConfig.arrivalDate;
+  pendingArrivalTime = tripConfig.arrivalTime;
   pendingTotalDays = tripConfig.totalDays;
-  renderWeekdayGrid();
+  arrivalDateInput.value = pendingArrivalDate;
+  arrivalTimeInput.value = pendingArrivalTime;
   renderDayStepper();
   settingsBackdrop.classList.add('open');
 });
@@ -1216,8 +1264,12 @@ settingsBackdrop.addEventListener('click', (e)=>{
 });
 
 document.getElementById('settingsApply').addEventListener('click', async ()=>{
-  tripConfig = { totalDays: pendingTotalDays, arrivalWeekdayIdx: pendingArrivalIdx };
-  DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalWeekdayIdx);
+  tripConfig = {
+    totalDays: pendingTotalDays,
+    arrivalDate: pendingArrivalDate,
+    arrivalTime: pendingArrivalTime
+  };
+  DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
   updateHeroEyebrow();
   renderAll();
   settingsBackdrop.classList.remove('open');
@@ -1229,9 +1281,9 @@ document.getElementById('settingsApply').addEventListener('click', async ()=>{
     const res = await window.storage.get('trip-config');
     if(res && res.value){
       const saved = JSON.parse(res.value);
-      if(saved && typeof saved.totalDays === 'number' && typeof saved.arrivalWeekdayIdx === 'number'){
+      if(saved && typeof saved.totalDays === 'number' && saved.arrivalDate){
         tripConfig = saved;
-        DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalWeekdayIdx);
+        DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
         renderAll();
       }
     }
