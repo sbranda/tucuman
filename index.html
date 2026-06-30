@@ -768,9 +768,12 @@ function assembleBlockOrder(totalDays){
   return order;
 }
 
+const TAFI_BLOCK_IDS = ["dia1","dia2","dia3","dia4"]; // every block where you sleep in Tafí
+
 function buildScheduleDays(totalDays, arrivalDateStr, arrivalTime){
   const order = assembleBlockOrder(totalDays);
   const arrival = parseDateInput(arrivalDateStr);
+  const tafiNights = order.filter(id => TAFI_BLOCK_IDS.includes(id)).length;
   return order.map((id, i)=>{
     const block = BLOCKS.find(b=>b.id===id);
     const date = addDays(arrival, i);
@@ -781,6 +784,9 @@ function buildScheduleDays(totalDays, arrivalDateStr, arrivalTime){
       weekdayShort: formatWeekdayShort(date),
       dateLabel: formatDateShort(date)
     };
+    if(id === "dia1"){
+      day.base = `Tafí del Valle — ${tafiNights} noche${tafiNights === 1 ? '' : 's'}`;
+    }
     if(i === 0 && arrivalTime){
       const isLate = arrivalTime > "09:30";
       day.narrative = `Llegada a las ${arrivalTime} hs a San Miguel de Tucumán. Sin parar en la capital, directo a la Terminal de Ómnibus para tomar la combi a Tafí del Valle y dormir ahí desde el primer día. La capital queda para el final del viaje.` +
