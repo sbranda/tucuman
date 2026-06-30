@@ -158,6 +158,23 @@
   .extra .label.tip{color:var(--verde-claro);}
   .extra .label.hist{color:var(--indigo);}
   .extra .label.acc{color:#1F6B8C;}
+  .extra .label.check{color:var(--terracota);}
+
+  .stop-checklist{display:flex;flex-direction:column;gap:6px;}
+  .check-item-mini{
+    display:flex;align-items:flex-start;gap:8px;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  .check-item-mini input{width:16px;height:16px;margin-top:1px;accent-color:var(--terracota);flex:0 0 auto;}
+  .check-item-mini span{font-size:12.5px;color:var(--gris);line-height:1.4;}
+  .check-item-mini input:checked + span{color:var(--verde);text-decoration:line-through;}
+
+  .stop-progress{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10.5px;font-weight:700;color:var(--terracota);
+    background:var(--crema);border:1px solid var(--crema-osc);border-radius:6px;
+    padding:3px 8px;display:inline-block;margin-bottom:4px;
+  }
   .extra p{font-size:13px;line-height:1.5;color:var(--gris);margin:0;}
 
   /* ---------- TIPS PAGE ---------- */
@@ -296,7 +313,8 @@ const DAYS = [
         history:"La casa perteneció originalmente a la familia Laguna y fue alquilada en 1816 para sesionar el Congreso porque Buenos Aires, sede natural, estaba ocupada por tropas realistas y no era segura. Tras la independencia, el edificio cambió de manos varias veces y partes fueron demolidas en 1869 para abrir una calle. Recién en 1941 el estado nacional encaró una reconstrucción histórica basándose en planos, fotografías y relatos de la época para devolverle el aspecto colonial que tiene hoy. Es Monumento Histórico Nacional desde 1941 y sigue siendo sede de actos oficiales cada 9 de julio.",
         curiosity:"La sala donde se firmó el Acta no es la original: fue reconstruida en 1943 a partir de pinturas y descripciones de la época, porque la casa real había sido modificada drásticamente. La cúpula azul que se ve hoy tampoco existía en 1816, se agregó después.",
         tip:"Cerrado los lunes. De noche hay un espectáculo de luz y sonido (\"Tucumán, Casa de la Libertad\") que cuenta la historia sobre la fachada — conviene reservar con anticipación en la web oficial.",
-        duration:"1-1h30", price:"Gratis", access:"Paneles con texto escrito en todas las salas — el contenido se sigue bien sin depender del audio de la visita guiada."
+        duration:"1-1h30", price:"Gratis", access:"Paneles con texto escrito en todas las salas — el contenido se sigue bien sin depender del audio de la visita guiada.",
+        checklist:["DNI o documento (a veces lo piden en la entrada)", "Reservar el show nocturno si querés verlo", "Cargar batería de cámara/celular"]
       },
       {
         time:"12:00", name:"Parque 9 de Julio",
@@ -306,7 +324,8 @@ const DAYS = [
         history:"El predio perteneció a la antigua Quinta Agronómica de la provincia, un terreno experimental de fines del siglo XIX usado para aclimatar especies vegetales traídas de otras partes del mundo. En 1916, para el centenario de la independencia, el gobierno tucumano contrató a Thays para transformarlo en parque público al estilo de los grandes paseos europeos, con lagos artificiales, glorietas y un sistema de avenidas curvas que todavía se conserva casi intacto.",
         curiosity:"El parque ocupa los terrenos de la ex Quinta Agronómica y todavía conserva ejemplares de árboles centenarios plantados como parte de un proyecto experimental de aclimatación de especies a fines del siglo XIX.",
         tip:"Los fines de semana hay ferias de artesanos cerca del Cabildo. Llevá efectivo chico, no todos los puestos tienen posnet.",
-        duration:"1-2 h", price:"Gratis", access:"Espacio abierto, ideal para caminar sin depender de explicaciones orales; buena señalización con carteles en los senderos principales."
+        duration:"1-2 h", price:"Gratis", access:"Espacio abierto, ideal para caminar sin depender de explicaciones orales; buena señalización con carteles en los senderos principales.",
+        checklist:["Efectivo chico para la feria de artesanos", "Botella de agua", "Calzado cómodo para caminar"]
       },
       {
         time:"14:30", name:"Jardín Botánico Miguel Lillo",
@@ -316,7 +335,8 @@ const DAYS = [
         history:"El predio y la colección nacieron de la donación del médico y naturalista Miguel Lillo, quien a comienzos del siglo XX cedió su fortuna personal y miles de especímenes botánicos y zoológicos al Estado para fundar un instituto científico. Hoy depende de la Universidad Nacional de Tucumán y es uno de los pocos lugares del país donde se puede caminar dentro de un fragmento real de selva de Yungas sin salir de una capital provincial.",
         curiosity:"La Fundación Miguel Lillo lleva el nombre del médico y naturalista tucumano que donó toda su fortuna y su colección de especímenes al estado para crear un instituto de investigación, hoy referencia en botánica y zoología sudamericana.",
         tip:"Entrada con donación voluntaria. Cierra temprano (18 h) y los domingos está cerrado — conviene ir a media tarde, no al final del día.",
-        duration:"1-1h30", price:"Donación voluntaria", access:"Recorrido autoguiado por senderos con carteles identificando especies; no depende de audioguía."
+        duration:"1-1h30", price:"Donación voluntaria", access:"Recorrido autoguiado por senderos con carteles identificando especies; no depende de audioguía.",
+        checklist:["Ir antes de las 16 h (cierra a las 18 h)", "Repelente de insectos", "Confirmar que no sea domingo (cerrado)"]
       },
       {
         time:"20:30", name:"Cena: Los Naranjos Resto Bar",
@@ -326,7 +346,8 @@ const DAYS = [
         history:"La Plaza Independencia ocupa el lugar de la plaza mayor fundacional de la ciudad desde el siglo XVI, reubicada acá en 1685 tras el segundo y definitivo traslado de San Miguel de Tucumán. La estatua de la Libertad que corona la fuente central es obra de Lola Mora, encargada en 1903 pero que tardó años en instalarse por disputas sobre su desnudez parcial, consideradas escandalosas para la época.",
         curiosity:"Lola Mora, autora de la fuente de las Nereidas en Buenos Aires, nació a pocos kilómetros de acá, en Trancas. Gran parte de su obra monumental terminó fuera de Tucumán por conflictos con la Iglesia y el poder político de su época.",
         tip:"Pedí mesa en el balcón si el clima acompaña — de noche, con la Catedral iluminada, es de las mejores postales de la ciudad.",
-        duration:"1h30-2h", price:"$$ (medio)", access:"Carta en papel disponible, sin necesidad de pedir verbalmente — buena opción para señalar platos directamente."
+        duration:"1h30-2h", price:"$$ (medio)", access:"Carta en papel disponible, sin necesidad de pedir verbalmente — buena opción para señalar platos directamente.",
+        checklist:["Reservar mesa en el balcón", "Llevar abrigo liviano por si refresca de noche"]
       }
     ]
   },
@@ -342,7 +363,8 @@ const DAYS = [
         history:"Yerba Buena era hasta mediados del siglo XX una zona de quintas y fincas de descanso para familias tucumanas adineradas, gracias a su clima más templado que el centro. Desde los años 80 se urbanizó fuerte y hoy es el municipio con mejor índice de calidad de vida del Gran Tucumán, sede de buena parte de la vida universitaria y gastronómica de la provincia.",
         curiosity:"El nombre del Cerro San Javier (y de Yerba Buena) viene de la antigua presencia de yerba mate silvestre y plantas aromáticas en sus laderas, antes de que la zona se urbanizara.",
         tip:"Si hay tiempo, el Cristo Bendicente en lo alto del cerro se ve iluminado de noche desde toda la ciudad — es la referencia geográfica de los tucumanos.",
-        duration:"1 h", price:"Gratis", access:"Zona peatonal tranquila, buena cartelería de calles y comercios."
+        duration:"1 h", price:"Gratis", access:"Zona peatonal tranquila, buena cartelería de calles y comercios.",
+        checklist:["Calzado cómodo", "Cámara para el Cristo Bendicente si subís al cerro"]
       },
       {
         time:"13:30", name:"Almuerzo: Il Postino",
@@ -352,7 +374,8 @@ const DAYS = [
         history:"Forma parte de una generación de pizzerías de barrio que se multiplicaron en Tucumán desde mediados del siglo XX, con fuerte influencia de la inmigración italiana que llegó a la provincia atraída por la industria azucarera. El estilo \"a la piedra\" con mucho relleno se consolidó como variante regional, distinta de la pizza porteña más fina.",
         curiosity:"La pizza al molde \"a la piedra\" con mucho relleno es una marca registrada de la cocina porteña-tucumana adaptada; en el NOA conviven con las empanadas como comida social por excelencia.",
         tip:"Suele haber espera al mediodía entre semana — si podés, andá antes de las 13 h.",
-        duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, ambiente con buen nivel de luz para leer menú y comunicarse por escrito si hace falta."
+        duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, ambiente con buen nivel de luz para leer menú y comunicarse por escrito si hace falta.",
+        checklist:["Ir antes de las 13 h para evitar espera", "Efectivo o tarjeta (aceptan ambos)"]
       },
       {
         time:"16:00", name:"Museo de Ciencias Naturales Lillo",
@@ -362,7 +385,8 @@ const DAYS = [
         history:"El museo nació junto con la Fundación Lillo en 1936 y desde entonces sus investigadores han recorrido el NOA documentando especies y formaciones geológicas. Buena parte del material expuesto proviene de expediciones propias del instituto, no de compras o donaciones externas, lo que lo hace una referencia académica además de atractivo turístico.",
         curiosity:"Entre las piezas más comentadas está un molde de huevo de dinosaurio hallado en Valle de la Luna y ejemplares de fauna de las Yungas que no se ven en ningún otro museo del país.",
         tip:"Las visitas guiadas (cuando hay personal disponible) mejoran mucho la experiencia — preguntá en la entrada si hay alguna programada para ese horario, aunque las vitrinas también tienen fichas escritas detalladas.",
-        duration:"1-1h30", price:"Entrada económica (consultar valor actualizado)", access:"Todas las piezas tienen cartel descriptivo individual, recorrido autoguiado posible sin depender de explicación oral."
+        duration:"1-1h30", price:"Entrada económica (consultar valor actualizado)", access:"Todas las piezas tienen cartel descriptivo individual, recorrido autoguiado posible sin depender de explicación oral.",
+        checklist:["Preguntar en entrada por visita guiada del día", "Tiempo: dejar 1-1h30 libres"]
       }
     ]
   },
@@ -378,7 +402,8 @@ const DAYS = [
         history:"La ruta 307 sigue en gran parte un antiguo camino utilizado por los pueblos originarios y luego por las tropas del general Belgrano para mover ganado y cañones entre el valle y la capital durante las guerras de independencia. El asfaltado moderno es relativamente reciente (terminado recién a fines del siglo XX), antes el cruce a Tafí podía llevar un día entero.",
         curiosity:"En pocos kilómetros el paisaje pasa de selva tropical húmeda a estepa de montaña — es uno de los gradientes ecológicos más marcados y rápidos que se pueden recorrer en auto en Argentina.",
         tip:"El camino tiene curvas cerradas y neblina frecuente en la parte alta (El Infiernillo). Si te marea andar en curvas, tomá algo antes de salir.",
-        duration:"1h30 de viaje", price:"—", access:"Sin señal de celular en buena parte del trayecto — descargá música, mapas o contenido offline antes de salir."
+        duration:"1h30 de viaje", price:"—", access:"Sin señal de celular en buena parte del trayecto — descargá música, mapas o contenido offline antes de salir.",
+        checklist:["Descargar música/mapas offline antes de salir", "Algo para el mareo en curvas", "Tanque lleno antes de salir de la capital"]
       },
       {
         time:"12:00", name:"Check-in en Tafí del Valle",
@@ -388,7 +413,8 @@ const DAYS = [
         history:"Antes de la llegada española, el valle fue hogar de la cultura arqueológica Tafí, conocida por sus menhires y túmulos funerarios (visibles hoy en el Parque de los Menhires, cerca de El Mollar). En el siglo XVII los jesuitas instalaron la Estancia de Tafí dedicada a la ganadería y producción de quesos; tras su expulsión en 1767 la propiedad pasó a manos privadas y luego se fue poblando el pueblo actual.",
         curiosity:"Los quesos de Tafí del Valle tienen una tradición que se remonta a los jesuitas, expulsados en 1767. La técnica quedó en manos de las familias locales y hoy es Indicación Geográfica protegida.",
         tip:"Las noches son frías incluso en verano (puede bajar a 5-10°C) — llevá una campera de abrigo aunque en la capital haga calor.",
-        duration:"—", price:"Según alojamiento", access:"Pueblo chico y caminable, cartelería de calles clara en el centro."
+        duration:"—", price:"Según alojamiento", access:"Pueblo chico y caminable, cartelería de calles clara en el centro.",
+        checklist:["Confirmar horario de check-in con el alojamiento", "Campera de abrigo para la noche", "Reserva impresa o en el celular"]
       },
       {
         time:"13:30", name:"Almuerzo: Rancho el Tuichy",
@@ -398,7 +424,8 @@ const DAYS = [
         history:"El locro tiene raíces en la dieta de los pueblos andinos previos a la conquista, basada en maíz, zapallo y porotos cultivados en terrazas de altura. Con la llegada del ganado europeo se sumó carne de cerdo y vaca a la receta original, dando la versión mestiza que se cocina hoy en toda la región andina sudamericana.",
         curiosity:"La receta del locro varía de provincia en provincia, pero la base de maíz blanco, zapallo y porotos es prácticamente la misma que comían los pueblos diaguitas hace siglos.",
         tip:"Pedí las empanadas \"al horno de barro\" si las ofrecen — tienen un sabor ahumado distinto a las fritas.",
-        duration:"1-1h30", price:"$$ (medio)", access:"Carta en papel, ambiente luminoso de día — bueno para comunicación visual."
+        duration:"1-1h30", price:"$$ (medio)", access:"Carta en papel, ambiente luminoso de día — bueno para comunicación visual.",
+        checklist:["Pedir empanadas al horno de barro", "Reservar si es fin de semana"]
       },
       {
         time:"16:00", name:"Ruta del Artesano",
@@ -408,7 +435,8 @@ const DAYS = [
         history:"El tejido en telar de cintura o de pie es una práctica que viene directamente de las comunidades calchaquíes prehispánicas y se mantuvo viva a través de la transmisión oral y familiar, sin pasar por procesos industriales. Hoy varias cooperativas de artesanas de Tafí trabajan bajo programas de comercio justo que buscan proteger esta tradición frente a la competencia de tejidos industriales baratos.",
         curiosity:"Los diseños geométricos de los tejidos calchaquíes no son solo decorativos: muchos patrones identifican a la familia o comunidad que los teje, una tradición textil que antecede a la conquista.",
         tip:"Llevá efectivo — la mayoría de las artesanas no tiene posnet y prefieren venta directa sin intermediarios.",
-        duration:"45 min - 1 h", price:"Entrada libre, compra opcional", access:"Interacción mayormente visual y demostrativa (se ve el proceso de tejido en vivo), no depende tanto de explicación hablada."
+        duration:"45 min - 1 h", price:"Entrada libre, compra opcional", access:"Interacción mayormente visual y demostrativa (se ve el proceso de tejido en vivo), no depende tanto de explicación hablada.",
+        checklist:["Efectivo (no todas tienen posnet)", "Bolsa para llevar las compras"]
       },
       {
         time:"17:30", name:"Cerro de la Cruz",
@@ -418,7 +446,8 @@ const DAYS = [
         history:"La cruz en la cima fue instalada por pobladores locales como punto de fe y orientación, y con el tiempo el cerro se convirtió en el mirador no oficial más popular del pueblo, sin intervención turística formal: no hay entrada paga ni infraestructura, es un sendero que se mantiene por el uso constante de vecinos y visitantes.",
         curiosity:"El sendero no está oficialmente señalizado más que por cruces de madera dejadas por los propios caminantes a lo largo de los años — es casi una tradición local marcar el camino así.",
         tip:"Subí antes del atardecer: la luz baja sobre el valle es el mejor momento para fotos, pero bajá con tiempo porque no hay iluminación en el sendero.",
-        duration:"1h30 (subida + bajada + tiempo en el mirador)", price:"Gratis", access:"Sendero de tierra con pendiente, sin señalización oficial — llevar calzado con buen agarre."
+        duration:"1h30 (subida + bajada + tiempo en el mirador)", price:"Gratis", access:"Sendero de tierra con pendiente, sin señalización oficial — llevar calzado con buen agarre.",
+        checklist:["Calzado con buen agarre", "Subir antes del atardecer", "Linterna del celular para la bajada", "Agua"]
       }
     ]
   },
@@ -434,7 +463,8 @@ const DAYS = [
         history:"Se construyó en la década de 1950 como parte de un plan provincial de obras hídricas, inundando terrenos que antes eran de pastoreo de las antiguas estancias jesuíticas. La obra cambió el paisaje del sur del valle de forma permanente y hoy es uno de los puntos más fotografiados de la zona, además de fuente de agua para riego y consumo.",
         curiosity:"El dique se construyó en los años 50 inundando parte de las tierras donde antes pastaban las majadas de las estancias jesuíticas — varios puesteros debieron reubicarse cuando se llenó el embalse.",
         tip:"Hay varios miradores sobre la ruta 307 antes de llegar al pueblo — el más fotografiado está cerca del cartel de bienvenida a Tafí.",
-        duration:"30-45 min", price:"Gratis", access:"Miradores accesibles directamente desde el auto, sin necesidad de caminata larga."
+        duration:"30-45 min", price:"Gratis", access:"Miradores accesibles directamente desde el auto, sin necesidad de caminata larga.",
+        checklist:["Cámara para los miradores de la ruta 307", "Gorro/protección solar"]
       },
       {
         time:"11:30", name:"Ruinas de Quilmes",
@@ -444,7 +474,8 @@ const DAYS = [
         history:"Fundada hacia el siglo IX, la ciudadela de Quilmes fue el centro de una confederación de comunidades diaguitas que resistió primero el avance del Imperio Inca y luego, durante más de un siglo, las campañas militares españolas. La resistencia diaguita-calchaquí fue una de las más prolongadas del continente. Tras la rendición final en 1665, la corona española ordenó el desarraigo forzado: los sobrevivientes —unos 2.000— fueron obligados a caminar más de 1.200 km hasta Buenos Aires como castigo y para evitar nuevos levantamientos. El sitio quedó abandonado y fue redescubierto y parcialmente reconstruido recién en el siglo XX.",
         curiosity:"Los Quilmes resistieron tanto que España terminó deportando a los sobrevivientes a pie hasta Buenos Aires en 1666 — un viaje de más de 1.200 km del que murió la mayoría. Los descendientes fundaron lo que hoy es la ciudad de Quilmes, provincia de Buenos Aires (sí, la de la cerveza).",
         tip:"Llevá protector solar, gorro y agua: no hay sombra en el recorrido y el sol de altura quema mucho más rápido de lo que parece. Calculá 2-3 horas entre museo y ruinas.",
-        duration:"2-3 h", price:"Entrada paga (consultar valor actualizado)", access:"Museo con paneles escritos en español, inglés y portugués, más una proyección corta con subtítulos — buena opción si no se quiere depender del audio de las visitas guiadas habladas."
+        duration:"2-3 h", price:"Entrada paga (consultar valor actualizado)", access:"Museo con paneles escritos en español, inglés y portugués, más una proyección corta con subtítulos — buena opción si no se quiere depender del audio de las visitas guiadas habladas.",
+        checklist:["Protector solar y gorro", "Botella de agua (no hay sombra)", "Calzado cómodo para caminata", "Efectivo o tarjeta para la entrada"]
       },
       {
         time:"20:30", name:"Cena: MUPPA",
@@ -454,7 +485,8 @@ const DAYS = [
         history:"Forma parte de una nueva generación de propuestas gastronómicas en el NOA que buscan poner en valor ingredientes de altura (papa andina, quinoa, amaranto, quesos de cabra) con técnicas de cocina contemporánea, en contraste con la oferta más tradicional de parrillas y rotiserías del pueblo.",
         curiosity:"La cocina de altura del NOA está teniendo un resurgimiento gastronómico: chefs jóvenes están recuperando ingredientes como la quinoa local, el amaranto y los quesos artesanales en propuestas de cocina contemporánea.",
         tip:"Cierra lunes y martes — confirmá el horario antes de ir, sobre todo fuera de temporada alta.",
-        duration:"1h30-2h", price:"$$$ (más elevado)", access:"Carta detallada por escrito, ambiente tranquilo con buena visibilidad para comunicación no verbal."
+        duration:"1h30-2h", price:"$$$ (más elevado)", access:"Carta detallada por escrito, ambiente tranquilo con buena visibilidad para comunicación no verbal.",
+        checklist:["Confirmar que esté abierto (cierra lunes y martes)", "Reservar mesa con anticipación"]
       }
     ]
   },
@@ -470,7 +502,8 @@ const DAYS = [
         history:"La oficina funciona como punto de coordinación entre las distintas cooperativas de productores de queso y artesanos del valle, y suele tener folletería con mapas y recomendaciones actualizadas de excursiones de la zona que no siempre figuran en internet.",
         curiosity:"El queso tafinisto se elabora todavía con leche cruda de tambos familiares pequeños; cada productor tiene su propia variación de maduración y sabor.",
         tip:"Si comprás queso para viaje largo, pedí que te lo envuelvan al vacío — aguanta mucho mejor el calor de la bajada.",
-        duration:"20-30 min", price:"Gratis", access:"Folletería impresa disponible, buena opción para consultar sin depender de conversación oral."
+        duration:"20-30 min", price:"Gratis", access:"Folletería impresa disponible, buena opción para consultar sin depender de conversación oral.",
+        checklist:["Lista de quesos/tejidos para comprar", "Preguntar por envoltorio al vacío para el queso"]
       },
       {
         time:"12:30", name:"Ente Tucumán Turismo",
@@ -480,7 +513,8 @@ const DAYS = [
         history:"Es la oficina oficial de turismo de la provincia, ubicada a metros de la Plaza Independencia, con mapas gratuitos y personal que puede orientar sobre combis, micros y excursiones de último momento.",
         curiosity:"Tucumán es la provincia más pequeña de Argentina en superficie, pero una de las más densamente pobladas — por eso se la conoce como \"el jardín de la República\".",
         tip:"Si te queda tiempo, la Catedral de Tucumán (frente a la plaza) tiene una cúpula poco común con relieves que vale la pena mirar desde afuera.",
-        duration:"20-30 min", price:"Gratis", access:"Mapas y folletos impresos disponibles para consulta autónoma."
+        duration:"20-30 min", price:"Gratis", access:"Mapas y folletos impresos disponibles para consulta autónoma.",
+        checklist:["Consultar horarios de combis si no hay auto propio", "Pedir mapa actualizado"]
       },
       {
         time:"13:30", name:"Almuerzo: CRAFT Barrio Norte",
@@ -490,7 +524,8 @@ const DAYS = [
         history:"Forma parte de la creciente escena de bares de especialidad de Barrio Norte, una zona residencial que en la última década concentró buena parte de la renovación gastronómica de la ciudad, con locales que combinan carta de cocina y cafetería de autor.",
         curiosity:"Tucumán es uno de los principales productores de café de especialidad torrado de Argentina — la costumbre del \"café cortado\" en bares como este es parte de la vida social de la ciudad.",
         tip:"Pedí la mesa con tiempo si vas en horario pico de almuerzo (13-14 h), suele llenarse rápido.",
-        duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, buen nivel de luz natural durante el día."
+        duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, buen nivel de luz natural durante el día.",
+        checklist:["Reservar mesa si es horario pico (13-14 h)", "Dejar tiempo para café de cierre"]
       }
     ]
   }
@@ -569,6 +604,7 @@ function buildItinerarioSection(){
           <div class="badges">
             ${s.duration ? `<span class="badge">⏱ ${s.duration}</span>` : ''}
             ${s.price ? `<span class="badge">💰 ${s.price}</span>` : ''}
+            ${s.checklist && s.checklist.length ? `<span class="badge stop-progress-badge" data-progress-for="${stopId}">✅ 0/${s.checklist.length}</span>` : ''}
           </div>
           <button class="pill-toggle" data-target="${stopId}">
             <span class="arrow">▶</span><span class="toggle-label"> Ver más: historia, curiosidad y tips</span>
@@ -589,6 +625,17 @@ function buildItinerarioSection(){
             ${s.access ? `<div class="block">
               <div class="label acc">👂 Accesibilidad</div>
               <p>${s.access}</p>
+            </div>` : ''}
+            ${s.checklist && s.checklist.length ? `<div class="block">
+              <div class="label check">✅ Checklist para este lugar</div>
+              <div class="stop-checklist" data-stop="${stopId}">
+                ${s.checklist.map((item, i) => `
+                  <label class="check-item-mini">
+                    <input type="checkbox" data-idx="${i}">
+                    <span>${item}</span>
+                  </label>
+                `).join('')}
+              </div>
             </div>` : ''}
           </div>
         </div>
@@ -788,6 +835,41 @@ async function renderChecklist(){
   });
 }
 renderChecklist();
+
+/* ===================== PER-STOP CHECKLISTS (persisted via window.storage) ===================== */
+async function initStopChecklists(){
+  let savedAll = {};
+  try{
+    const res = await window.storage.get('stop-checklists-state');
+    if(res && res.value) savedAll = JSON.parse(res.value);
+  }catch(e){ /* no saved state yet */ }
+
+  document.querySelectorAll('.stop-checklist').forEach(container=>{
+    const stopId = container.dataset.stop;
+    const saved = savedAll[stopId] || {};
+    const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+
+    const updateProgress = ()=>{
+      const total = checkboxes.length;
+      const doneCount = [...checkboxes].filter(c=>c.checked).length;
+      const badge = document.querySelector(`.stop-progress-badge[data-progress-for="${stopId}"]`);
+      if(badge) badge.textContent = `✅ ${doneCount}/${total}`;
+    };
+
+    checkboxes.forEach(cb=>{
+      const idx = cb.dataset.idx;
+      cb.checked = !!saved[idx];
+      cb.addEventListener('change', async ()=>{
+        saved[idx] = cb.checked;
+        savedAll[stopId] = saved;
+        updateProgress();
+        try{ await window.storage.set('stop-checklists-state', JSON.stringify(savedAll)); }catch(err){}
+      });
+    });
+    updateProgress();
+  });
+}
+initStopChecklists();
 
 /* ===================== PWA: service worker (real file, see sw.js) ===================== */
 if('serviceWorker' in navigator){
