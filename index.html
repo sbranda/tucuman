@@ -241,6 +241,13 @@
     background:#EEF5F8;border-radius:8px;padding:8px 10px;
     border:1px solid #D5E6EC;margin-bottom:10px !important;
   }
+  .extra .label.schedule{color:var(--verde-claro);}
+  .schedule-block{
+    background:#F0F6EF;border-radius:8px;padding:8px 10px;
+    border:1px solid #DCE9D9;margin-bottom:10px !important;
+  }
+  .schedule-block .schedule-row{font-size:12px;color:var(--texto);line-height:1.6;}
+  .schedule-block .schedule-note{font-size:10.5px;color:var(--gris);font-style:italic;margin-top:6px;}
 
   .stop-checklist{display:flex;flex-direction:column;gap:6px;}
   .check-item-mini{
@@ -440,6 +447,8 @@ const BLOCKS = [
         tip:"Si tu vuelo/micro llega bien temprano a la capital, comprá el pasaje de combi apenas llegues (o el día anterior online si la empresa lo permite) — en temporada alta de invierno los horarios más cómodos se llenan rápido. Pedí ventanilla del lado de la montaña para la mejor vista.",
         winterTip:"En invierno (julio-agosto) puede haber hielo o nieve en el tramo de El Infiernillo, el punto más alto del camino — esto a veces demora o reprograma los horarios de combi. Dejá margen entre la llegada a la capital y la salida de la combi por las dudas.",
         duration:"~2 h de viaje", price:"Tarifa de combi (consultar en terminal)", access:"Sin señal de celular en buena parte del trayecto — descargá música, mapas o contenido offline antes de salir. Como no manejás, podés aprovechar para sacar fotos sin distracción.",
+        schedule:["06:00 (todos los días)","06:30 (lun-sáb)","07:00 (todos los días)","10:00 (todos los días)","12:00 (todos los días)","14:00 (todos los días)","16:00 (lun-sáb)","18:00 (lun-sáb)","19:00 (todos los días)","20:00 (lun-sáb)"],
+        scheduleNote:"Horarios de referencia de la empresa Aconquija (San Miguel → Tafí del Valle), pueden cambiar sin aviso — confirmá el día antes al 0800-444-9275 o en la boletería N°65/66 de la terminal.",
         checklist:["Descargar música/mapas offline antes de salir", "Algo para el mareo en curvas", "Comprar pasaje de combi apenas llegues a la capital", "Chequear estado de la ruta en El Infiernillo (invierno)", "Dejar margen entre la llegada y la salida de la combi"]
       },
       {
@@ -588,6 +597,8 @@ const BLOCKS = [
         curiosity:"El queso tafinisto se elabora todavía con leche cruda de tambos familiares pequeños; cada productor tiene su propia variación de maduración y sabor.",
         tip:"Si comprás queso para el resto del viaje, pedí que te lo envuelvan al vacío — aguanta mucho mejor el calor de la bajada y los días que quedan en la capital.",
         duration:"~2 h de viaje", price:"Tarifa de combi (consultar en terminal)", access:"Folletería impresa disponible en la oficina de turismo, buena opción para consultar sin depender de conversación oral.",
+        schedule:["04:00 (lun-sáb)","05:00 (lun-sáb)","06:00 (lun-sáb)","10:00 (todos los días)","12:00 (domingos)","13:40 (lun-sáb)","14:00 (domingos)","16:30 (todos los días)","17:50 (todos los días)","19:30 (domingos)","21:00 (todos los días)","21:50 (todos los días)"],
+        scheduleNote:"Horarios de referencia de la empresa Aconquija (Tafí del Valle → San Miguel), pueden cambiar sin aviso — confirmá el día antes en la boletería de Tafí (Av. Gobernador Crítto s/n, terminal) o al 0800-444-9275.",
         checklist:["Confirmar horario de la combi de bajada", "Pedir queso envuelto al vacío si compraste", "Revisar que no quede nada en el alojamiento"]
       },
       {
@@ -891,6 +902,11 @@ function buildItinerarioSection(){
             ${s.winterTip ? `<div class="block winter-block">
               <div class="label winter">❄️ Tip de invierno</div>
               <p>${s.winterTip}</p>
+            </div>` : ''}
+            ${s.schedule && s.schedule.length ? `<div class="block schedule-block">
+              <div class="label schedule">🕐 Horarios de combi</div>
+              <div class="schedule-row">${s.schedule.join(' · ')}</div>
+              <div class="schedule-note">${s.scheduleNote || ''}</div>
             </div>` : ''}
             ${s.access ? `<div class="block">
               <div class="label acc">👂 Accesibilidad</div>
