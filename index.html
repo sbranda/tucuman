@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Viaje Tucumán</title>
 <meta name="theme-color" content="#1F3D2E">
-<link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json?v=2">
 <link rel="icon" href="icon-192.svg">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
@@ -65,6 +65,52 @@
     color:#EFE7D6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     font-size:13.5px;margin:0;max-width:32em;line-height:1.5;
   }
+  #settingsBtn{
+    position:absolute;top:16px;right:16px;z-index:10;
+    width:38px;height:38px;border-radius:50%;border:none;
+    background:rgba(0,0,0,0.35);font-size:18px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(4px);
+  }
+
+  /* ---------- SETTINGS MODAL ---------- */
+  .modal-backdrop{
+    display:none;position:fixed;inset:0;z-index:8000;
+    background:rgba(20,30,25,0.55);
+    align-items:center;justify-content:center;padding:20px;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal-card{
+    background:#fff;border-radius:16px;padding:22px 20px;max-width:380px;width:100%;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    box-shadow:0 10px 40px rgba(0,0,0,0.3);
+  }
+  .modal-card h3{margin:0 0 4px;color:var(--verde);font-size:1.2rem;}
+  .modal-sub{font-size:12.5px;color:var(--gris);margin:0 0 18px;line-height:1.4;}
+  .modal-label{display:block;font-size:12.5px;font-weight:700;color:var(--verde);margin:14px 0 8px;}
+  .weekday-grid{display:grid;grid-template-columns:repeat(4, 1fr);gap:7px;}
+  .weekday-chip{
+    padding:9px 0;border-radius:9px;border:1.5px solid var(--crema-osc);background:var(--crema);
+    color:var(--texto);font-size:12.5px;font-weight:600;cursor:pointer;text-align:center;
+  }
+  .weekday-chip.active{background:var(--verde);border-color:var(--verde);color:#fff;}
+  .day-stepper{
+    display:flex;align-items:center;justify-content:center;gap:18px;
+    background:var(--crema);border-radius:12px;padding:10px;
+  }
+  .stepper-btn{
+    width:38px;height:38px;border-radius:50%;border:none;background:var(--terracota);
+    color:#fff;font-size:20px;font-weight:700;cursor:pointer;line-height:1;
+  }
+  .stepper-btn:disabled{opacity:0.35;cursor:default;}
+  #dayCount{font-size:1.4rem;font-weight:700;color:var(--verde);min-width:28px;text-align:center;}
+  .modal-hint{font-size:11px;color:var(--gris);text-align:center;margin:8px 0 0;}
+  .modal-actions{display:flex;gap:10px;margin-top:20px;}
+  .modal-btn-secondary, .modal-btn-primary{
+    flex:1;padding:11px 0;border-radius:10px;border:none;font-weight:700;font-size:13.5px;cursor:pointer;
+  }
+  .modal-btn-secondary{background:var(--crema);color:var(--gris);}
+  .modal-btn-primary{background:var(--terracota);color:#fff;}
 
   /* ---------- NAV TABS ---------- */
   .tabbar{
@@ -320,10 +366,35 @@
 <!-- HERO -->
 <div class="hero">
   <img id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/VistadeTafidelValle.jpg?width=900" alt="Valle de Tafí">
+  <button id="settingsBtn" aria-label="Configurar viaje">⚙️</button>
   <div class="hero-overlay">
-    <div class="eyebrow">Guía interactiva · 6 días (mar-dom)</div>
+    <div class="eyebrow" id="heroEyebrow">Guía interactiva · 6 días (mar-dom)</div>
     <h1>Tucumán</h1>
     <p>Capital, montaña y ruinas milenarias. Historia, valles calchaquíes y sabores del norte argentino — con curiosidades, tips y fotos de cada parada.</p>
+  </div>
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-backdrop" id="settingsBackdrop">
+  <div class="modal-card">
+    <h3>Configurar tu viaje</h3>
+    <p class="modal-sub">La app arma el orden de paradas sola: siempre capital → Tafí del Valle → capital.</p>
+
+    <label class="modal-label">¿Qué día llegás?</label>
+    <div class="weekday-grid" id="weekdayGrid"></div>
+
+    <label class="modal-label">¿Cuántos días en total?</label>
+    <div class="day-stepper">
+      <button id="dayMinus" class="stepper-btn">−</button>
+      <span id="dayCount">6</span>
+      <button id="dayPlus" class="stepper-btn">+</button>
+    </div>
+    <p class="modal-hint">Rango disponible: 5 a 7 días.</p>
+
+    <div class="modal-actions">
+      <button id="settingsCancel" class="modal-btn-secondary">Cancelar</button>
+      <button id="settingsApply" class="modal-btn-primary">Aplicar</button>
+    </div>
   </div>
 </div>
 
@@ -343,7 +414,7 @@
 /* ===================== DATA ===================== */
 const IMG = (file) => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=900`;
 
-const DAYS = [
+const BLOCKS = [
   {
     id:"dia1", num:1, weekday:"Martes", title:"Llegada y viaje a Tafí del Valle", base:"Tafí del Valle — 3 noches",
     narrative:"Llegada el martes a la mañana a San Miguel de Tucumán. Sin parar en la capital, directo a la Terminal de Ómnibus para tomar la combi a Tafí del Valle y dormir ahí desde el primer día. La capital queda para el final del viaje.",
@@ -593,8 +664,77 @@ const DAYS = [
         checklist:["Revisar que no falte nada en las valijas", "Confirmar horario exacto de salida del micro/vuelo", "Calcular tiempo de traslado a la terminal/aeropuerto"]
       }
     ]
+  },
+  {
+    id:"diaExtraCapital", title:"Día extra en la capital: naturaleza y ciencia", base:"San Miguel de Tucumán",
+    narrative:"Día adicional en la capital para quienes tienen más tiempo: un fragmento de selva de Yungas en pleno centro y el museo de ciencias naturales más importante del norte argentino.",
+    stops:[
+      {
+        time:"14:30", name:"Jardín Botánico Miguel Lillo",
+        lat:-26.8309311, lng:-65.2220534,
+        img:IMG("Cerro San Javier.JPG"),
+        desc:"Un fragmento de selva de Yungas conservado en pleno centro urbano, anexo al museo de ciencias naturales más importante del norte argentino.",
+        history:"El predio y la colección nacieron de la donación del médico y naturalista Miguel Lillo, quien a comienzos del siglo XX cedió su fortuna personal y miles de especímenes botánicos y zoológicos al Estado para fundar un instituto científico. Hoy depende de la Universidad Nacional de Tucumán y es uno de los pocos lugares del país donde se puede caminar dentro de un fragmento real de selva de Yungas sin salir de una capital provincial.",
+        curiosity:"La Fundación Miguel Lillo lleva el nombre del médico y naturalista tucumano que donó toda su fortuna y su colección de especímenes al estado para crear un instituto de investigación, hoy referencia en botánica y zoología sudamericana.",
+        tip:"Entrada con donación voluntaria. Cierra temprano (18 h) y los domingos está cerrado — conviene ir a media tarde, no al final del día.",
+        duration:"1-1h30", price:"Donación voluntaria", access:"Recorrido autoguiado por senderos con carteles identificando especies; no depende de audioguía.",
+        checklist:["Ir antes de las 16 h (cierra a las 18 h)", "Repelente de insectos", "Confirmar que no sea domingo (cerrado)"]
+      },
+      {
+        time:"16:00", name:"Museo de Ciencias Naturales Lillo",
+        lat:-26.8314509, lng:-65.2211412,
+        img:IMG("Cerrosanjaviernieve.jpg"),
+        desc:"Colección de fósiles, minerales y fauna regional reunida durante más de un siglo de expediciones científicas por el norte argentino.",
+        history:"El museo nació junto con la Fundación Lillo en 1936 y desde entonces sus investigadores han recorrido el NOA documentando especies y formaciones geológicas. Buena parte del material expuesto proviene de expediciones propias del instituto, no de compras o donaciones externas, lo que lo hace una referencia académica además de atractivo turístico.",
+        curiosity:"Entre las piezas más comentadas está un molde de huevo de dinosaurio hallado en Valle de la Luna y ejemplares de fauna de las Yungas que no se ven en ningún otro museo del país.",
+        tip:"Las visitas guiadas (cuando hay personal disponible) mejoran mucho la experiencia — preguntá en la entrada si hay alguna programada para ese horario, aunque las vitrinas también tienen fichas escritas detalladas.",
+        duration:"1-1h30", price:"Entrada económica (consultar valor actualizado)", access:"Todas las piezas tienen cartel descriptivo individual, recorrido autoguiado posible sin depender de explicación oral.",
+        checklist:["Preguntar en entrada por visita guiada del día", "Tiempo: dejar 1-1h30 libres"]
+      }
+    ]
   }
 ];
+
+/* ===================== SCHEDULE ASSEMBLY (dynamic days) ===================== */
+const WEEKDAYS = ["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+const WEEKDAYS_SHORT = ["Dom","Lun","Mar","Mié","Jue","Vie","Sáb"];
+
+// Fixed logical order: llegada+Tafí → oficios en Tafí → Quilmes → bajada+capital → Cadillal+partida
+const CORE_ORDER = ["dia1","dia2","dia3","dia5","dia6"];
+// Optional blocks added in this priority order as more days become available,
+// each inserted right after its anchor block.
+const OPTIONALS = [
+  {id:"dia4", insertAfter:"dia3"},
+  {id:"diaExtraCapital", insertAfter:"dia5"}
+];
+const MIN_DAYS = CORE_ORDER.length;            // 5
+const MAX_DAYS = CORE_ORDER.length + OPTIONALS.length; // 7
+
+function assembleBlockOrder(totalDays){
+  totalDays = Math.max(MIN_DAYS, Math.min(MAX_DAYS, totalDays));
+  let order = [...CORE_ORDER];
+  const extra = totalDays - MIN_DAYS;
+  OPTIONALS.slice(0, extra).forEach(opt=>{
+    const idx = order.indexOf(opt.insertAfter);
+    order.splice(idx + 1, 0, opt.id);
+  });
+  return order;
+}
+
+function buildScheduleDays(totalDays, arrivalWeekdayIdx){
+  const order = assembleBlockOrder(totalDays);
+  return order.map((id, i)=>{
+    const block = BLOCKS.find(b=>b.id===id);
+    return {
+      ...block,
+      num: i + 1,
+      weekday: WEEKDAYS[(arrivalWeekdayIdx + i) % 7]
+    };
+  });
+}
+
+let tripConfig = { totalDays: 6, arrivalWeekdayIdx: 2 }; // default: 6 días, llegada Martes
+let DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalWeekdayIdx);
 
 const TIPS = [
   {icon:"❄️", title:"Vacaciones de invierno", body:"Julio es temporada alta de turismo interno en Argentina. Reservá alojamiento en Tafí del Valle con bastante anticipación — se llena más rápido que en temporada baja de verano."},
@@ -800,12 +940,26 @@ function buildMapaSection(){
   return wrap;
 }
 
-sectionsRoot.appendChild(buildItinerarioSection());
-sectionsRoot.appendChild(buildMapaSection());
-sectionsRoot.appendChild(buildCuriosidadesSection());
-sectionsRoot.appendChild(buildTipsSection());
-sectionsRoot.appendChild(buildChecklistSection());
-document.getElementById('sec-itinerario').classList.add('active');
+function renderAll(){
+  // reset map instance so it gets rebuilt fresh against the new DAYS
+  if(leafletMap){ leafletMap.remove(); leafletMap = null; mapLayers = []; }
+
+  sectionsRoot.innerHTML = '';
+  sectionsRoot.appendChild(buildItinerarioSection());
+  sectionsRoot.appendChild(buildMapaSection());
+  sectionsRoot.appendChild(buildCuriosidadesSection());
+  sectionsRoot.appendChild(buildTipsSection());
+  sectionsRoot.appendChild(buildChecklistSection());
+
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-itinerario').classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  const itinBtn = document.querySelector('.nav-btn[data-target="itinerario"]');
+  if(itinBtn) itinBtn.classList.add('active');
+
+  initStopChecklists();
+  initVisitedToggles();
+}
 
 /* expand/collapse curiosity+tip */
 document.addEventListener('click', (e)=>{
@@ -819,9 +973,11 @@ document.addEventListener('click', (e)=>{
 });
 
 /* ===================== MAPA (Leaflet) ===================== */
-const DAY_COLORS = {dia1:"#1F3D2E", dia2:"#2F5942", dia3:"#C2622F", dia4:"#2B2A4C", dia5:"#8C6A1F"};
+const DAY_COLORS = {dia1:"#1F3D2E", dia2:"#2F5942", dia3:"#C2622F", dia4:"#2B2A4C", dia5:"#8C6A1F", dia6:"#A0522D", diaExtraCapital:"#5B7C8D"};
 let leafletMap = null;
 let mapLayers = [];
+
+renderAll();
 
 function initMap(){
   if(leafletMap) return;
@@ -995,6 +1151,91 @@ async function initVisitedToggles(){
   });
 }
 initVisitedToggles();
+
+/* ===================== SETTINGS MODAL (dynamic trip config) ===================== */
+function updateHeroEyebrow(){
+  const eyebrow = document.getElementById('heroEyebrow');
+  if(!eyebrow) return;
+  const first = WEEKDAYS_SHORT[tripConfig.arrivalWeekdayIdx];
+  const lastIdx = (tripConfig.arrivalWeekdayIdx + tripConfig.totalDays - 1) % 7;
+  const last = WEEKDAYS_SHORT[lastIdx];
+  eyebrow.textContent = `Guía interactiva · ${tripConfig.totalDays} días (${first.toLowerCase()}-${last.toLowerCase()})`;
+}
+
+const weekdayGrid = document.getElementById('weekdayGrid');
+let pendingArrivalIdx = tripConfig.arrivalWeekdayIdx;
+let pendingTotalDays = tripConfig.totalDays;
+
+function renderWeekdayGrid(){
+  weekdayGrid.innerHTML = '';
+  // show Monday..Sunday order for a friendlier picker (idx 1..6,0)
+  const displayOrder = [1,2,3,4,5,6,0];
+  displayOrder.forEach(idx=>{
+    const chip = document.createElement('button');
+    chip.className = 'weekday-chip' + (idx===pendingArrivalIdx ? ' active' : '');
+    chip.textContent = WEEKDAYS_SHORT[idx];
+    chip.dataset.idx = idx;
+    chip.onclick = ()=>{
+      pendingArrivalIdx = idx;
+      renderWeekdayGrid();
+    };
+    weekdayGrid.appendChild(chip);
+  });
+}
+
+function renderDayStepper(){
+  document.getElementById('dayCount').textContent = pendingTotalDays;
+  document.getElementById('dayMinus').disabled = pendingTotalDays <= MIN_DAYS;
+  document.getElementById('dayPlus').disabled = pendingTotalDays >= MAX_DAYS;
+}
+
+document.getElementById('dayMinus').addEventListener('click', ()=>{
+  pendingTotalDays = Math.max(MIN_DAYS, pendingTotalDays - 1);
+  renderDayStepper();
+});
+document.getElementById('dayPlus').addEventListener('click', ()=>{
+  pendingTotalDays = Math.min(MAX_DAYS, pendingTotalDays + 1);
+  renderDayStepper();
+});
+
+const settingsBackdrop = document.getElementById('settingsBackdrop');
+document.getElementById('settingsBtn').addEventListener('click', ()=>{
+  pendingArrivalIdx = tripConfig.arrivalWeekdayIdx;
+  pendingTotalDays = tripConfig.totalDays;
+  renderWeekdayGrid();
+  renderDayStepper();
+  settingsBackdrop.classList.add('open');
+});
+document.getElementById('settingsCancel').addEventListener('click', ()=>{
+  settingsBackdrop.classList.remove('open');
+});
+settingsBackdrop.addEventListener('click', (e)=>{
+  if(e.target === settingsBackdrop) settingsBackdrop.classList.remove('open');
+});
+
+document.getElementById('settingsApply').addEventListener('click', async ()=>{
+  tripConfig = { totalDays: pendingTotalDays, arrivalWeekdayIdx: pendingArrivalIdx };
+  DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalWeekdayIdx);
+  updateHeroEyebrow();
+  renderAll();
+  settingsBackdrop.classList.remove('open');
+  try{ await window.storage.set('trip-config', JSON.stringify(tripConfig)); }catch(err){}
+});
+
+(async function loadTripConfig(){
+  try{
+    const res = await window.storage.get('trip-config');
+    if(res && res.value){
+      const saved = JSON.parse(res.value);
+      if(saved && typeof saved.totalDays === 'number' && typeof saved.arrivalWeekdayIdx === 'number'){
+        tripConfig = saved;
+        DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalWeekdayIdx);
+        renderAll();
+      }
+    }
+  }catch(e){ /* no saved config yet, keep default */ }
+  updateHeroEyebrow();
+})();
 
 /* ===================== PWA: service worker (real file, see sw.js) ===================== */
 if('serviceWorker' in navigator){
