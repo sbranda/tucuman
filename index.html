@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Tucumán en 5 días</title>
+<title>Tucumán en 6 días</title>
 <meta name="theme-color" content="#1F3D2E">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon-192.svg">
@@ -302,7 +302,7 @@
 <div class="hero">
   <img id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/VistadeTafidelValle.jpg?width=900" alt="Valle de Tafí">
   <div class="hero-overlay">
-    <div class="eyebrow">Guía interactiva · 5 días</div>
+    <div class="eyebrow">Guía interactiva · 6 días (mar-dom)</div>
     <h1>Tucumán</h1>
     <p>Capital, montaña y ruinas milenarias. Historia, valles calchaquíes y sabores del norte argentino — con curiosidades, tips y fotos de cada parada.</p>
   </div>
@@ -328,8 +328,8 @@ const IMG = (file) => `https://commons.wikimedia.org/wiki/Special:FilePath/${enc
 
 const DAYS = [
   {
-    id:"dia1", num:1, title:"Capital histórica", base:"San Miguel de Tucumán",
-    narrative:"Llegada y recorrido por el centro histórico, cuna de la independencia argentina.",
+    id:"dia1", num:1, weekday:"Martes", title:"Capital histórica", base:"San Miguel de Tucumán",
+    narrative:"Llegada el martes a la mañana. Después de dejar las valijas, recorrido por el centro histórico, cuna de la independencia argentina.",
     stops:[
       {
         time:"10:00", name:"Casa Histórica de la Independencia",
@@ -378,7 +378,7 @@ const DAYS = [
     ]
   },
   {
-    id:"dia2", num:2, title:"Yerba Buena y último día en capital", base:"San Miguel de Tucumán",
+    id:"dia2", num:2, weekday:"Miércoles", title:"Yerba Buena y último día en capital", base:"San Miguel de Tucumán",
     narrative:"Último día en la capital. Por la noche conviene armar valijas para salir temprano rumbo a Tafí del Valle.",
     stops:[
       {
@@ -417,7 +417,7 @@ const DAYS = [
     ]
   },
   {
-    id:"dia3", num:3, title:"Llegada a Tafí del Valle", base:"Tafí del Valle — 2 noches",
+    id:"dia3", num:3, weekday:"Jueves", title:"Llegada a Tafí del Valle", base:"Tafí del Valle — 3 noches",
     narrative:"Traslado a Tafí del Valle (~2 h en combi desde la Terminal de Ómnibus de la capital) y check-in. Desde acá se duermen 2 noches en la montaña.",
     stops:[
       {
@@ -481,7 +481,7 @@ const DAYS = [
     ]
   },
   {
-    id:"dia4", num:4, title:"Quilmes desde Tafí", base:"Tafí del Valle",
+    id:"dia4", num:4, weekday:"Viernes", title:"Quilmes desde Tafí", base:"Tafí del Valle",
     narrative:"Día de excursión a los Valles Calchaquíes. Sin auto propio, la forma más práctica de llegar a Quilmes es una excursión organizada de día completo que sale desde Tafí (suele incluir Amaicha del Valle en el mismo recorrido) — resuelve el traslado y permite conocer dos lugares en un viaje.",
     stops:[
       {
@@ -521,8 +521,37 @@ const DAYS = [
     ]
   },
   {
-    id:"dia5", num:5, title:"Regreso a la capital", base:"Bajada a San Miguel de Tucumán",
-    narrative:"Bajada de la montaña a la capital para el regreso, con tiempo libre antes de partir.",
+    id:"dia5", num:5, weekday:"Sábado", title:"Día libre en Tafí: El Mollar y Menhires", base:"Tafí del Valle",
+    narrative:"Día sin excursión organizada, a ritmo propio: El Mollar y el Parque de los Menhires quedan a poca distancia de Tafí (se puede ir en remís corto o combi local), y queda tiempo libre para descansar, pasear por el pueblo o volver a algún lugar que haya gustado.",
+    stops:[
+      {
+        time:"10:30", name:"Parque de los Menhires, El Mollar",
+        lat:-26.9398, lng:-65.7146,
+        img:IMG("Menhir de Tafi.jpg"),
+        desc:"Colección de más de 100 menhires (piedras paradas talladas) de la cultura Tafí, prehispánica y anterior a los diaguitas. Hoy están reunidos en un parque a cielo abierto en El Mollar, a unos 20 minutos de Tafí.",
+        history:"Los menhires originalmente estaban dispersos por todo el valle, marcando sitios ceremoniales y funerarios de la cultura Tafí (siglos I al VIII d.C.). Cuando se construyó el Dique La Angostura en los años 50 y el agua empezó a cubrir parte del valle, se reunieron y reubicaron en este parque en 1977 para protegerlos, aunque eso significó perder su ubicación y contexto original.",
+        curiosity:"Nadie sabe con certeza qué representan las figuras talladas en los menhires — hay teorías que van desde representaciones de antepasados hasta marcadores astronómicos, pero ningún registro escrito sobrevivió para confirmarlo.",
+        tip:"Se llega en remís corto desde Tafí (unos 20 min) o en alguna combi local que una El Mollar con el pueblo — preguntá en el alojamiento por el horario del día. Hay un mirador del Dique La Angostura justo al lado, fotogénico para la mañana.",
+        winterTip:"Las mañanas de invierno en El Mollar son frías y ventosas al estar tan cerca del dique — llevá abrigo extra para este paseo más que para otros del valle.",
+        duration:"1-1h30", price:"Entrada económica (consultar valor actualizado)", access:"Parque al aire libre con carteles individuales en cada menhir, recorrido autoguiado sin depender de audio.",
+        checklist:["Coordinar remís o combi local a El Mollar", "Abrigo (hace bastante frío y viento cerca del dique)", "Cámara para los menhires y el mirador del dique"]
+      },
+      {
+        time:"13:00", name:"Almuerzo y tarde libre en Tafí",
+        lat:-26.853002, lng:-65.7084218,
+        img:IMG("Valle De Tafí (234462759).jpeg"),
+        desc:"Tarde sin agenda fija: buen momento para volver a la quesería o al lugar que más haya gustado de los días anteriores, dar una vuelta final por el centro del pueblo, o simplemente descansar antes del regreso del día siguiente.",
+        history:"",
+        curiosity:"Muchas queserías familiares de Tafí ofrecen degustación gratuita o a muy bajo costo si comprás algo — es una buena forma de pasar una tarde tranquila conociendo el proceso de elaboración del queso tafinisto.",
+        tip:"Si todavía no probaste el queso de cabra o las conservas regionales (dulce de cayote, miel de caña), este es el momento — el centro de Tafí tiene varias casas de productos regionales sobre la calle principal.",
+        duration:"Tarde libre", price:"Variable", access:"Pueblo chico y caminable, sin necesidad de coordinar transporte para esta tarde.",
+        checklist:["Visitar alguna quesería para degustación", "Comprar productos regionales de despedida", "Aprovechar para descansar antes del regreso"]
+      }
+    ]
+  },
+  {
+    id:"dia6", num:6, weekday:"Domingo", title:"Regreso a la capital", base:"Bajada a San Miguel de Tucumán — vuelo/micro de noche",
+    narrative:"Bajada de la montaña a la capital en combi. Como la salida es recién el domingo de noche, queda el día completo libre para pasear por la capital antes de partir.",
     stops:[
       {
         time:"10:00", name:"Información Turística de Tafí",
@@ -539,7 +568,7 @@ const DAYS = [
         time:"12:30", name:"Ente Tucumán Turismo",
         lat:-26.8311131, lng:-65.2045773,
         img:IMG("Plaza Independencia 01.JPG"),
-        desc:"Vuelta a la capital en combi (~2 h desde Tafí, misma empresa que el viaje de ida). Última parada para consultas, mapas y souvenirs antes de partir.",
+        desc:"Vuelta a la capital en combi (~2 h desde Tafí, misma empresa que el viaje de ida). Como la salida es de noche, queda toda la tarde libre en la capital antes de partir.",
         history:"Es la oficina oficial de turismo de la provincia, ubicada a metros de la Plaza Independencia, con mapas gratuitos y personal que puede orientar sobre combis, micros y excursiones de último momento.",
         curiosity:"Tucumán es la provincia más pequeña de Argentina en superficie, pero una de las más densamente pobladas — por eso se la conoce como \"el jardín de la República\".",
         tip:"Si te queda tiempo, la Catedral de Tucumán (frente a la plaza) tiene una cúpula poco común con relieves que vale la pena mirar desde afuera.",
@@ -550,12 +579,23 @@ const DAYS = [
         time:"13:30", name:"Almuerzo: CRAFT Barrio Norte",
         lat:-26.8208293, lng:-65.2024661,
         img:IMG("Casa de gobierdo tucuman, dia.jpg"),
-        desc:"Almuerzo de despedida en un bar de ambiente cálido, ideal para cerrar el viaje con buena comida y buen café antes del vuelo o micro.",
+        desc:"Almuerzo de despedida en un bar de ambiente cálido, ideal para arrancar la última tarde libre con buena comida y buen café.",
         history:"Forma parte de la creciente escena de bares de especialidad de Barrio Norte, una zona residencial que en la última década concentró buena parte de la renovación gastronómica de la ciudad, con locales que combinan carta de cocina y cafetería de autor.",
         curiosity:"Tucumán es uno de los principales productores de café de especialidad torrado de Argentina — la costumbre del \"café cortado\" en bares como este es parte de la vida social de la ciudad.",
         tip:"Pedí la mesa con tiempo si vas en horario pico de almuerzo (13-14 h), suele llenarse rápido.",
         duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, buen nivel de luz natural durante el día.",
         checklist:["Reservar mesa si es horario pico (13-14 h)", "Dejar tiempo para café de cierre"]
+      },
+      {
+        time:"16:00", name:"Tarde libre y compras de último momento",
+        lat:-26.8292678, lng:-65.1916518,
+        img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
+        desc:"Como la salida es recién a la noche, queda tiempo extra para volver a algún lugar que haya gustado del día 1-2, hacer las últimas compras de regionales, o simplemente descansar en algún café antes de ir a la terminal/aeropuerto.",
+        history:"",
+        curiosity:"",
+        tip:"Calculá el traslado a la terminal o aeropuerto con margen — el tránsito de domingo a la tarde-noche suele ser tranquilo, pero mejor no ajustar el horario al límite.",
+        duration:"Tarde libre", price:"Variable", access:"Zona céntrica caminable con buena cartelería.",
+        checklist:["Revisar que no falte nada en las valijas", "Confirmar horario exacto de salida del micro/vuelo", "Calcular tiempo de traslado a la terminal/aeropuerto"]
       }
     ]
   }
@@ -592,7 +632,7 @@ const CHECKLIST_ITEMS = [
   "Power bank / cargador",
   "Chequear estado de la ruta en El Infiernillo antes de salir",
   "Reserva show nocturno Casa Histórica (opcional)",
-  "Bolso chico para las 2 noches en Tafí"
+  "Bolso chico para las 3 noches en Tafí"
 ];
 
 /* ===================== RENDER ===================== */
@@ -608,7 +648,7 @@ function buildItinerarioSection(){
   DAYS.forEach((d,i)=>{
     const b = document.createElement('button');
     b.className = 'tab' + (i===0?' active':'');
-    b.textContent = `Día ${d.num}`;
+    b.textContent = d.weekday ? `${d.weekday}` : `Día ${d.num}`;
     b.onclick = ()=>{ showDay(d.id); [...subTabs.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); };
     subTabs.appendChild(b);
   });
@@ -622,7 +662,7 @@ function buildItinerarioSection(){
 
     dayDiv.innerHTML = `
       <div class="day-banner">
-        <div class="num">Día ${day.num}</div>
+        <div class="num">${day.weekday ? day.weekday + ' · Día ' + day.num : 'Día ' + day.num}</div>
         <h2>${day.title}</h2>
         <div class="base">📍 ${day.base}</div>
       </div>
@@ -655,14 +695,14 @@ function buildItinerarioSection(){
             <span class="arrow">▶</span><span class="toggle-label"> Ver más: historia, curiosidad y tips</span>
           </button>
           <div class="extra" id="${stopId}">
-            <div class="block">
+            ${s.history ? `<div class="block">
               <div class="label hist">📜 Historia</div>
-              <p>${s.history || ''}</p>
-            </div>
-            <div class="block">
+              <p>${s.history}</p>
+            </div>` : ''}
+            ${s.curiosity ? `<div class="block">
               <div class="label">💡 Curiosidad</div>
               <p>${s.curiosity}</p>
-            </div>
+            </div>` : ''}
             <div class="block">
               <div class="label tip">🎒 Tip</div>
               <p>${s.tip}</p>
@@ -712,9 +752,10 @@ function buildCuriosidadesSection(){
 
   DAYS.forEach(day=>{
     const banner = document.createElement('div');
-    banner.innerHTML = `<h3 style="color:var(--verde);font-size:1.05rem;margin:18px 0 8px;">Día ${day.num} · ${day.title}</h3>`;
+    banner.innerHTML = `<h3 style="color:var(--verde);font-size:1.05rem;margin:18px 0 8px;">${day.weekday ? day.weekday+' · ' : ''}Día ${day.num} · ${day.title}</h3>`;
     wrap.appendChild(banner);
     day.stops.forEach(s=>{
+      if(!s.curiosity) return;
       const c = document.createElement('div');
       c.className = 'curio-banner';
       c.innerHTML = `<div class="label">${s.name}</div>${s.curiosity}`;
@@ -754,7 +795,7 @@ function buildMapaSection(){
   const filter = document.createElement('div');
   filter.className = 'map-day-filter';
   filter.innerHTML = `<button class="map-chip active" data-day="all">Todos</button>` +
-    DAYS.map(d=>`<button class="map-chip" data-day="${d.id}">Día ${d.num}</button>`).join('');
+    DAYS.map(d=>`<button class="map-chip" data-day="${d.id}">${d.weekday || ('Día '+d.num)}</button>`).join('');
   wrap.appendChild(filter);
 
   const mapDiv = document.createElement('div');
