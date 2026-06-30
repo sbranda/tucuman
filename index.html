@@ -270,8 +270,10 @@
   .section-sub{font-size:13px;color:var(--gris);margin:0 0 16px;font-style:italic;}
 
   /* ---------- MAPA ---------- */
-  #sec-mapa{padding:0;max-width:none;overflow:hidden;}
+  #sec-mapa{padding:0;max-width:none;overflow:hidden;display:none;flex-direction:column;height:calc(100vh - 145px);height:calc(100dvh - 145px);}
+  #sec-mapa.active{display:flex;}
   .map-day-filter{
+    flex:0 0 auto;
     display:flex;gap:6px;overflow-x:auto;padding:10px 14px;background:var(--crema);
     -webkit-overflow-scrolling:touch;scrollbar-width:none;
   }
@@ -284,9 +286,8 @@
   .map-chip.active{background:var(--terracota);color:#fff;border-color:var(--terracota);}
   #leafletMap{
     width:100%;
-    height:calc(100vh - 230px);
-    height:calc(100dvh - 230px);
-    min-height:380px;background:var(--crema-osc);
+    flex:1 1 auto;
+    min-height:300px;background:var(--crema-osc);
     touch-action:pan-x pan-y;
     overscroll-behavior:contain;
   }
@@ -317,8 +318,6 @@
     <p>Capital, montaña y ruinas milenarias. Historia, valles calchaquíes y sabores del norte argentino — con curiosidades, tips y fotos de cada parada.</p>
   </div>
 </div>
-
-<div class="tabbar" id="tabbar"></div>
 
 <div id="sections"></div>
 
