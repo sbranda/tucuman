@@ -273,6 +273,13 @@
   }
   .schedule-block .schedule-row{font-size:12px;color:var(--texto);line-height:1.6;}
   .schedule-block .schedule-note{font-size:10.5px;color:var(--gris);font-style:italic;margin-top:6px;}
+  .extra .label.road{color:var(--terracota);}
+  .road-status-block{
+    background:#FBF1E8;border-radius:8px;padding:8px 10px;
+    border:1px solid #F0DCC4;margin-bottom:10px !important;
+  }
+  .road-status-block p{font-size:12px;color:var(--texto);line-height:1.5;margin:0 0 6px;}
+  .road-status-block .road-contacts{font-size:11px;color:var(--gris);line-height:1.6;}
 
   .stop-checklist{display:flex;flex-direction:column;gap:6px;}
   .check-item-mini{
@@ -476,6 +483,8 @@ const BLOCKS = [
         duration:"~2 h de viaje", price:"Tarifa de combi (consultar en terminal)", access:"Sin señal de celular en buena parte del trayecto — descargá música, mapas o contenido offline antes de salir. Como no manejás, podés aprovechar para sacar fotos sin distracción.",
         schedule:["06:00 (todos los días)","06:30 (lun-sáb)","07:00 (todos los días)","10:00 (todos los días)","12:00 (todos los días)","14:00 (todos los días)","16:00 (lun-sáb)","18:00 (lun-sáb)","19:00 (todos los días)","20:00 (lun-sáb)"],
         scheduleNote:"Horarios de referencia de la empresa Aconquija (San Miguel → Tafí del Valle), pueden cambiar sin aviso — confirmá el día antes al 0800-444-9275 o en la boletería N°65/66 de la terminal.",
+        roadStatus:"El Infiernillo es el punto más alto de la ruta 307 (3.042 msnm), a mitad de camino entre Tafí y Amaicha. Hay obras de repavimentación en distintos tramos desde hace tiempo, así que el estado real del camino puede variar bastante según la época.",
+        roadContacts:["Vialidad Nacional: 0800-222-6272 / 0800-333-0073","Web: argentina.gob.ar/transporte/vialidad-nacional/estado-de-rutas","Vialidad Provincial Tucumán (cortes/derrumbes locales): consultar en la boletería de la terminal o redes oficiales de Ente Tucumán Turismo"],
         checklist:["Descargar música/mapas offline antes de salir", "Algo para el mareo en curvas", "Comprar pasaje de combi apenas llegues a la capital", "Chequear estado de la ruta en El Infiernillo (invierno)", "Dejar margen entre la llegada y la salida de la combi"]
       },
       {
@@ -626,6 +635,8 @@ const BLOCKS = [
         duration:"~2 h de viaje", price:"Tarifa de combi (consultar en terminal)", access:"Folletería impresa disponible en la oficina de turismo, buena opción para consultar sin depender de conversación oral.",
         schedule:["04:00 (lun-sáb)","05:00 (lun-sáb)","06:00 (lun-sáb)","10:00 (todos los días)","12:00 (domingos)","13:40 (lun-sáb)","14:00 (domingos)","16:30 (todos los días)","17:50 (todos los días)","19:30 (domingos)","21:00 (todos los días)","21:50 (todos los días)"],
         scheduleNote:"Horarios de referencia de la empresa Aconquija (Tafí del Valle → San Miguel), pueden cambiar sin aviso — confirmá el día antes en la boletería de Tafí (Av. Gobernador Crítto s/n, terminal) o al 0800-444-9275.",
+        roadStatus:"Antes de bajar, vale la pena confirmar que no haya cortes en El Infiernillo (3.042 msnm) por obras de repavimentación, hielo o derrumbes — es un tramo de montaña que cambia según la época.",
+        roadContacts:["Vialidad Nacional: 0800-222-6272 / 0800-333-0073","Web: argentina.gob.ar/transporte/vialidad-nacional/estado-de-rutas"],
         checklist:["Confirmar horario de la combi de bajada", "Pedir queso envuelto al vacío si compraste", "Revisar que no quede nada en el alojamiento"]
       },
       {
@@ -940,6 +951,11 @@ function buildItinerarioSection(){
               <div class="label schedule">🕐 Horarios de combi</div>
               <div class="schedule-row">${s.schedule.join(' · ')}</div>
               <div class="schedule-note">${s.scheduleNote || ''}</div>
+            </div>` : ''}
+            ${s.roadStatus ? `<div class="block road-status-block">
+              <div class="label road">🚧 Estado de la ruta — El Infiernillo</div>
+              <p>${s.roadStatus}</p>
+              <div class="road-contacts">${(s.roadContacts || []).join('<br>')}</div>
             </div>` : ''}
             ${s.access ? `<div class="block">
               <div class="label acc">👂 Accesibilidad</div>
