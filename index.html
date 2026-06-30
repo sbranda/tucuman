@@ -180,6 +180,11 @@
   .extra .label.hist{color:var(--indigo);}
   .extra .label.acc{color:#1F6B8C;}
   .extra .label.check{color:var(--terracota);}
+  .extra .label.winter{color:#1F6B8C;}
+  .winter-block{
+    background:#EEF5F8;border-radius:8px;padding:8px 10px;
+    border:1px solid #D5E6EC;margin-bottom:10px !important;
+  }
 
   .stop-checklist{display:flex;flex-direction:column;gap:6px;}
   .check-item-mini{
@@ -423,8 +428,9 @@ const DAYS = [
         history:"La ruta 307 sigue en gran parte un antiguo camino utilizado por los pueblos originarios y luego por las tropas del general Belgrano para mover ganado y cañones entre el valle y la capital durante las guerras de independencia. El asfaltado moderno es relativamente reciente (terminado recién a fines del siglo XX), antes el cruce a Tafí podía llevar un día entero.",
         curiosity:"En pocos kilómetros el paisaje pasa de selva tropical húmeda a estepa de montaña — es uno de los gradientes ecológicos más marcados y rápidos que se pueden recorrer en auto en Argentina.",
         tip:"El camino tiene curvas cerradas y neblina frecuente en la parte alta (El Infiernillo). Si te marea andar en curvas, tomá algo antes de salir.",
+        winterTip:"En invierno (julio-agosto) puede haber hielo o nieve en el tramo de El Infiernillo, el punto más alto del camino. Conviene chequear el estado de la ruta antes de salir (Vialidad Provincial de Tucumán suele informar cortes) y llevar abrigo extra en el auto por si hay demora.",
         duration:"1h30 de viaje", price:"—", access:"Sin señal de celular en buena parte del trayecto — descargá música, mapas o contenido offline antes de salir.",
-        checklist:["Descargar música/mapas offline antes de salir", "Algo para el mareo en curvas", "Tanque lleno antes de salir de la capital"]
+        checklist:["Descargar música/mapas offline antes de salir", "Algo para el mareo en curvas", "Tanque lleno antes de salir de la capital", "Chequear estado de la ruta en El Infiernillo (invierno)"]
       },
       {
         time:"12:00", name:"Check-in en Tafí del Valle",
@@ -434,8 +440,9 @@ const DAYS = [
         history:"Antes de la llegada española, el valle fue hogar de la cultura arqueológica Tafí, conocida por sus menhires y túmulos funerarios (visibles hoy en el Parque de los Menhires, cerca de El Mollar). En el siglo XVII los jesuitas instalaron la Estancia de Tafí dedicada a la ganadería y producción de quesos; tras su expulsión en 1767 la propiedad pasó a manos privadas y luego se fue poblando el pueblo actual.",
         curiosity:"Los quesos de Tafí del Valle tienen una tradición que se remonta a los jesuitas, expulsados en 1767. La técnica quedó en manos de las familias locales y hoy es Indicación Geográfica protegida.",
         tip:"Las noches son frías incluso en verano (puede bajar a 5-10°C) — llevá una campera de abrigo aunque en la capital haga calor.",
+        winterTip:"Julio es temporada alta de turismo interno (vacaciones de invierno argentinas), así que conviene reservar el alojamiento con bastante anticipación — se llena más rápido que en temporada baja. De noche puede bajar a 0°C o menos: llevá gorro, guantes y varias capas de abrigo.",
         duration:"—", price:"Según alojamiento", access:"Pueblo chico y caminable, cartelería de calles clara en el centro.",
-        checklist:["Confirmar horario de check-in con el alojamiento", "Campera de abrigo para la noche", "Reserva impresa o en el celular"]
+        checklist:["Confirmar horario de check-in con el alojamiento", "Campera de abrigo para la noche", "Reserva impresa o en el celular", "Reservar con anticipación (temporada alta de invierno)"]
       },
       {
         time:"13:30", name:"Almuerzo: Rancho el Tuichy",
@@ -467,8 +474,9 @@ const DAYS = [
         history:"La cruz en la cima fue instalada por pobladores locales como punto de fe y orientación, y con el tiempo el cerro se convirtió en el mirador no oficial más popular del pueblo, sin intervención turística formal: no hay entrada paga ni infraestructura, es un sendero que se mantiene por el uso constante de vecinos y visitantes.",
         curiosity:"El sendero no está oficialmente señalizado más que por cruces de madera dejadas por los propios caminantes a lo largo de los años — es casi una tradición local marcar el camino así.",
         tip:"Subí antes del atardecer: la luz baja sobre el valle es el mejor momento para fotos, pero bajá con tiempo porque no hay iluminación en el sendero.",
+        winterTip:"En invierno el atardecer es bastante más temprano (alrededor de las 18:30-19 h) y la bajada se pone fría rápido apenas se va el sol — calculá subir más temprano que en verano para no bajar a oscuras con frío.",
         duration:"1h30 (subida + bajada + tiempo en el mirador)", price:"Gratis", access:"Sendero de tierra con pendiente, sin señalización oficial — llevar calzado con buen agarre.",
-        checklist:["Calzado con buen agarre", "Subir antes del atardecer", "Linterna del celular para la bajada", "Agua"]
+        checklist:["Calzado con buen agarre", "Subir antes del atardecer (más temprano en invierno)", "Linterna del celular para la bajada", "Agua", "Abrigo extra para la bajada"]
       }
     ]
   },
@@ -495,8 +503,9 @@ const DAYS = [
         history:"Fundada hacia el siglo IX, la ciudadela de Quilmes fue el centro de una confederación de comunidades diaguitas que resistió primero el avance del Imperio Inca y luego, durante más de un siglo, las campañas militares españolas. La resistencia diaguita-calchaquí fue una de las más prolongadas del continente. Tras la rendición final en 1665, la corona española ordenó el desarraigo forzado: los sobrevivientes —unos 2.000— fueron obligados a caminar más de 1.200 km hasta Buenos Aires como castigo y para evitar nuevos levantamientos. El sitio quedó abandonado y fue redescubierto y parcialmente reconstruido recién en el siglo XX.",
         curiosity:"Los Quilmes resistieron tanto que España terminó deportando a los sobrevivientes a pie hasta Buenos Aires en 1666 — un viaje de más de 1.200 km del que murió la mayoría. Los descendientes fundaron lo que hoy es la ciudad de Quilmes, provincia de Buenos Aires (sí, la de la cerveza).",
         tip:"Llevá protector solar, gorro y agua: no hay sombra en el recorrido y el sol de altura quema mucho más rápido de lo que parece. Calculá 2-3 horas entre museo y ruinas.",
+        winterTip:"En invierno hace bastante frío de mañana temprano (puede haber heladas), pero el sol de altura sigue quemando fuerte al mediodía aunque el aire esté frío — llevá abrigo para el horario de apertura y aun así protector solar para las horas centrales del día.",
         duration:"2-3 h", price:"Entrada paga (consultar valor actualizado)", access:"Museo con paneles escritos en español, inglés y portugués, más una proyección corta con subtítulos — buena opción si no se quiere depender del audio de las visitas guiadas habladas.",
-        checklist:["Protector solar y gorro", "Botella de agua (no hay sombra)", "Calzado cómodo para caminata", "Efectivo o tarjeta para la entrada"]
+        checklist:["Protector solar y gorro", "Botella de agua (no hay sombra)", "Calzado cómodo para caminata", "Efectivo o tarjeta para la entrada", "Abrigo para la mañana (invierno)"]
       },
       {
         time:"20:30", name:"Cena: MUPPA",
@@ -553,27 +562,33 @@ const DAYS = [
 ];
 
 const TIPS = [
+  {icon:"❄️", title:"Vacaciones de invierno", body:"Julio es temporada alta de turismo interno en Argentina. Reservá alojamiento en Tafí del Valle con bastante anticipación — se llena más rápido que en temporada baja de verano."},
+  {icon:"🧊", title:"Estado de rutas", body:"En invierno la Cuesta del Clavillo y El Infiernillo pueden tener hielo o nieve en el tramo más alto. Chequeá el estado de la ruta antes de salir (Vialidad Provincial de Tucumán suele informar cortes)."},
+  {icon:"🌡️", title:"Frío en Tafí", body:"De noche en invierno Tafí del Valle puede bajar a 0°C o menos. Llevá gorro, guantes y varias capas de abrigo, no solo una campera liviana."},
   {icon:"🚗", title:"Movilidad", body:"Conviene auto alquilado: el camino a Tafí (Cuesta del Clavillo) y de ahí a Quilmes tienen tramos de ripio. También hay combis turísticas que salen desde la terminal de la capital."},
-  {icon:"🕒", title:"Horarios", body:"Casa Histórica cierra los lunes. Si el día 1 cae lunes, conviene reordenar con el día 2 del itinerario."},
-  {icon:"🧥", title:"Clima en altura", body:"Tafí del Valle está a ~2.000 msnm: lleva abrigo incluso en verano, las noches bajan bastante la temperatura respecto a la capital."},
-  {icon:"☀️", title:"Quilmes", body:"Protector solar, gorro, agua y calzado cómodo — la caminata por las ruinas tiene tramos de subida bajo sol directo y casi sin sombra."},
+  {icon:"🕒", title:"Horarios", body:"Casa Histórica cierra los lunes. Si el día 1 cae lunes, conviene reordenar con el día 2 del itinerario. En invierno conviene confirmar horarios de museos y excursiones cerca de la fecha del viaje, ya que pueden achicarse respecto a temporada alta de verano."},
+  {icon:"🧥", title:"Clima en altura", body:"Tafí del Valle está a ~2.000 msnm: en invierno el abrigo no es opcional, las noches bajan bastante la temperatura respecto a la capital."},
+  {icon:"☀️", title:"Quilmes", body:"Protector solar, gorro, agua y calzado cómodo — la caminata por las ruinas tiene tramos de subida bajo sol directo y casi sin sombra, incluso en invierno el sol de altura quema fuerte al mediodía."},
   {icon:"🎒", title:"Equipaje", body:"Al tener dos bases (capital y Tafí), un bolso chico para las 2 noches en la montaña simplifica mucho el traslado."},
   {icon:"💳", title:"Efectivo", body:"En Tafí y zonas rurales no todos los comercios tienen posnet — llevá efectivo para artesanías, quesos y kioscos."},
   {icon:"📶", title:"Señal", body:"En tramos de la Cuesta del Clavillo y camino a Quilmes la señal de celular es intermitente — descargá mapas offline antes de salir."},
-  {icon:"🍽️", title:"Horarios de comida", body:"Los restaurantes del interior suelen abrir recién a las 20-21 h para la cena, más tarde que en otras provincias."}
+  {icon:"🍽️", title:"Horarios de comida", body:"Los restaurantes del interior suelen abrir recién a las 20-21 h para la cena, más tarde que en otras provincias."},
+  {icon:"🌅", title:"Días más cortos", body:"En invierno el sol se pone bastante más temprano (alrededor de las 18:30-19 h). Conviene adelantar las actividades al aire libre como el Cerro de la Cruz para no terminar caminando con frío y oscuridad."}
 ];
 
 const CHECKLIST_ITEMS = [
   "Documento / DNI",
   "Reserva alojamiento capital",
-  "Reserva alojamiento Tafí",
+  "Reserva alojamiento Tafí (con anticipación — temporada alta de invierno)",
   "Auto alquilado o pasajes combi",
-  "Campera de abrigo (noches en Tafí)",
-  "Protector solar y gorro",
+  "Campera de abrigo de invierno + gorro + guantes",
+  "Capas de abrigo extra para las noches en Tafí (puede bajar a 0°C)",
+  "Protector solar y gorro (igual hace falta de día)",
   "Calzado cómodo para caminata",
   "Efectivo para artesanías y zonas rurales",
   "Mapas offline descargados",
   "Power bank / cargador",
+  "Chequear estado de la ruta en El Infiernillo antes de salir",
   "Reserva show nocturno Casa Histórica (opcional)",
   "Bolso chico para las 2 noches en Tafí"
 ];
@@ -650,6 +665,10 @@ function buildItinerarioSection(){
               <div class="label tip">🎒 Tip</div>
               <p>${s.tip}</p>
             </div>
+            ${s.winterTip ? `<div class="block winter-block">
+              <div class="label winter">❄️ Tip de invierno</div>
+              <p>${s.winterTip}</p>
+            </div>` : ''}
             ${s.access ? `<div class="block">
               <div class="label acc">👂 Accesibilidad</div>
               <p>${s.access}</p>
