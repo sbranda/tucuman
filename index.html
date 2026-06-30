@@ -328,97 +328,8 @@ const IMG = (file) => `https://commons.wikimedia.org/wiki/Special:FilePath/${enc
 
 const DAYS = [
   {
-    id:"dia1", num:1, weekday:"Martes", title:"Capital histórica", base:"San Miguel de Tucumán",
-    narrative:"Llegada el martes a la mañana. Después de dejar las valijas, recorrido por el centro histórico, cuna de la independencia argentina.",
-    stops:[
-      {
-        time:"10:00", name:"Casa Histórica de la Independencia",
-        lat:-26.8331348, lng:-65.2038418,
-        img:IMG("Casa Histórica de Tucumán 04.JPG"),
-        desc:"Donde 29 diputados firmaron la independencia el 9 de julio de 1816. El edificio actual es en gran parte una reconstrucción de los años 40, ya que el original sufrió demoliciones y refacciones a lo largo del siglo XIX.",
-        history:"La casa perteneció originalmente a la familia Laguna y fue alquilada en 1816 para sesionar el Congreso porque Buenos Aires, sede natural, estaba ocupada por tropas realistas y no era segura. Tras la independencia, el edificio cambió de manos varias veces y partes fueron demolidas en 1869 para abrir una calle. Recién en 1941 el estado nacional encaró una reconstrucción histórica basándose en planos, fotografías y relatos de la época para devolverle el aspecto colonial que tiene hoy. Es Monumento Histórico Nacional desde 1941 y sigue siendo sede de actos oficiales cada 9 de julio.",
-        curiosity:"La sala donde se firmó el Acta no es la original: fue reconstruida en 1943 a partir de pinturas y descripciones de la época, porque la casa real había sido modificada drásticamente. La cúpula azul que se ve hoy tampoco existía en 1816, se agregó después.",
-        tip:"Cerrado los lunes. De noche hay un espectáculo de luz y sonido (\"Tucumán, Casa de la Libertad\") que cuenta la historia sobre la fachada — conviene reservar con anticipación en la web oficial.",
-        duration:"1-1h30", price:"Gratis", access:"Paneles con texto escrito en todas las salas — el contenido se sigue bien sin depender del audio de la visita guiada.",
-        checklist:["DNI o documento (a veces lo piden en la entrada)", "Reservar el show nocturno si querés verlo", "Cargar batería de cámara/celular"]
-      },
-      {
-        time:"12:00", name:"Parque 9 de Julio",
-        lat:-26.8292678, lng:-65.1916518,
-        img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
-        desc:"Con 40 hectáreas, es uno de los parques urbanos más grandes de Argentina, diseñado por Carlos Thays (el mismo paisajista del Jardín Botánico de Buenos Aires y Parque Sarmiento en Córdoba).",
-        history:"El predio perteneció a la antigua Quinta Agronómica de la provincia, un terreno experimental de fines del siglo XIX usado para aclimatar especies vegetales traídas de otras partes del mundo. En 1916, para el centenario de la independencia, el gobierno tucumano contrató a Thays para transformarlo en parque público al estilo de los grandes paseos europeos, con lagos artificiales, glorietas y un sistema de avenidas curvas que todavía se conserva casi intacto.",
-        curiosity:"El parque ocupa los terrenos de la ex Quinta Agronómica y todavía conserva ejemplares de árboles centenarios plantados como parte de un proyecto experimental de aclimatación de especies a fines del siglo XIX.",
-        tip:"Los fines de semana hay ferias de artesanos cerca del Cabildo. Llevá efectivo chico, no todos los puestos tienen posnet.",
-        duration:"1-2 h", price:"Gratis", access:"Espacio abierto, ideal para caminar sin depender de explicaciones orales; buena señalización con carteles en los senderos principales.",
-        checklist:["Efectivo chico para la feria de artesanos", "Botella de agua", "Calzado cómodo para caminar"]
-      },
-      {
-        time:"14:30", name:"Jardín Botánico Miguel Lillo",
-        lat:-26.8309311, lng:-65.2220534,
-        img:IMG("Cerro San Javier.JPG"),
-        desc:"Un fragmento de selva de Yungas conservado en pleno centro urbano, anexo al museo de ciencias naturales más importante del norte argentino.",
-        history:"El predio y la colección nacieron de la donación del médico y naturalista Miguel Lillo, quien a comienzos del siglo XX cedió su fortuna personal y miles de especímenes botánicos y zoológicos al Estado para fundar un instituto científico. Hoy depende de la Universidad Nacional de Tucumán y es uno de los pocos lugares del país donde se puede caminar dentro de un fragmento real de selva de Yungas sin salir de una capital provincial.",
-        curiosity:"La Fundación Miguel Lillo lleva el nombre del médico y naturalista tucumano que donó toda su fortuna y su colección de especímenes al estado para crear un instituto de investigación, hoy referencia en botánica y zoología sudamericana.",
-        tip:"Entrada con donación voluntaria. Cierra temprano (18 h) y los domingos está cerrado — conviene ir a media tarde, no al final del día.",
-        duration:"1-1h30", price:"Donación voluntaria", access:"Recorrido autoguiado por senderos con carteles identificando especies; no depende de audioguía.",
-        checklist:["Ir antes de las 16 h (cierra a las 18 h)", "Repelente de insectos", "Confirmar que no sea domingo (cerrado)"]
-      },
-      {
-        time:"20:30", name:"Cena: Los Naranjos Resto Bar",
-        lat:-26.8307884, lng:-65.2029329,
-        img:IMG("Plaza Independencia en San Miguel de Tucumán, capital de la Provincia de Tucumán.jpg"),
-        desc:"Balcón con vista directa a la Plaza Independencia y la estatua de la Libertad de Lola Mora, una de las pocas obras públicas de esta escultora tucumana en su propia provincia.",
-        history:"La Plaza Independencia ocupa el lugar de la plaza mayor fundacional de la ciudad desde el siglo XVI, reubicada acá en 1685 tras el segundo y definitivo traslado de San Miguel de Tucumán. La estatua de la Libertad que corona la fuente central es obra de Lola Mora, encargada en 1903 pero que tardó años en instalarse por disputas sobre su desnudez parcial, consideradas escandalosas para la época.",
-        curiosity:"Lola Mora, autora de la fuente de las Nereidas en Buenos Aires, nació a pocos kilómetros de acá, en Trancas. Gran parte de su obra monumental terminó fuera de Tucumán por conflictos con la Iglesia y el poder político de su época.",
-        tip:"Pedí mesa en el balcón si el clima acompaña — de noche, con la Catedral iluminada, es de las mejores postales de la ciudad.",
-        duration:"1h30-2h", price:"$$ (medio)", access:"Carta en papel disponible, sin necesidad de pedir verbalmente — buena opción para señalar platos directamente.",
-        checklist:["Reservar mesa en el balcón", "Llevar abrigo liviano por si refresca de noche"]
-      }
-    ]
-  },
-  {
-    id:"dia2", num:2, weekday:"Miércoles", title:"Yerba Buena y último día en capital", base:"San Miguel de Tucumán",
-    narrative:"Último día en la capital. Por la noche conviene armar valijas para salir temprano rumbo a Tafí del Valle.",
-    stops:[
-      {
-        time:"10:00", name:"Plaza Vieja, Yerba Buena",
-        lat:-26.8230446, lng:-65.3057499,
-        img:IMG("San Miguel de Tucumán - panoramio.jpg"),
-        desc:"Yerba Buena queda apenas 10 minutos del centro, pero el clima cambia notablemente: está al pie del Cerro San Javier y se siente bastante más fresco y arbolado que la capital.",
-        history:"Yerba Buena era hasta mediados del siglo XX una zona de quintas y fincas de descanso para familias tucumanas adineradas, gracias a su clima más templado que el centro. Desde los años 80 se urbanizó fuerte y hoy es el municipio con mejor índice de calidad de vida del Gran Tucumán, sede de buena parte de la vida universitaria y gastronómica de la provincia.",
-        curiosity:"El nombre del Cerro San Javier (y de Yerba Buena) viene de la antigua presencia de yerba mate silvestre y plantas aromáticas en sus laderas, antes de que la zona se urbanizara.",
-        tip:"Si hay tiempo, el Cristo Bendicente en lo alto del cerro se ve iluminado de noche desde toda la ciudad — es la referencia geográfica de los tucumanos.",
-        duration:"1 h", price:"Gratis", access:"Zona peatonal tranquila, buena cartelería de calles y comercios.",
-        checklist:["Calzado cómodo", "Cámara para el Cristo Bendicente si subís al cerro"]
-      },
-      {
-        time:"13:30", name:"Almuerzo: Il Postino",
-        lat:-26.8268899, lng:-65.2038176,
-        img:IMG("Tucuman govthouse.jpg"),
-        desc:"Pizzería clásica tucumana, conocida por sus calzones y la variedad de la carta. Buena relación precio-calidad y siempre con movimiento de gente local.",
-        history:"Forma parte de una generación de pizzerías de barrio que se multiplicaron en Tucumán desde mediados del siglo XX, con fuerte influencia de la inmigración italiana que llegó a la provincia atraída por la industria azucarera. El estilo \"a la piedra\" con mucho relleno se consolidó como variante regional, distinta de la pizza porteña más fina.",
-        curiosity:"La pizza al molde \"a la piedra\" con mucho relleno es una marca registrada de la cocina porteña-tucumana adaptada; en el NOA conviven con las empanadas como comida social por excelencia.",
-        tip:"Suele haber espera al mediodía entre semana — si podés, andá antes de las 13 h.",
-        duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, ambiente con buen nivel de luz para leer menú y comunicarse por escrito si hace falta.",
-        checklist:["Ir antes de las 13 h para evitar espera", "Efectivo o tarjeta (aceptan ambos)"]
-      },
-      {
-        time:"16:00", name:"Museo de Ciencias Naturales Lillo",
-        lat:-26.8314509, lng:-65.2211412,
-        img:IMG("Cerrosanjaviernieve.jpg"),
-        desc:"Colección de fósiles, minerales y fauna regional reunida durante más de un siglo de expediciones científicas por el norte argentino.",
-        history:"El museo nació junto con la Fundación Lillo en 1936 y desde entonces sus investigadores han recorrido el NOA documentando especies y formaciones geológicas. Buena parte del material expuesto proviene de expediciones propias del instituto, no de compras o donaciones externas, lo que lo hace una referencia académica además de atractivo turístico.",
-        curiosity:"Entre las piezas más comentadas está un molde de huevo de dinosaurio hallado en Valle de la Luna y ejemplares de fauna de las Yungas que no se ven en ningún otro museo del país.",
-        tip:"Las visitas guiadas (cuando hay personal disponible) mejoran mucho la experiencia — preguntá en la entrada si hay alguna programada para ese horario, aunque las vitrinas también tienen fichas escritas detalladas.",
-        duration:"1-1h30", price:"Entrada económica (consultar valor actualizado)", access:"Todas las piezas tienen cartel descriptivo individual, recorrido autoguiado posible sin depender de explicación oral.",
-        checklist:["Preguntar en entrada por visita guiada del día", "Tiempo: dejar 1-1h30 libres"]
-      }
-    ]
-  },
-  {
-    id:"dia3", num:3, weekday:"Jueves", title:"Llegada a Tafí del Valle", base:"Tafí del Valle — 3 noches",
-    narrative:"Traslado a Tafí del Valle (~2 h en combi desde la Terminal de Ómnibus de la capital) y check-in. Desde acá se duermen 2 noches en la montaña.",
+    id:"dia1", num:1, weekday:"Martes", title:"Llegada y viaje a Tafí del Valle", base:"Tafí del Valle — 3 noches",
+    narrative:"Llegada el martes a la mañana a San Miguel de Tucumán. Sin parar en la capital, directo a la Terminal de Ómnibus para tomar la combi a Tafí del Valle y dormir ahí desde el primer día. La capital queda para el final del viaje.",
     stops:[
       {
         time:"09:30", name:"Combi a Tafí — Terminal de Ómnibus",
@@ -427,10 +338,10 @@ const DAYS = [
         desc:"Desde la Terminal de Ómnibus de San Miguel salen combis y micros regulares a Tafí del Valle varias veces al día (empresas como Aconquija o Bus Cevil Redondo). El viaje dura cerca de 2 horas y atraviesa tres pisos ecológicos distintos por la Cuesta del Clavillo, de la selva de Yungas al pastizal de altura.",
         history:"La ruta 307 sigue en gran parte un antiguo camino utilizado por los pueblos originarios y luego por las tropas del general Belgrano para mover ganado y cañones entre el valle y la capital durante las guerras de independencia. El asfaltado moderno es relativamente reciente (terminado recién a fines del siglo XX), antes el cruce a Tafí podía llevar un día entero.",
         curiosity:"En pocos kilómetros el paisaje pasa de selva tropical húmeda a estepa de montaña — es uno de los gradientes ecológicos más marcados y rápidos que se pueden recorrer en Argentina, y se ve genial desde la ventanilla sin tener que manejar las curvas.",
-        tip:"Comprá el pasaje con un día de anticipación en la boletería de la terminal si podés — en temporada alta de invierno los horarios más cómodos se llenan rápido. Pedí ventanilla del lado de la montaña para la mejor vista.",
-        winterTip:"En invierno (julio-agosto) puede haber hielo o nieve en el tramo de El Infiernillo, el punto más alto del camino — esto a veces demora o reprograma los horarios de combi. Conviene confirmar el horario el día anterior y no programar nada urgente justo al llegar a Tafí.",
+        tip:"Si tu vuelo/micro llega bien temprano a la capital, comprá el pasaje de combi apenas llegues (o el día anterior online si la empresa lo permite) — en temporada alta de invierno los horarios más cómodos se llenan rápido. Pedí ventanilla del lado de la montaña para la mejor vista.",
+        winterTip:"En invierno (julio-agosto) puede haber hielo o nieve en el tramo de El Infiernillo, el punto más alto del camino — esto a veces demora o reprograma los horarios de combi. Dejá margen entre la llegada a la capital y la salida de la combi por las dudas.",
         duration:"~2 h de viaje", price:"Tarifa de combi (consultar en terminal)", access:"Sin señal de celular en buena parte del trayecto — descargá música, mapas o contenido offline antes de salir. Como no manejás, podés aprovechar para sacar fotos sin distracción.",
-        checklist:["Descargar música/mapas offline antes de salir", "Algo para el mareo en curvas", "Comprar pasaje de combi con anticipación", "Chequear estado de la ruta en El Infiernillo (invierno)", "Llegar a la terminal con margen antes del horario de salida"]
+        checklist:["Descargar música/mapas offline antes de salir", "Algo para el mareo en curvas", "Comprar pasaje de combi apenas llegues a la capital", "Chequear estado de la ruta en El Infiernillo (invierno)", "Dejar margen entre la llegada y la salida de la combi"]
       },
       {
         time:"12:00", name:"Check-in en Tafí del Valle",
@@ -451,12 +362,18 @@ const DAYS = [
         desc:"Empanadas, locro y humitas caseras con vista al valle. El locro es un guiso de origen prehispánico, base de la dieta andina mucho antes de la llegada española.",
         history:"El locro tiene raíces en la dieta de los pueblos andinos previos a la conquista, basada en maíz, zapallo y porotos cultivados en terrazas de altura. Con la llegada del ganado europeo se sumó carne de cerdo y vaca a la receta original, dando la versión mestiza que se cocina hoy en toda la región andina sudamericana.",
         curiosity:"La receta del locro varía de provincia en provincia, pero la base de maíz blanco, zapallo y porotos es prácticamente la misma que comían los pueblos diaguitas hace siglos.",
-        tip:"Pedí las empanadas \"al horno de barro\" si las ofrecen — tienen un sabor ahumado distinto a las fritas.",
+        tip:"Pedí las empanadas \"al horno de barro\" si las ofrecen — tienen un sabor ahumado distinto a las fritas. Buen primer almuerzo después del viaje, sin apuro.",
         duration:"1-1h30", price:"$$ (medio)", access:"Carta en papel, ambiente luminoso de día — bueno para comunicación visual.",
         checklist:["Pedir empanadas al horno de barro", "Reservar si es fin de semana"]
-      },
+      }
+    ]
+  },
+  {
+    id:"dia2", num:2, weekday:"Miércoles", title:"Ruta del Artesano y Cerro de la Cruz", base:"Tafí del Valle",
+    narrative:"Segundo día en el valle, a ritmo tranquilo: oficios textiles de la mañana, quesería al mediodía y el mejor mirador del pueblo para el atardecer.",
+    stops:[
       {
-        time:"16:00", name:"Ruta del Artesano",
+        time:"10:00", name:"Ruta del Artesano",
         lat:-26.8583277, lng:-65.7211985,
         img:IMG("Indio en Tafi del Valle - Provincia de Tucuman.jpg"),
         desc:"Talleres de telar donde artesanas locales tejen con lana de oveja u llama usando técnicas heredadas de generaciones, sin telares industriales.",
@@ -467,7 +384,17 @@ const DAYS = [
         checklist:["Efectivo (no todas tienen posnet)", "Bolsa para llevar las compras"]
       },
       {
-        time:"17:30", name:"Cerro de la Cruz",
+        time:"13:00", name:"Almuerzo y quesería",
+        lat:-26.853002, lng:-65.7084218,
+        img:IMG("Valle De Tafí (234462759).jpeg"),
+        desc:"Almuerzo libre en el centro y visita a alguna quesería familiar — buen momento para probar el queso de Tafí en el lugar donde se hace.",
+        curiosity:"Muchas queserías familiares de Tafí ofrecen degustación gratuita o a muy bajo costo si comprás algo — es una buena forma de conocer el proceso de elaboración del queso tafinisto en persona.",
+        tip:"Si todavía no probaste el queso de cabra o las conservas regionales (dulce de cayote, miel de caña), este es el momento — el centro de Tafí tiene varias casas de productos regionales sobre la calle principal.",
+        duration:"1h30-2h", price:"Variable", access:"Pueblo chico y caminable, sin necesidad de coordinar transporte.",
+        checklist:["Visitar alguna quesería para degustación", "Probar productos regionales (cayote, miel de caña)"]
+      },
+      {
+        time:"17:00", name:"Cerro de la Cruz",
         lat:-26.86686, lng:-65.714342,
         img:IMG("VistadeTafidelValle-1.jpg"),
         desc:"Caminata corta (40 min) hasta un mirador con la mejor vista panorámica del pueblo, el dique La Angostura y la cordillera de fondo.",
@@ -481,7 +408,7 @@ const DAYS = [
     ]
   },
   {
-    id:"dia4", num:4, weekday:"Viernes", title:"Quilmes desde Tafí", base:"Tafí del Valle",
+    id:"dia3", num:3, weekday:"Jueves", title:"Quilmes desde Tafí", base:"Tafí del Valle",
     narrative:"Día de excursión a los Valles Calchaquíes. Sin auto propio, la forma más práctica de llegar a Quilmes es una excursión organizada de día completo que sale desde Tafí (suele incluir Amaicha del Valle en el mismo recorrido) — resuelve el traslado y permite conocer dos lugares en un viaje.",
     stops:[
       {
@@ -521,8 +448,8 @@ const DAYS = [
     ]
   },
   {
-    id:"dia5", num:5, weekday:"Sábado", title:"Día libre en Tafí: El Mollar y Menhires", base:"Tafí del Valle",
-    narrative:"Día sin excursión organizada, a ritmo propio: El Mollar y el Parque de los Menhires quedan a poca distancia de Tafí (se puede ir en remís corto o combi local), y queda tiempo libre para descansar, pasear por el pueblo o volver a algún lugar que haya gustado.",
+    id:"dia4", num:4, weekday:"Viernes", title:"Día libre en Tafí: El Mollar y Menhires", base:"Tafí del Valle",
+    narrative:"Último día completo en el valle, sin excursión organizada y a ritmo propio. El Mollar y el Parque de los Menhires quedan a poca distancia de Tafí, y queda tiempo libre para descansar, pasear por el pueblo o volver a algún lugar que haya gustado antes de bajar a la capital al día siguiente.",
     stops:[
       {
         time:"10:30", name:"Parque de los Menhires, El Mollar",
@@ -540,57 +467,108 @@ const DAYS = [
         time:"13:00", name:"Almuerzo y tarde libre en Tafí",
         lat:-26.853002, lng:-65.7084218,
         img:IMG("Valle De Tafí (234462759).jpeg"),
-        desc:"Tarde sin agenda fija: buen momento para volver a la quesería o al lugar que más haya gustado de los días anteriores, dar una vuelta final por el centro del pueblo, o simplemente descansar antes del regreso del día siguiente.",
+        desc:"Tarde sin agenda fija: buen momento para volver a la quesería o al lugar que más haya gustado de los días anteriores, dar una vuelta final por el centro del pueblo, o simplemente descansar antes de bajar a la capital al día siguiente.",
         history:"",
-        curiosity:"Muchas queserías familiares de Tafí ofrecen degustación gratuita o a muy bajo costo si comprás algo — es una buena forma de pasar una tarde tranquila conociendo el proceso de elaboración del queso tafinisto.",
-        tip:"Si todavía no probaste el queso de cabra o las conservas regionales (dulce de cayote, miel de caña), este es el momento — el centro de Tafí tiene varias casas de productos regionales sobre la calle principal.",
+        curiosity:"",
+        tip:"Aprovechá para hacer las últimas compras de regionales (quesos, tejidos, dulces) antes de bajar — en la capital cuesta encontrar los mismos productos.",
         duration:"Tarde libre", price:"Variable", access:"Pueblo chico y caminable, sin necesidad de coordinar transporte para esta tarde.",
-        checklist:["Visitar alguna quesería para degustación", "Comprar productos regionales de despedida", "Aprovechar para descansar antes del regreso"]
+        checklist:["Comprar productos regionales de despedida del valle", "Aprovechar para descansar antes de bajar", "Empezar a armar el bolso para la bajada"]
       }
     ]
   },
   {
-    id:"dia6", num:6, weekday:"Domingo", title:"Regreso a la capital", base:"Bajada a San Miguel de Tucumán — vuelo/micro de noche",
-    narrative:"Bajada de la montaña a la capital en combi. Como la salida es recién el domingo de noche, queda el día completo libre para pasear por la capital antes de partir.",
+    id:"dia5", num:5, weekday:"Sábado", title:"Bajada a la capital: historia y parques", base:"San Miguel de Tucumán",
+    narrative:"Bajada de la montaña a la capital en combi. Tarde y noche dedicadas al centro histórico — la Casa Histórica y el Parque 9 de Julio quedan para esta segunda mitad del viaje.",
     stops:[
       {
-        time:"10:00", name:"Información Turística de Tafí",
+        time:"09:00", name:"Combi de regreso a la capital",
         lat:-26.852686, lng:-65.7105579,
         img:IMG("Ruta 307 - panoramio.jpg"),
-        desc:"Última parada antes de bajar — buen momento para comprar quesos de Tafí o tejidos artesanales para llevar de regreso.",
-        history:"La oficina funciona como punto de coordinación entre las distintas cooperativas de productores de queso y artesanos del valle, y suele tener folletería con mapas y recomendaciones actualizadas de excursiones de la zona que no siempre figuran en internet.",
+        desc:"Vuelta a la capital en combi (~2 h desde Tafí, misma empresa que el viaje de ida). Antes de subir, buen momento para una última pasada por la oficina de turismo de Tafí si falta comprar algo.",
+        history:"La oficina de turismo de Tafí funciona como punto de coordinación entre las distintas cooperativas de productores de queso y artesanos del valle, y suele tener folletería con mapas y recomendaciones actualizadas.",
         curiosity:"El queso tafinisto se elabora todavía con leche cruda de tambos familiares pequeños; cada productor tiene su propia variación de maduración y sabor.",
-        tip:"Si comprás queso para viaje largo, pedí que te lo envuelvan al vacío — aguanta mucho mejor el calor de la bajada.",
-        duration:"20-30 min", price:"Gratis", access:"Folletería impresa disponible, buena opción para consultar sin depender de conversación oral.",
-        checklist:["Lista de quesos/tejidos para comprar", "Preguntar por envoltorio al vacío para el queso"]
+        tip:"Si comprás queso para el resto del viaje, pedí que te lo envuelvan al vacío — aguanta mucho mejor el calor de la bajada y los días que quedan en la capital.",
+        duration:"~2 h de viaje", price:"Tarifa de combi (consultar en terminal)", access:"Folletería impresa disponible en la oficina de turismo, buena opción para consultar sin depender de conversación oral.",
+        checklist:["Confirmar horario de la combi de bajada", "Pedir queso envuelto al vacío si compraste", "Revisar que no quede nada en el alojamiento"]
       },
       {
-        time:"12:30", name:"Ente Tucumán Turismo",
-        lat:-26.8311131, lng:-65.2045773,
-        img:IMG("Plaza Independencia 01.JPG"),
-        desc:"Vuelta a la capital en combi (~2 h desde Tafí, misma empresa que el viaje de ida). Como la salida es de noche, queda toda la tarde libre en la capital antes de partir.",
-        history:"Es la oficina oficial de turismo de la provincia, ubicada a metros de la Plaza Independencia, con mapas gratuitos y personal que puede orientar sobre combis, micros y excursiones de último momento.",
-        curiosity:"Tucumán es la provincia más pequeña de Argentina en superficie, pero una de las más densamente pobladas — por eso se la conoce como \"el jardín de la República\".",
-        tip:"Si te queda tiempo, la Catedral de Tucumán (frente a la plaza) tiene una cúpula poco común con relieves que vale la pena mirar desde afuera.",
-        duration:"20-30 min", price:"Gratis", access:"Mapas y folletos impresos disponibles para consulta autónoma.",
-        checklist:["Consultar horarios de combis si no hay auto propio", "Pedir mapa actualizado"]
+        time:"13:00", name:"Casa Histórica de la Independencia",
+        lat:-26.8331348, lng:-65.2038418,
+        img:IMG("Casa Histórica de Tucumán 04.JPG"),
+        desc:"Donde 29 diputados firmaron la independencia el 9 de julio de 1816. El edificio actual es en gran parte una reconstrucción de los años 40, ya que el original sufrió demoliciones y refacciones a lo largo del siglo XIX.",
+        history:"La casa perteneció originalmente a la familia Laguna y fue alquilada en 1816 para sesionar el Congreso porque Buenos Aires, sede natural, estaba ocupada por tropas realistas y no era segura. Tras la independencia, el edificio cambió de manos varias veces y partes fueron demolidas en 1869 para abrir una calle. Recién en 1941 el estado nacional encaró una reconstrucción histórica basándose en planos, fotografías y relatos de la época para devolverle el aspecto colonial que tiene hoy. Es Monumento Histórico Nacional desde 1941 y sigue siendo sede de actos oficiales cada 9 de julio.",
+        curiosity:"La sala donde se firmó el Acta no es la original: fue reconstruida en 1943 a partir de pinturas y descripciones de la época, porque la casa real había sido modificada drásticamente. La cúpula azul que se ve hoy tampoco existía en 1816, se agregó después.",
+        tip:"Cerrado los lunes — sábado está bien. De noche hay un espectáculo de luz y sonido (\"Tucumán, Casa de la Libertad\") que cuenta la historia sobre la fachada — conviene reservar con anticipación en la web oficial.",
+        duration:"1-1h30", price:"Gratis", access:"Paneles con texto escrito en todas las salas — el contenido se sigue bien sin depender del audio de la visita guiada.",
+        checklist:["DNI o documento (a veces lo piden en la entrada)", "Reservar el show nocturno si querés verlo", "Cargar batería de cámara/celular"]
       },
       {
-        time:"13:30", name:"Almuerzo: CRAFT Barrio Norte",
-        lat:-26.8208293, lng:-65.2024661,
-        img:IMG("Casa de gobierdo tucuman, dia.jpg"),
-        desc:"Almuerzo de despedida en un bar de ambiente cálido, ideal para arrancar la última tarde libre con buena comida y buen café.",
-        history:"Forma parte de la creciente escena de bares de especialidad de Barrio Norte, una zona residencial que en la última década concentró buena parte de la renovación gastronómica de la ciudad, con locales que combinan carta de cocina y cafetería de autor.",
-        curiosity:"Tucumán es uno de los principales productores de café de especialidad torrado de Argentina — la costumbre del \"café cortado\" en bares como este es parte de la vida social de la ciudad.",
-        tip:"Pedí la mesa con tiempo si vas en horario pico de almuerzo (13-14 h), suele llenarse rápido.",
-        duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, buen nivel de luz natural durante el día.",
-        checklist:["Reservar mesa si es horario pico (13-14 h)", "Dejar tiempo para café de cierre"]
+        time:"15:30", name:"Parque 9 de Julio",
+        lat:-26.8292678, lng:-65.1916518,
+        img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
+        desc:"Con 40 hectáreas, es uno de los parques urbanos más grandes de Argentina, diseñado por Carlos Thays (el mismo paisajista del Jardín Botánico de Buenos Aires y Parque Sarmiento en Córdoba).",
+        history:"El predio perteneció a la antigua Quinta Agronómica de la provincia, un terreno experimental de fines del siglo XIX usado para aclimatar especies vegetales traídas de otras partes del mundo. En 1916, para el centenario de la independencia, el gobierno tucumano contrató a Thays para transformarlo en parque público al estilo de los grandes paseos europeos, con lagos artificiales, glorietas y un sistema de avenidas curvas que todavía se conserva casi intacto.",
+        curiosity:"El parque ocupa los terrenos de la ex Quinta Agronómica y todavía conserva ejemplares de árboles centenarios plantados como parte de un proyecto experimental de aclimatación de especies a fines del siglo XIX.",
+        tip:"Sábado hay ferias de artesanos cerca del Cabildo. Llevá efectivo chico, no todos los puestos tienen posnet.",
+        duration:"1-2 h", price:"Gratis", access:"Espacio abierto, ideal para caminar sin depender de explicaciones orales; buena señalización con carteles en los senderos principales.",
+        checklist:["Efectivo chico para la feria de artesanos", "Botella de agua", "Calzado cómodo para caminar"]
+      },
+      {
+        time:"20:30", name:"Cena: Los Naranjos Resto Bar",
+        lat:-26.8307884, lng:-65.2029329,
+        img:IMG("Plaza Independencia en San Miguel de Tucumán, capital de la Provincia de Tucumán.jpg"),
+        desc:"Balcón con vista directa a la Plaza Independencia y la estatua de la Libertad de Lola Mora, una de las pocas obras públicas de esta escultora tucumana en su propia provincia.",
+        history:"La Plaza Independencia ocupa el lugar de la plaza mayor fundacional de la ciudad desde el siglo XVI, reubicada acá en 1685 tras el segundo y definitivo traslado de San Miguel de Tucumán. La estatua de la Libertad que corona la fuente central es obra de Lola Mora, encargada en 1903 pero que tardó años en instalarse por disputas sobre su desnudez parcial, consideradas escandalosas para la época.",
+        curiosity:"Lola Mora, autora de la fuente de las Nereidas en Buenos Aires, nació a pocos kilómetros de acá, en Trancas. Gran parte de su obra monumental terminó fuera de Tucumán por conflictos con la Iglesia y el poder político de su época.",
+        tip:"Pedí mesa en el balcón si el clima acompaña — de noche, con la Catedral iluminada, es de las mejores postales de la ciudad.",
+        duration:"1h30-2h", price:"$$ (medio)", access:"Carta en papel disponible, sin necesidad de pedir verbalmente — buena opción para señalar platos directamente.",
+        checklist:["Reservar mesa en el balcón", "Llevar abrigo liviano por si refresca de noche"]
+      }
+    ]
+  },
+  {
+    id:"dia6", num:6, weekday:"Domingo", title:"El Cadillal, Yerba Buena y partida", base:"San Miguel de Tucumán — vuelo/micro de noche",
+    narrative:"Último día. Como la salida es recién el domingo de noche, queda el día completo: mañana en el Dique El Cadillal, después Yerba Buena, y tarde libre antes de partir.",
+    stops:[
+      {
+        time:"08:30", name:"Dique El Cadillal",
+        lat:-26.6258, lng:-65.1842,
+        img:IMG("Dique el Cadillal Tucuman.jpg"),
+        desc:"Embalse a unos 25 km al norte de la capital, con playas de arena, costaneras y paseos en lancha — el clásico destino de fin de semana de los tucumanos para escapar del calor.",
+        history:"Se construyó en los años 60 sobre el río Tapia-Lules como parte de un plan de obras hídricas para abastecer de agua a San Miguel de Tucumán y generar energía. Cerca del dique, en la zona de Las Lomas del Tafí, hay además hallazgos arqueológicos de pinturas rupestres de varios miles de años, anteriores a los pueblos calchaquíes.",
+        curiosity:"En épocas de mucha bajante se pueden ver restos de antiguas construcciones que quedaron sumergidas al llenarse el embalse — los lugareños cuentan que en años de sequía fuerte hasta reaparecieron caminos viejos.",
+        tip:"Se llega en remís (unos 30-40 min desde el centro) o en colectivo de línea que sale de la capital — no hay combi turística regular, así que conviene coordinar el regreso con el mismo remís o preguntar el horario del colectivo de vuelta.",
+        winterTip:"En invierno el agua está fría para nadar, pero los paseos en lancha y las costaneras se disfrutan igual — andá con abrigo para la mañana, sobre todo si el viento viene del lago.",
+        duration:"2-3 h", price:"Entrada económica al área recreativa + paseo en lancha opcional", access:"Senderos y costaneras de tierra/cemento, accesibles caminando, con buena señalización general.",
+        checklist:["Coordinar remís o colectivo de ida y vuelta", "Abrigo para la mañana", "Cámara para el paisaje del dique", "Protector solar igual aunque haga fresco"]
+      },
+      {
+        time:"11:30", name:"Plaza Vieja, Yerba Buena",
+        lat:-26.8230446, lng:-65.3057499,
+        img:IMG("San Miguel de Tucumán - panoramio.jpg"),
+        desc:"Yerba Buena queda apenas 10 minutos del centro, pero el clima cambia notablemente: está al pie del Cerro San Javier y se siente bastante más fresco y arbolado que la capital.",
+        history:"Yerba Buena era hasta mediados del siglo XX una zona de quintas y fincas de descanso para familias tucumanas adineradas, gracias a su clima más templado que el centro. Desde los años 80 se urbanizó fuerte y hoy es el municipio con mejor índice de calidad de vida del Gran Tucumán, sede de buena parte de la vida universitaria y gastronómica de la provincia.",
+        curiosity:"El nombre del Cerro San Javier (y de Yerba Buena) viene de la antigua presencia de yerba mate silvestre y plantas aromáticas en sus laderas, antes de que la zona se urbanizara.",
+        tip:"Si hay tiempo, el Cristo Bendicente en lo alto del cerro se ve iluminado de noche desde toda la ciudad — es la referencia geográfica de los tucumanos.",
+        duration:"45 min - 1 h", price:"Gratis", access:"Zona peatonal tranquila, buena cartelería de calles y comercios.",
+        checklist:["Calzado cómodo", "Cámara para el Cristo Bendicente si subís al cerro"]
+      },
+      {
+        time:"13:30", name:"Almuerzo: Il Postino",
+        lat:-26.8268899, lng:-65.2038176,
+        img:IMG("Tucuman govthouse.jpg"),
+        desc:"Pizzería clásica tucumana, conocida por sus calzones y la variedad de la carta. Buena relación precio-calidad y siempre con movimiento de gente local.",
+        history:"Forma parte de una generación de pizzerías de barrio que se multiplicaron en Tucumán desde mediados del siglo XX, con fuerte influencia de la inmigración italiana que llegó a la provincia atraída por la industria azucarera. El estilo \"a la piedra\" con mucho relleno se consolidó como variante regional, distinta de la pizza porteña más fina.",
+        curiosity:"La pizza al molde \"a la piedra\" con mucho relleno es una marca registrada de la cocina porteña-tucumana adaptada; en el NOA conviven con las empanadas como comida social por excelencia.",
+        tip:"Domingo al mediodía suele estar tranquilo. Comé sin apuro, no hay mucho más en agenda para esta tarde.",
+        duration:"1-1h30", price:"$$ (medio)", access:"Carta impresa clara, ambiente con buen nivel de luz para leer menú y comunicarse por escrito si hace falta.",
+        checklist:["Efectivo o tarjeta (aceptan ambos)"]
       },
       {
         time:"16:00", name:"Tarde libre y compras de último momento",
         lat:-26.8292678, lng:-65.1916518,
         img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
-        desc:"Como la salida es recién a la noche, queda tiempo extra para volver a algún lugar que haya gustado del día 1-2, hacer las últimas compras de regionales, o simplemente descansar en algún café antes de ir a la terminal/aeropuerto.",
+        desc:"Como la salida es recién a la noche, queda tiempo extra para volver a algún lugar que haya gustado, hacer las últimas compras de regionales, o simplemente descansar en algún café antes de ir a la terminal/aeropuerto. El Jardín Botánico y el Museo de Ciencias Naturales Lillo suelen cerrar los domingos, así que no entran en el plan de hoy.",
         history:"",
         curiosity:"",
         tip:"Calculá el traslado a la terminal o aeropuerto con margen — el tránsito de domingo a la tarde-noche suele ser tranquilo, pero mejor no ajustar el horario al límite.",
