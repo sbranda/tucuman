@@ -361,6 +361,71 @@
   }
   .section-sub{font-size:13px;color:var(--gris);margin:0 0 16px;font-style:italic;}
 
+  /* ---------- AJUSTES ---------- */
+  .ajustes-group{margin-bottom:20px;}
+  .ajustes-group-title{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;
+    color:var(--gris);margin:0 0 10px;
+  }
+  .ajustes-row{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;
+    border:1px solid var(--crema-osc);
+  }
+  .ajustes-row-label{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:14px;color:var(--texto);
+  }
+  .ajustes-stepper{display:flex;align-items:center;gap:10px;}
+  .ajustes-step-btn{
+    width:34px;height:34px;border-radius:8px;border:none;
+    background:var(--verde);color:#fff;font-size:18px;font-weight:700;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  .ajustes-step-val{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-weight:700;font-size:14px;color:var(--verde);min-width:48px;text-align:center;
+  }
+  .ajustes-toggle-row{
+    display:flex;align-items:center;justify-content:space-between;
+    background:#fff;border-radius:12px;padding:12px 14px;margin-bottom:8px;
+    border:1px solid var(--crema-osc);cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:14px;color:var(--texto);
+  }
+  .ajustes-toggle-row input[type=checkbox]{
+    width:20px;height:20px;accent-color:var(--terracota);cursor:pointer;
+  }
+  .ajustes-reset-btn{
+    width:100%;padding:13px;border-radius:12px;border:1.5px solid var(--crema-osc);
+    background:#fff;color:var(--gris);font-size:14px;font-weight:700;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    margin-top:4px;
+  }
+
+  /* ---------- ACCESSIBILITY MODES ---------- */
+  body.a11y-high-contrast{
+    --verde:#00391E;--verde-claro:#005229;--terracota:#8B1A00;
+    --ocre:#805000;--crema:#FFFFFF;--crema-osc:#CCCCCC;
+    --texto:#000000;--gris:#222222;
+  }
+  body.a11y-dark{
+    --crema:#1C1C1C;--crema-osc:#2A2A2A;--texto:#EDEAE4;--gris:#A0A0A0;
+    background:#1C1C1C !important;
+  }
+  body.a11y-dark .stop, body.a11y-dark .tip-card, body.a11y-dark .check-item,
+  body.a11y-dark .ajustes-row, body.a11y-dark .ajustes-toggle-row,
+  body.a11y-dark .bottomnav, body.a11y-dark .tabbar{
+    background:#242424 !important; border-color:#383838 !important;
+  }
+  body.a11y-dark .day-banner{background:#1A3A28;}
+  body.a11y-reduce-motion *{
+    animation-duration:0.001ms !important;
+    transition-duration:0.001ms !important;
+  }
+
   /* ---------- MAPA ---------- */
   #sec-mapa{padding:0;max-width:none;display:none;flex-direction:column;}
   #sec-mapa.active{
@@ -455,9 +520,10 @@
 <nav class="bottomnav" aria-label="Secciones de la guía">
   <button class="nav-btn active" data-target="itinerario" aria-current="page"><span class="ic" aria-hidden="true">🗺️</span>Itinerario</button>
   <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa</button>
-  <button class="nav-btn" data-target="curiosidades"><span class="ic" aria-hidden="true">💡</span>Curiosidades</button>
+  <button class="nav-btn" data-target="curiosidades"><span class="ic" aria-hidden="true">💡</span>Info</button>
   <button class="nav-btn" data-target="tips"><span class="ic" aria-hidden="true">🎒</span>Tips</button>
-  <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Checklist</button>
+  <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Lista</button>
+  <button class="nav-btn" data-target="ajustes"><span class="ic" aria-hidden="true">⚙️</span>Ajustes</button>
 </nav>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -853,6 +919,51 @@ function buildScheduleDays(totalDays, arrivalDateStr, arrivalTime){
 let tripConfig = { totalDays: 6, arrivalDate: todayISO(), arrivalTime: "08:00" };
 let DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
 
+/* ===================== ACCESIBILIDAD ===================== */
+const LINE_VALUES = [1.35, 1.55, 1.8, 2.1];
+const LINE_LABELS = ['Compacto','Normal','Amplio','Muy amplio'];
+const A11Y_DEFAULTS = { fontSize:100, lineIdx:1, highContrast:false, darkMode:false, reduceMotion:false };
+let a11yState = { ...A11Y_DEFAULTS };
+
+function applyA11y(){
+  const scale = a11yState.fontSize / 100;
+  const s = document.getElementById('sections');
+  if(s) s.style.zoom = scale;
+  document.body.style.lineHeight = LINE_VALUES[a11yState.lineIdx];
+  document.body.classList.toggle('a11y-high-contrast', a11yState.highContrast);
+  document.body.classList.toggle('a11y-dark', a11yState.darkMode);
+  document.body.classList.toggle('a11y-reduce-motion', a11yState.reduceMotion);
+  syncA11yControls();
+}
+
+function syncA11yControls(){
+  const fv = document.getElementById('fontValue');
+  const lv = document.getElementById('lineValue');
+  const hc = document.getElementById('a11yHighContrast');
+  const dm = document.getElementById('a11yDarkMode');
+  const rm = document.getElementById('a11yReduceMotion');
+  if(fv) fv.textContent = a11yState.fontSize + '%';
+  if(lv) lv.textContent = LINE_LABELS[a11yState.lineIdx];
+  if(hc) hc.checked = a11yState.highContrast;
+  if(dm) dm.checked = a11yState.darkMode;
+  if(rm) rm.checked = a11yState.reduceMotion;
+}
+
+async function saveA11y(){
+  await appStorage.set('a11y', JSON.stringify(a11yState));
+}
+
+(async function loadA11y(){
+  try{
+    const res = await appStorage.get('a11y');
+    if(res && res.value){
+      const saved = JSON.parse(res.value);
+      a11yState = { ...A11Y_DEFAULTS, ...saved };
+    }
+  }catch(e){}
+  applyA11y();
+})();
+
 const TIPS = [
   {icon:"❄️", title:"Vacaciones de invierno", body:"Julio es temporada alta de turismo interno en Argentina. Reservá alojamiento en Tafí del Valle con bastante anticipación — se llena más rápido que en temporada baja de verano."},
   {icon:"🧊", title:"Estado de rutas", body:"En invierno la Cuesta del Clavillo y El Infiernillo pueden tener hielo o nieve en el tramo más alto. Chequeá el estado de la ruta antes de salir (Vialidad Provincial de Tucumán suele informar cortes)."},
@@ -1050,6 +1161,76 @@ function buildChecklistSection(){
   return wrap;
 }
 
+function buildAjustesSection(){
+  const wrap = document.createElement('div');
+  wrap.className = 'section'; wrap.id = 'sec-ajustes';
+  wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Ajustes'); wrap.setAttribute('tabindex','-1');
+
+  wrap.innerHTML = `
+    <h2 class="section-title">⚙️ Ajustes</h2>
+    <p class="section-sub">Los cambios se aplican al instante y se guardan automáticamente.</p>
+
+    <div class="ajustes-group">
+      <div class="ajustes-group-title">Tamaño del texto</div>
+      <div class="ajustes-row">
+        <span class="ajustes-row-label">Tamaño de fuente</span>
+        <div class="ajustes-stepper">
+          <button class="ajustes-step-btn" id="fontDecrease" aria-label="Reducir texto">−</button>
+          <span class="ajustes-step-val" id="fontValue">100%</span>
+          <button class="ajustes-step-btn" id="fontIncrease" aria-label="Aumentar texto">+</button>
+        </div>
+      </div>
+      <div class="ajustes-row">
+        <span class="ajustes-row-label">Interlineado</span>
+        <div class="ajustes-stepper">
+          <button class="ajustes-step-btn" id="lineDecrease" aria-label="Reducir interlineado">−</button>
+          <span class="ajustes-step-val" id="lineValue">Normal</span>
+          <button class="ajustes-step-btn" id="lineIncrease" aria-label="Aumentar interlineado">+</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ajustes-group">
+      <div class="ajustes-group-title">Apariencia</div>
+      <label class="ajustes-toggle-row">
+        <span>Alto contraste</span>
+        <input type="checkbox" id="a11yHighContrast">
+      </label>
+      <label class="ajustes-toggle-row">
+        <span>Modo oscuro</span>
+        <input type="checkbox" id="a11yDarkMode">
+      </label>
+      <label class="ajustes-toggle-row">
+        <span>Reducir animaciones</span>
+        <input type="checkbox" id="a11yReduceMotion">
+      </label>
+    </div>
+
+    <div class="ajustes-group">
+      <div class="ajustes-group-title">Restablecer</div>
+      <button class="ajustes-reset-btn" id="a11yReset">Volver a los valores originales</button>
+    </div>
+  `;
+
+  // Bind controls after HTML is set
+  requestAnimationFrame(()=>{
+    syncA11yControls();
+    const sec = document.getElementById('sec-ajustes');
+    if(!sec) return;
+
+    sec.querySelector('#fontDecrease').addEventListener('click', ()=>{ if(a11yState.fontSize>70){ a11yState.fontSize-=10; applyA11y(); saveA11y(); }});
+    sec.querySelector('#fontIncrease').addEventListener('click', ()=>{ if(a11yState.fontSize<160){ a11yState.fontSize+=10; applyA11y(); saveA11y(); }});
+    sec.querySelector('#lineDecrease').addEventListener('click', ()=>{ if(a11yState.lineIdx>0){ a11yState.lineIdx--; applyA11y(); saveA11y(); }});
+    sec.querySelector('#lineIncrease').addEventListener('click', ()=>{ if(a11yState.lineIdx<LINE_VALUES.length-1){ a11yState.lineIdx++; applyA11y(); saveA11y(); }});
+    sec.querySelector('#a11yHighContrast').addEventListener('change', e=>{ a11yState.highContrast=e.target.checked; applyA11y(); saveA11y(); });
+    sec.querySelector('#a11yDarkMode').addEventListener('change', e=>{ a11yState.darkMode=e.target.checked; applyA11y(); saveA11y(); });
+    sec.querySelector('#a11yReduceMotion').addEventListener('change', e=>{ a11yState.reduceMotion=e.target.checked; applyA11y(); saveA11y(); });
+    sec.querySelector('#a11yReset').addEventListener('click', ()=>{ a11yState={...A11Y_DEFAULTS}; applyA11y(); saveA11y(); });
+  });
+
+  return wrap;
+}
+
 function buildMapaSection(){
   const wrap = document.createElement('div');
   wrap.className = 'section'; wrap.id = 'sec-mapa'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Mapa'); wrap.setAttribute('tabindex','-1');
@@ -1105,6 +1286,7 @@ function renderAll(){
   sectionsRoot.appendChild(buildCuriosidadesSection());
   sectionsRoot.appendChild(buildTipsSection());
   sectionsRoot.appendChild(buildChecklistSection());
+  sectionsRoot.appendChild(buildAjustesSection());
 
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('sec-itinerario').classList.add('active');
