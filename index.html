@@ -991,6 +991,10 @@ const CHECKLIST_ITEMS = [
 /* ===================== RENDER ===================== */
 const tabbar = document.getElementById('tabbar');
 const sectionsRoot = document.getElementById('sections');
+const arrivalDateInput = document.getElementById('arrivalDateInput');
+const arrivalTimeInput = document.getElementById('arrivalTimeInput');
+const ajustesBackdrop = document.getElementById('ajustesBackdrop');
+const ajustesBtnEl = document.getElementById('ajustesBtn');
 
 function buildItinerarioSection(){
   const wrap = document.createElement('div');
@@ -1441,8 +1445,6 @@ document.getElementById('dayPlus').addEventListener('click', ()=>{
   renderDayStepper();
 });
 
-const arrivalDateInput = document.getElementById('arrivalDateInput');
-const arrivalTimeInput = document.getElementById('arrivalTimeInput');
 arrivalDateInput.addEventListener('change', ()=>{
   pendingArrivalDate = arrivalDateInput.value || pendingArrivalDate;
   updateDeparturePreview();
@@ -1450,9 +1452,6 @@ arrivalDateInput.addEventListener('change', ()=>{
 arrivalTimeInput.addEventListener('change', ()=>{
   pendingArrivalTime = arrivalTimeInput.value || pendingArrivalTime;
 });
-
-const ajustesBackdrop = document.getElementById('ajustesBackdrop');
-const ajustesBtnEl = document.getElementById('ajustesBtn');
 
 function closeAjustesModal(){
   ajustesBackdrop.classList.remove('open');
