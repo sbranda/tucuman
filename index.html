@@ -60,12 +60,6 @@
   .sans{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
 
   /* ---------- HERO ---------- */
-  .hero-wrapper{position:relative;}
-  .hero-fab-bar{
-    position:fixed;top:12px;right:12px;
-    display:flex;flex-direction:column;gap:8px;
-    z-index:6100;
-  }
   .hero{
     position:relative;
     height:54vh;
@@ -96,79 +90,14 @@
     color:#EFE7D6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     font-size:13.5px;margin:0;max-width:32em;line-height:1.5;
   }
-  #settingsBtn, #a11yBtn{
-    height:36px;border-radius:20px;border:1.5px solid rgba(255,255,255,0.4);
-    background:rgba(0,0,0,0.55);font-size:13px;color:#fff;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;gap:5px;
-    padding:0 12px;font-weight:700;
+  #settingsBtn{
+    position:absolute;top:16px;right:16px;z-index:50;
+    height:38px;border-radius:20px;border:1.5px solid rgba(255,255,255,0.4);
+    background:rgba(0,0,0,0.55);font-size:15px;color:#fff;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    padding:0 14px;font-weight:700;
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    backdrop-filter:blur(4px);white-space:nowrap;
-  }
-  .hero-fab-bar{
-    position:absolute;top:16px;right:12px;
-    display:flex;flex-direction:column;gap:8px;
-    z-index:6000;
-    pointer-events:all;
-  }
-
-  /* ---------- ACCESSIBILITY MODAL ---------- */
-  .a11y-row{
-    display:flex;align-items:center;justify-content:space-between;
-    background:var(--crema);border-radius:10px;padding:6px 10px;
-    margin-bottom:4px;
-  }
-  .a11y-btn{
-    width:42px;height:42px;border-radius:10px;border:none;
-    background:var(--verde);color:#fff;font-size:16px;font-weight:700;cursor:pointer;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
-  .a11y-value{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:14px;font-weight:600;color:var(--verde);min-width:60px;text-align:center;
-  }
-  .a11y-toggles{display:flex;flex-direction:column;gap:8px;}
-  .a11y-toggle-row{
-    display:flex;align-items:center;gap:10px;background:var(--crema);
-    border-radius:10px;padding:10px 12px;cursor:pointer;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;
-  }
-  .a11y-toggle-row input{width:18px;height:18px;accent-color:var(--terracota);}
-
-  /* ---------- ACCESSIBILITY MODES ---------- */
-  body.high-contrast{
-    --verde:#003820;--verde-claro:#004d2a;--terracota:#8B1A00;
-    --ocre:#A06000;--crema:#FFFFFF;--crema-osc:#D0D0D0;
-    --texto:#000000;--gris:#333333;--indigo:#1A1A40;
-  }
-  body.high-contrast .stop, body.high-contrast .tip-card,
-  body.high-contrast .check-item, body.high-contrast .curio-banner{
-    border:2px solid #000;
-  }
-  body.dark-mode{
-    --verde:#7EC8A0;--verde-claro:#5DAF85;--terracota:#E8845A;
-    --ocre:#D4A856;--crema:#1A1A1A;--crema-osc:#2A2A2A;
-    --texto:#F0EDE8;--gris:#B0AAA0;--indigo:#A0A0C8;
-    background:#1A1A1A !important;
-  }
-  body.dark-mode .stop, body.dark-mode .tip-card, body.dark-mode .modal-card,
-  body.dark-mode .check-item, body.dark-mode .bottomnav, body.dark-mode .tabbar{
-    background:#222222 !important;
-  }
-  body.dark-mode .day-banner{background:#2A4A38;}
-  body.dark-mode .winter-block{background:#1A2A30;border-color:#2A4050;}
-  body.dark-mode .schedule-block{background:#1A2A1A;border-color:#2A4A2A;}
-  body.dark-mode .road-status-block{background:#2A1A10;border-color:#4A2A10;}
-  body.reduce-motion *{
-    animation-duration:0.001ms !important;
-    transition-duration:0.001ms !important;
-  }
-  body.underline-links .pill-toggle,
-  body.underline-links .nav-btn,
-  body.underline-links .tab,
-  body.underline-links .map-chip,
-  body.underline-links .modal-btn-primary,
-  body.underline-links .modal-btn-secondary{
-    text-decoration:underline;
+    backdrop-filter:blur(4px);
   }
 
   /* ---------- SETTINGS MODAL ---------- */
@@ -182,14 +111,6 @@
     background:#fff;border-radius:16px;padding:22px 20px;max-width:380px;width:100%;
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     box-shadow:0 10px 40px rgba(0,0,0,0.3);
-  }
-  .modal-card-tall{
-    max-height:88vh;overflow-y:auto;
-  }
-  .ajustes-section-title{
-    font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;
-    color:var(--verde);margin:4px 0 2px;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   }
   .modal-card h3{margin:0 0 4px;color:var(--verde);font-size:1.2rem;}
   .modal-sub{font-size:12.5px;color:var(--gris);margin:0 0 18px;line-height:1.4;}
@@ -493,6 +414,7 @@
 <!-- HERO -->
 <div class="hero">
   <img id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/VistadeTafidelValle.jpg?width=900" alt="Valle de Tafí">
+  <button id="settingsBtn" aria-label="Configurar viaje">⚙️ Configurar días</button>
   <div class="hero-overlay">
     <div class="eyebrow" id="heroEyebrow">Guía interactiva · 6 días (mar-dom)</div>
     <h1>Tucumán</h1>
@@ -500,49 +422,30 @@
   </div>
 </div>
 
-<!-- AJUSTES MODAL (viaje + accesibilidad combinados) -->
-<div class="modal-backdrop" id="ajustesBackdrop">
-  <div class="modal-card modal-card-tall" role="dialog" aria-modal="true" aria-labelledby="ajustesTitle">
-    <h3 id="ajustesTitle">⚙️ Ajustes</h3>
+<!-- SETTINGS MODAL -->
+<div class="modal-backdrop" id="settingsBackdrop">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">Configurar tu viaje</h3>
+    <p class="modal-sub">La app arma el orden de paradas sola: siempre capital → Tafí del Valle → capital.</p>
 
-    <div class="ajustes-section-title">Configurar viaje</div>
-    <p class="modal-sub">La app arma el orden de paradas sola.</p>
     <label class="modal-label">Fecha de llegada</label>
     <input type="date" id="arrivalDateInput" class="modal-input">
+
     <label class="modal-label">Hora de llegada</label>
     <input type="time" id="arrivalTimeInput" class="modal-input">
+
     <label class="modal-label">¿Cuántos días en total?</label>
     <div class="day-stepper">
       <button id="dayMinus" class="stepper-btn">−</button>
       <span id="dayCount">6</span>
       <button id="dayPlus" class="stepper-btn">+</button>
     </div>
-    <p class="modal-hint">5 a 7 días disponibles.</p>
+    <p class="modal-hint">Rango disponible: 5 a 7 días.</p>
     <p class="modal-hint" id="departurePreview"></p>
 
-    <div class="ajustes-section-title" style="margin-top:16px;">Accesibilidad</div>
-    <label class="modal-label">Tamaño del texto</label>
-    <div class="a11y-row">
-      <button class="a11y-btn" id="fontDecrease" aria-label="Reducir texto">A−</button>
-      <span class="a11y-value" id="fontValue">100%</span>
-      <button class="a11y-btn" id="fontIncrease" aria-label="Aumentar texto">A+</button>
-    </div>
-    <label class="modal-label">Espaciado entre líneas</label>
-    <div class="a11y-row">
-      <button class="a11y-btn" id="lineDecrease" aria-label="Reducir espaciado">↕−</button>
-      <span class="a11y-value" id="lineValue">Normal</span>
-      <button class="a11y-btn" id="lineIncrease" aria-label="Aumentar espaciado">↕+</button>
-    </div>
-    <div class="a11y-toggles" style="margin-top:8px;">
-      <label class="a11y-toggle-row"><input type="checkbox" id="highContrast"><span>Alto contraste</span></label>
-      <label class="a11y-toggle-row"><input type="checkbox" id="darkMode"><span>Modo oscuro</span></label>
-      <label class="a11y-toggle-row"><input type="checkbox" id="reduceMotion"><span>Reducir animaciones</span></label>
-      <label class="a11y-toggle-row"><input type="checkbox" id="underlineLinks"><span>Subrayar botones</span></label>
-    </div>
-
-    <div class="modal-actions" style="margin-top:18px;">
-      <button id="ajustesReset" class="modal-btn-secondary">Restablecer</button>
-      <button id="ajustesApply" class="modal-btn-primary">Aplicar</button>
+    <div class="modal-actions">
+      <button id="settingsCancel" class="modal-btn-secondary">Cancelar</button>
+      <button id="settingsApply" class="modal-btn-primary">Aplicar</button>
     </div>
   </div>
 </div>
@@ -552,34 +455,14 @@
 <nav class="bottomnav" aria-label="Secciones de la guía">
   <button class="nav-btn active" data-target="itinerario" aria-current="page"><span class="ic" aria-hidden="true">🗺️</span>Itinerario</button>
   <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa</button>
-  <button class="nav-btn" data-target="curiosidades"><span class="ic" aria-hidden="true">💡</span>Info</button>
+  <button class="nav-btn" data-target="curiosidades"><span class="ic" aria-hidden="true">💡</span>Curiosidades</button>
   <button class="nav-btn" data-target="tips"><span class="ic" aria-hidden="true">🎒</span>Tips</button>
-  <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Lista</button>
-  <button class="nav-btn" id="ajustesBtn"><span class="ic" aria-hidden="true">⚙️</span>Ajustes</button>
+  <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Checklist</button>
 </nav>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
 <script>
-/* ===================== PERSISTENCIA (localStorage real del navegador) =====================
-   Usa localStorage nativo, que sí funciona en cualquier sitio desplegado (GitHub Pages, etc),
-   a diferencia de window.storage que solo existe en el entorno de pruebas de Claude.
-*/
-const appStorage = {
-  async get(key){
-    try{
-      const raw = localStorage.getItem('tucuman-app:' + key);
-      return raw === null ? null : { key, value: raw };
-    }catch(e){ return null; }
-  },
-  async set(key, value){
-    try{
-      localStorage.setItem('tucuman-app:' + key, value);
-      return { key, value };
-    }catch(e){ return null; }
-  }
-};
-
 /* ===================== DATA ===================== */
 const IMG = (file) => `https://commons.wikimedia.org/wiki/Special:FilePath/${encodeURIComponent(file)}?width=900`;
 
@@ -991,10 +874,6 @@ const CHECKLIST_ITEMS = [
 /* ===================== RENDER ===================== */
 const tabbar = document.getElementById('tabbar');
 const sectionsRoot = document.getElementById('sections');
-const arrivalDateInput = document.getElementById('arrivalDateInput');
-const arrivalTimeInput = document.getElementById('arrivalTimeInput');
-const ajustesBackdrop = document.getElementById('ajustesBackdrop');
-const ajustesBtnEl = document.getElementById('ajustesBtn');
 
 function buildItinerarioSection(){
   const wrap = document.createElement('div');
@@ -1193,8 +1072,6 @@ function renderAll(){
 
   initStopChecklists();
   initVisitedToggles();
-  // re-apply zoom since #sections was rebuilt
-  if(typeof a11yConfig !== 'undefined') applyA11y();
 }
 
 /* expand/collapse curiosity+tip */
@@ -1290,25 +1167,11 @@ document.querySelectorAll('.map-chip').forEach(chip=>{
 /* ===================== BOTTOM NAV ===================== */
 document.querySelectorAll('.nav-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    // ajustesBtn abre el modal, no cambia de sección
-    if(btn.id === 'ajustesBtn'){
-      pendingArrivalDate = tripConfig.arrivalDate;
-      pendingArrivalTime = tripConfig.arrivalTime;
-      pendingTotalDays = tripConfig.totalDays;
-      arrivalDateInput.value = pendingArrivalDate;
-      arrivalTimeInput.value = pendingArrivalTime;
-      renderDayStepper();
-      applyA11y();
-      ajustesBackdrop.classList.add('open');
-      arrivalDateInput.focus();
-      return;
-    }
     document.querySelectorAll('.nav-btn').forEach(b=>{ b.classList.remove('active'); b.removeAttribute('aria-current'); });
     btn.classList.add('active');
     btn.setAttribute('aria-current', 'page');
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
     const activeSection = document.getElementById('sec-'+btn.dataset.target);
-    if(!activeSection) return;
     activeSection.classList.add('active');
     if(btn.dataset.target !== 'mapa'){ activeSection.focus({ preventScroll: true }); }
     if(btn.dataset.target === 'mapa'){
@@ -1328,7 +1191,7 @@ async function renderChecklist(){
   root.innerHTML = '';
   let saved = {};
   try{
-    const res = await appStorage.get('checklist-state');
+    const res = await window.storage.get('checklist-state');
     if(res && res.value) saved = JSON.parse(res.value);
   }catch(e){ /* no saved state yet */ }
 
@@ -1341,7 +1204,7 @@ async function renderChecklist(){
     row.querySelector('input').addEventListener('change', async (e)=>{
       row.classList.toggle('done', e.target.checked);
       saved[key] = e.target.checked;
-      try{ await appStorage.set('checklist-state', JSON.stringify(saved)); }catch(err){}
+      try{ await window.storage.set('checklist-state', JSON.stringify(saved)); }catch(err){}
     });
     root.appendChild(row);
   });
@@ -1352,7 +1215,7 @@ renderChecklist();
 async function initStopChecklists(){
   let savedAll = {};
   try{
-    const res = await appStorage.get('stop-checklists-state');
+    const res = await window.storage.get('stop-checklists-state');
     if(res && res.value) savedAll = JSON.parse(res.value);
   }catch(e){ /* no saved state yet */ }
 
@@ -1375,7 +1238,7 @@ async function initStopChecklists(){
         saved[idx] = cb.checked;
         savedAll[stopId] = saved;
         updateProgress();
-        try{ await appStorage.set('stop-checklists-state', JSON.stringify(savedAll)); }catch(err){}
+        try{ await window.storage.set('stop-checklists-state', JSON.stringify(savedAll)); }catch(err){}
       });
     });
     updateProgress();
@@ -1387,7 +1250,7 @@ initStopChecklists();
 async function initVisitedToggles(){
   let saved = {};
   try{
-    const res = await appStorage.get('visited-stops');
+    const res = await window.storage.get('visited-stops');
     if(res && res.value) saved = JSON.parse(res.value);
   }catch(e){ /* no saved state yet */ }
 
@@ -1401,7 +1264,7 @@ async function initVisitedToggles(){
     cb.addEventListener('change', async ()=>{
       saved[stopId] = cb.checked;
       card.classList.toggle('is-visited', cb.checked);
-      try{ await appStorage.set('visited-stops', JSON.stringify(saved)); }catch(err){}
+      try{ await window.storage.set('visited-stops', JSON.stringify(saved)); }catch(err){}
     });
   });
 }
@@ -1445,6 +1308,8 @@ document.getElementById('dayPlus').addEventListener('click', ()=>{
   renderDayStepper();
 });
 
+const arrivalDateInput = document.getElementById('arrivalDateInput');
+const arrivalTimeInput = document.getElementById('arrivalTimeInput');
 arrivalDateInput.addEventListener('change', ()=>{
   pendingArrivalDate = arrivalDateInput.value || pendingArrivalDate;
   updateDeparturePreview();
@@ -1453,19 +1318,33 @@ arrivalTimeInput.addEventListener('change', ()=>{
   pendingArrivalTime = arrivalTimeInput.value || pendingArrivalTime;
 });
 
-function closeAjustesModal(){
-  ajustesBackdrop.classList.remove('open');
-  ajustesBtnEl.focus();
+const settingsBackdrop = document.getElementById('settingsBackdrop');
+const settingsBtnEl = document.getElementById('settingsBtn');
+
+function closeSettingsModal(){
+  settingsBackdrop.classList.remove('open');
+  settingsBtnEl.focus();
 }
 
-ajustesBackdrop.addEventListener('click', (e)=>{
-  if(e.target === ajustesBackdrop) closeAjustesModal();
+settingsBtnEl.addEventListener('click', ()=>{
+  pendingArrivalDate = tripConfig.arrivalDate;
+  pendingArrivalTime = tripConfig.arrivalTime;
+  pendingTotalDays = tripConfig.totalDays;
+  arrivalDateInput.value = pendingArrivalDate;
+  arrivalTimeInput.value = pendingArrivalTime;
+  renderDayStepper();
+  settingsBackdrop.classList.add('open');
+  arrivalDateInput.focus();
+});
+document.getElementById('settingsCancel').addEventListener('click', closeSettingsModal);
+settingsBackdrop.addEventListener('click', (e)=>{
+  if(e.target === settingsBackdrop) closeSettingsModal();
 });
 document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape' && ajustesBackdrop.classList.contains('open')) closeAjustesModal();
+  if(e.key === 'Escape' && settingsBackdrop.classList.contains('open')) closeSettingsModal();
 });
 
-document.getElementById('ajustesApply').addEventListener('click', async ()=>{
+document.getElementById('settingsApply').addEventListener('click', async ()=>{
   tripConfig = {
     totalDays: pendingTotalDays,
     arrivalDate: pendingArrivalDate,
@@ -1474,13 +1353,13 @@ document.getElementById('ajustesApply').addEventListener('click', async ()=>{
   DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
   updateHeroEyebrow();
   renderAll();
-  ajustesBackdrop.classList.remove('open');
-  try{ await appStorage.set('trip-config', JSON.stringify(tripConfig)); }catch(err){}
+  settingsBackdrop.classList.remove('open');
+  try{ await window.storage.set('trip-config', JSON.stringify(tripConfig)); }catch(err){}
 });
 
 (async function loadTripConfig(){
   try{
-    const res = await appStorage.get('trip-config');
+    const res = await window.storage.get('trip-config');
     if(res && res.value){
       const saved = JSON.parse(res.value);
       if(saved && typeof saved.totalDays === 'number' && saved.arrivalDate){
@@ -1492,94 +1371,6 @@ document.getElementById('ajustesApply').addEventListener('click', async ()=>{
   }catch(e){ /* no saved config yet, keep default */ }
   updateHeroEyebrow();
 })();
-
-/* ===================== ACCESIBILIDAD ===================== */
-const A11Y_DEFAULTS = { fontSize: 100, lineHeight: 1, highContrast: false, darkMode: false, reduceMotion: false, underlineLinks: false };
-const LINE_LABELS = ['Compacto', 'Normal', 'Amplio', 'Muy amplio'];
-const LINE_VALUES = [1.35, 1.55, 1.8, 2.1];
-
-let a11yConfig = { ...A11Y_DEFAULTS };
-
-function applyA11y(){
-  const scale = a11yConfig.fontSize / 100;
-  // zoom scales content visually regardless of whether CSS uses px, em or rem
-  const zoomTargets = ['sections','heroImg'];
-  zoomTargets.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.zoom=scale; });
-  // also scale hero text overlay
-  const heroOverlay = document.querySelector('.hero-overlay');
-  if(heroOverlay) heroOverlay.style.zoom = scale;
-
-  // line height on sections content
-  document.getElementById('sections').style.lineHeight = LINE_VALUES[a11yConfig.lineHeight];
-
-  document.body.classList.toggle('high-contrast', a11yConfig.highContrast);
-  document.body.classList.toggle('dark-mode', a11yConfig.darkMode);
-  document.body.classList.toggle('reduce-motion', a11yConfig.reduceMotion);
-  document.body.classList.toggle('underline-links', a11yConfig.underlineLinks);
-  document.getElementById('fontValue').textContent = a11yConfig.fontSize + '%';
-  document.getElementById('lineValue').textContent = LINE_LABELS[a11yConfig.lineHeight];
-  document.getElementById('highContrast').checked = a11yConfig.highContrast;
-  document.getElementById('darkMode').checked = a11yConfig.darkMode;
-  document.getElementById('reduceMotion').checked = a11yConfig.reduceMotion;
-  document.getElementById('underlineLinks').checked = a11yConfig.underlineLinks;
-}
-
-async function saveA11y(){
-  await appStorage.set('a11y-config', JSON.stringify(a11yConfig));
-}
-
-(async function loadA11y(){
-  try{
-    const res = await appStorage.get('a11y-config');
-    if(res && res.value){
-      const saved = JSON.parse(res.value);
-      a11yConfig = { ...A11Y_DEFAULTS, ...saved };
-    }
-  }catch(e){}
-  applyA11y();
-})();
-
-document.getElementById('fontDecrease').addEventListener('click', async ()=>{
-  if(a11yConfig.fontSize > 70){ a11yConfig.fontSize = Math.max(70, a11yConfig.fontSize - 10); applyA11y(); await saveA11y(); }
-});
-document.getElementById('fontIncrease').addEventListener('click', async ()=>{
-  if(a11yConfig.fontSize < 160){ a11yConfig.fontSize = Math.min(160, a11yConfig.fontSize + 10); applyA11y(); await saveA11y(); }
-});
-document.getElementById('lineDecrease').addEventListener('click', async ()=>{
-  if(a11yConfig.lineHeight > 0){ a11yConfig.lineHeight--; applyA11y(); await saveA11y(); }
-});
-document.getElementById('lineIncrease').addEventListener('click', async ()=>{
-  if(a11yConfig.lineHeight < LINE_VALUES.length - 1){ a11yConfig.lineHeight++; applyA11y(); await saveA11y(); }
-});
-
-['highContrast','darkMode','reduceMotion','underlineLinks'].forEach(key=>{
-  document.getElementById(key).addEventListener('change', async (e)=>{
-    a11yConfig[key] = e.target.checked;
-    applyA11y();
-    await saveA11y();
-  });
-});
-
-
-
-
-
-
-document.getElementById('ajustesReset').addEventListener('click', async ()=>{
-  a11yConfig = { ...A11Y_DEFAULTS };
-  tripConfig = { totalDays: 6, arrivalDate: todayISO(), arrivalTime: "08:00" };
-  DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
-  updateHeroEyebrow();
-  applyA11y();
-  await saveA11y();
-  await appStorage.set('trip-config', JSON.stringify(tripConfig));
-  renderAll();
-  closeAjustesModal();
-});
-
-document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape' && ajustesBackdrop.classList.contains('open')) closeAjustesModal();
-});
 
 /* ===================== PWA: service worker (real file, see sw.js) ===================== */
 if('serviceWorker' in navigator){
