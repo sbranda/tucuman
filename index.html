@@ -405,6 +405,28 @@
     margin-top:4px;
   }
 
+  /* ---------- EXTRAS ---------- */
+  .extras-zone-title{
+    font-size:1rem;color:var(--verde);margin:18px 0 10px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-weight:800;border-left:3px solid var(--ocre);padding-left:10px;
+  }
+  .extras-card{
+    background:#fff;border-radius:14px;overflow:hidden;margin-bottom:14px;
+    border:1px solid var(--crema-osc);box-shadow:0 1px 3px rgba(0,0,0,0.06);
+  }
+  .extras-card img{width:100%;height:140px;object-fit:cover;display:block;background:var(--crema-osc);}
+  .extras-body{padding:12px 14px 14px;}
+  .extras-header{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
+  .extras-icon{font-size:20px;flex:0 0 auto;margin-top:1px;}
+  .extras-name{margin:0;flex:1;font-size:1rem;color:var(--verde);}
+  .extras-desc{font-size:13.5px;line-height:1.5;color:var(--texto);margin:0 0 8px;}
+  .extras-tip{
+    font-size:12.5px;color:var(--verde-claro);line-height:1.4;
+    background:var(--crema);border-radius:8px;padding:8px 10px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+
   /* ---------- ACCESSIBILITY MODES ---------- */
   body.a11y-high-contrast{
     --verde:#00391E;--verde-claro:#005229;--terracota:#8B1A00;
@@ -520,7 +542,7 @@
 <nav class="bottomnav" aria-label="Secciones de la guía">
   <button class="nav-btn active" data-target="itinerario" aria-current="page"><span class="ic" aria-hidden="true">🗺️</span>Itinerario</button>
   <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa</button>
-  <button class="nav-btn" data-target="curiosidades"><span class="ic" aria-hidden="true">💡</span>Info</button>
+  <button class="nav-btn" data-target="extras"><span class="ic" aria-hidden="true">✨</span>Extras</button>
   <button class="nav-btn" data-target="tips"><span class="ic" aria-hidden="true">🎒</span>Tips</button>
   <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Lista</button>
   <button class="nav-btn" data-target="ajustes"><span class="ic" aria-hidden="true">⚙️</span>Ajustes</button>
@@ -964,6 +986,109 @@ async function saveA11y(){
   applyA11y();
 })();
 
+/* ===================== EXTRAS (lugares opcionales no incluidos en el itinerario) ===================== */
+const EXTRAS = [
+  {
+    zone:"San Miguel de Tucumán",
+    places:[
+      {
+        name:"Museo Folclórico Provincial",
+        img:IMG("Museo Folklorico Provincial de Tucuman.jpg"),
+        desc:"Uno de los museos más queridos de la capital, con una sala dedicada a Mercedes Sosa con instrumentos originales, fotos y vestuario de escena. Entrada gratuita.",
+        tip:"Está a pocas cuadras de la Plaza Independencia. Cerrá bien el horario antes de ir — suele cerrar al mediodía.",
+        price:"Gratis", icon:"🎵"
+      },
+      {
+        name:"Museo Casa Padilla",
+        img:IMG("Tucuman govthouse.jpg"),
+        desc:"Casa histórica del siglo XIX convertida en museo de arte decorativo: porcelanas europeas, biombos chinos, muebles y pinturas de colección privada donados al estado provincial.",
+        tip:"Entrada a voluntad. El edificio en sí (de estilo italianizante) es una joya arquitectónica que vale verlo aunque no entres.",
+        price:"Donación voluntaria", icon:"🏛️"
+      },
+      {
+        name:"Museo de la Industria Azucarera — Casa del Obispo Colombres",
+        img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
+        desc:"Está dentro del Parque 9 de Julio, a poca distancia del Cabildo. Cuenta la historia del azúcar tucumana, que desde fines del siglo XIX fue el motor económico de toda la provincia.",
+        tip:"Fácil de combinar con el día que ya tenés el parque en el itinerario — queda literalmente dentro del mismo predio.",
+        price:"Entrada económica", icon:"🏭"
+      },
+      {
+        name:"Basílica Nuestra Señora de la Merced",
+        img:IMG("Plaza Independencia 01.JPG"),
+        desc:"Templo colonial a dos cuadras de la Plaza Independencia donde el general Belgrano rezó antes de la Batalla de Tucumán (1812), una de las victorias clave de las guerras de independencia.",
+        tip:"La entrada es libre y la visita es corta (15-20 min). Arquitectura colonial bien conservada con altar barroco.",
+        price:"Gratis", icon:"⛪"
+      },
+      {
+        name:"Museo del Ejército",
+        img:IMG("Casa Histórica de Tucumán 04.JPG"),
+        desc:"Museo histórico militar con una sala dedicada a los veteranos de Malvinas, una de las pocas en el interior del país con testimonios, uniformes y material de la guerra.",
+        tip:"Hay que confirmar horarios por teléfono antes de ir — en algunos períodos solo atiende con reserva previa.",
+        price:"Gratis", icon:"🪖"
+      },
+      {
+        name:"Bus Turístico Gratuito",
+        img:IMG("San Miguel de Tucumán - panoramio.jpg"),
+        desc:"Servicio de bus turístico gratuito que recorre los principales puntos históricos de la capital con paradas en la Casa Histórica, Parque 9 de Julio, museos y plazas.",
+        tip:"Sale desde Plaza Independencia. Muy útil si en algún momento querés un repaso rápido de la ciudad sin caminar todo bajo el frío de invierno.",
+        price:"Gratis", icon:"🚌"
+      }
+    ]
+  },
+  {
+    zone:"Tafí del Valle / Amaicha / Quilmes",
+    places:[
+      {
+        name:"Museo Jesuítico La Banda",
+        img:IMG("Mestize amaicha.jpg"),
+        desc:"Sitio arqueológico a pocos kilómetros de Amaicha del Valle con restos de la presencia jesuita-diaguita en los valles calchaquíes, anterior a la expulsión de los jesuitas en 1767.",
+        tip:"Preguntá en la agencia de Tafí si la excursión a Quilmes incluye parada en La Banda — muchas lo hacen sin publicidad.",
+        price:"Entrada económica", icon:"⛏️"
+      },
+      {
+        name:"Mirador del Indio y Quebrada de Amaicha",
+        img:IMG("Indio en Tafi del Valle - Provincia de Tucuman.jpg"),
+        desc:"Mirador con una figura tallada en roca y vista panorámica a la quebrada de Amaicha — parada corta en el camino entre Tafí y las Ruinas de Quilmes.",
+        tip:"La mayoría de las excursiones organizadas a Quilmes paran acá sin que esté explícito en el itinerario — vale preguntar.",
+        price:"Gratis", icon:"🗿"
+      },
+      {
+        name:"Ruta del Vino de Amaicha",
+        img:IMG("Valle De Tafí (234462759).jpeg"),
+        desc:"Bodegas boutique de altura en el valle calchaquí que producen torrontés y malbec con características únicas por la altitud. Las visitas incluyen degustación y recorrido del viñedo.",
+        tip:"Conviene reservar la visita con al menos un día de anticipación. Las bodegas son pequeñas y familiares — pocas aceptan visitas espontáneas.",
+        price:"Degustación paga", icon:"🍷"
+      },
+      {
+        name:"Observatorio Astronómico Ampimpa",
+        img:IMG("VistadeTafidelValle-1.jpg"),
+        desc:"Observatorio de montaña cerca de Amaicha con cielos excepcionales por la altitud y baja contaminación lumínica. Ofrece visitas nocturnas con telescopios y explicación de la bóveda celeste.",
+        tip:"Las visitas son nocturnas — reservar con anticipación y abrigarse bien, de noche el frío en altura es intenso incluso en verano.",
+        price:"Entrada paga (consultar)", icon:"🔭"
+      }
+    ]
+  },
+  {
+    zone:"El Cadillal",
+    places:[
+      {
+        name:"Aerosillas y cerro El Cadillal",
+        img:IMG("Dique el Cadillal Tucuman.jpg"),
+        desc:"El Cadillal tiene aerosillas que suben a un cerro con vista panorámica al dique y las sierras circundantes. Una opción diferente al simple paseo por la costanera.",
+        tip:"Las aerosillas no siempre están en funcionamiento fuera de temporada alta — conviene confirmar el día anterior antes de ir hasta allá.",
+        price:"Entrada paga", icon:"🚡"
+      },
+      {
+        name:"Museo Arqueológico El Cadillal",
+        img:IMG("Dique el Cadillal Tucuman.jpg"),
+        desc:"Pequeño museo in situ con piezas arqueológicas halladas en la zona durante la construcción del dique en los años 60, incluyendo cerámica y utensilios de los pueblos originarios del área.",
+        tip:"Está dentro del predio del área recreativa. Vale sumarle 30 minutos si ya estás en El Cadillal ese día.",
+        price:"Incluido en entrada al área", icon:"🏺"
+      }
+    ]
+  }
+];
+
 const TIPS = [
   {icon:"❄️", title:"Vacaciones de invierno", body:"Julio es temporada alta de turismo interno en Argentina. Reservá alojamiento en Tafí del Valle con bastante anticipación — se llena más rápido que en temporada baja de verano."},
   {icon:"🧊", title:"Estado de rutas", body:"En invierno la Cuesta del Clavillo y El Infiernillo pueden tener hielo o nieve en el tramo más alto. Chequeá el estado de la ruta antes de salir (Vialidad Provincial de Tucumán suele informar cortes)."},
@@ -1161,6 +1286,36 @@ function buildChecklistSection(){
   return wrap;
 }
 
+function buildExtrasSection(){
+  const wrap = document.createElement('div');
+  wrap.className = 'section'; wrap.id = 'sec-extras';
+  wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Extras'); wrap.setAttribute('tabindex','-1');
+
+  let html = `<h2 class="section-title">✨ Lugares extras</h2>
+    <p class="section-sub">Opcionales no incluidos en el itinerario — para si sobra tiempo o querés explorar más.</p>`;
+
+  EXTRAS.forEach(group=>{
+    html += `<h3 class="extras-zone-title">${group.zone}</h3>`;
+    group.places.forEach(p=>{
+      html += `<div class="extras-card">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+        <div class="extras-body">
+          <div class="extras-header">
+            <span class="extras-icon">${p.icon}</span>
+            <h4 class="extras-name">${p.name}</h4>
+            <span class="badge">${p.price}</span>
+          </div>
+          <p class="extras-desc">${p.desc}</p>
+          <div class="extras-tip">🎒 ${p.tip}</div>
+        </div>
+      </div>`;
+    });
+  });
+
+  wrap.innerHTML = html;
+  return wrap;
+}
+
 function buildAjustesSection(){
   const wrap = document.createElement('div');
   wrap.className = 'section'; wrap.id = 'sec-ajustes';
@@ -1286,6 +1441,7 @@ function renderAll(){
   sectionsRoot.appendChild(buildCuriosidadesSection());
   sectionsRoot.appendChild(buildTipsSection());
   sectionsRoot.appendChild(buildChecklistSection());
+  sectionsRoot.appendChild(buildExtrasSection());
   sectionsRoot.appendChild(buildAjustesSection());
 
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
