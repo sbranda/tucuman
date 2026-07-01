@@ -1056,8 +1056,30 @@ function buildMapaSection(){
 
   const filter = document.createElement('div');
   filter.className = 'map-day-filter';
-  filter.innerHTML = `<button class="map-chip active" data-day="all">Todos</button>` +
-    DAYS.map(d=>`<button class="map-chip" data-day="${d.id}">${d.weekdayShort ? d.weekdayShort+' '+d.dateLabel : ('Día '+d.num)}</button>`).join('');
+
+  const allChip = document.createElement('button');
+  allChip.className = 'map-chip active';
+  allChip.dataset.day = 'all';
+  allChip.textContent = 'Todos';
+  filter.appendChild(allChip);
+
+  DAYS.forEach(d=>{
+    const chip = document.createElement('button');
+    chip.className = 'map-chip';
+    chip.dataset.day = d.id;
+    chip.textContent = d.weekdayShort ? `${d.weekdayShort} ${d.dateLabel}` : `Día ${d.num}`;
+    filter.appendChild(chip);
+  });
+
+  // Listeners attached here so they survive every renderAll() rebuild
+  filter.addEventListener('click', (e)=>{
+    const chip = e.target.closest('.map-chip');
+    if(!chip) return;
+    filter.querySelectorAll('.map-chip').forEach(c=>c.classList.remove('active'));
+    chip.classList.add('active');
+    if(leafletMap) renderMapMarkers(chip.dataset.day);
+  });
+
   wrap.appendChild(filter);
 
   const mapDiv = document.createElement('div');
@@ -1175,14 +1197,6 @@ function renderMapMarkers(filterDay){
     leafletMap.fitBounds(allPoints, {padding:[30,30]});
   }
 }
-
-document.querySelectorAll('.map-chip').forEach(chip=>{
-  chip.addEventListener('click', ()=>{
-    document.querySelectorAll('.map-chip').forEach(c=>c.classList.remove('active'));
-    chip.classList.add('active');
-    renderMapMarkers(chip.dataset.day);
-  });
-});
 
 /* ===================== BOTTOM NAV ===================== */
 document.querySelectorAll('.nav-btn').forEach(btn=>{
