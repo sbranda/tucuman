@@ -99,6 +99,75 @@
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     backdrop-filter:blur(4px);
   }
+  #a11yBtn{
+    position:absolute;top:62px;right:16px;z-index:50;
+    height:38px;border-radius:20px;border:1.5px solid rgba(255,255,255,0.4);
+    background:rgba(0,0,0,0.55);font-size:15px;color:#fff;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;gap:6px;
+    padding:0 14px;font-weight:700;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    backdrop-filter:blur(4px);
+  }
+
+  /* ---------- ACCESSIBILITY MODAL ---------- */
+  .a11y-row{
+    display:flex;align-items:center;justify-content:space-between;
+    background:var(--crema);border-radius:10px;padding:6px 10px;
+    margin-bottom:4px;
+  }
+  .a11y-btn{
+    width:42px;height:42px;border-radius:10px;border:none;
+    background:var(--verde);color:#fff;font-size:16px;font-weight:700;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  .a11y-value{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:14px;font-weight:600;color:var(--verde);min-width:60px;text-align:center;
+  }
+  .a11y-toggles{display:flex;flex-direction:column;gap:8px;}
+  .a11y-toggle-row{
+    display:flex;align-items:center;gap:10px;background:var(--crema);
+    border-radius:10px;padding:10px 12px;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;
+  }
+  .a11y-toggle-row input{width:18px;height:18px;accent-color:var(--terracota);}
+
+  /* ---------- ACCESSIBILITY MODES ---------- */
+  body.high-contrast{
+    --verde:#003820;--verde-claro:#004d2a;--terracota:#8B1A00;
+    --ocre:#A06000;--crema:#FFFFFF;--crema-osc:#D0D0D0;
+    --texto:#000000;--gris:#333333;--indigo:#1A1A40;
+  }
+  body.high-contrast .stop, body.high-contrast .tip-card,
+  body.high-contrast .check-item, body.high-contrast .curio-banner{
+    border:2px solid #000;
+  }
+  body.dark-mode{
+    --verde:#7EC8A0;--verde-claro:#5DAF85;--terracota:#E8845A;
+    --ocre:#D4A856;--crema:#1A1A1A;--crema-osc:#2A2A2A;
+    --texto:#F0EDE8;--gris:#B0AAA0;--indigo:#A0A0C8;
+    background:#1A1A1A !important;
+  }
+  body.dark-mode .stop, body.dark-mode .tip-card, body.dark-mode .modal-card,
+  body.dark-mode .check-item, body.dark-mode .bottomnav, body.dark-mode .tabbar{
+    background:#222222 !important;
+  }
+  body.dark-mode .day-banner{background:#2A4A38;}
+  body.dark-mode .winter-block{background:#1A2A30;border-color:#2A4050;}
+  body.dark-mode .schedule-block{background:#1A2A1A;border-color:#2A4A2A;}
+  body.dark-mode .road-status-block{background:#2A1A10;border-color:#4A2A10;}
+  body.reduce-motion *{
+    animation-duration:0.001ms !important;
+    transition-duration:0.001ms !important;
+  }
+  body.underline-links .pill-toggle,
+  body.underline-links .nav-btn,
+  body.underline-links .tab,
+  body.underline-links .map-chip,
+  body.underline-links .modal-btn-primary,
+  body.underline-links .modal-btn-secondary{
+    text-decoration:underline;
+  }
 
   /* ---------- SETTINGS MODAL ---------- */
   .modal-backdrop{
@@ -415,10 +484,58 @@
 <div class="hero">
   <img id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/VistadeTafidelValle.jpg?width=900" alt="Valle de Tafí">
   <button id="settingsBtn" aria-label="Configurar viaje">⚙️ Configurar días</button>
+  <button id="a11yBtn" aria-label="Opciones de accesibilidad">♿ Accesibilidad</button>
   <div class="hero-overlay">
     <div class="eyebrow" id="heroEyebrow">Guía interactiva · 6 días (mar-dom)</div>
     <h1>Tucumán</h1>
     <p>Capital, montaña y ruinas milenarias. Historia, valles calchaquíes y sabores del norte argentino — con curiosidades, tips y fotos de cada parada.</p>
+  </div>
+</div>
+
+<!-- ACCESSIBILITY MODAL -->
+<div class="modal-backdrop" id="a11yBackdrop">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="a11yTitle">
+    <h3 id="a11yTitle">Opciones de accesibilidad</h3>
+    <p class="modal-sub">Los cambios se aplican al instante y se guardan entre sesiones.</p>
+
+    <label class="modal-label">Tamaño del texto</label>
+    <div class="a11y-row">
+      <button class="a11y-btn" id="fontDecrease" aria-label="Reducir texto">A−</button>
+      <span class="a11y-value" id="fontValue">100%</span>
+      <button class="a11y-btn" id="fontIncrease" aria-label="Aumentar texto">A+</button>
+    </div>
+
+    <label class="modal-label">Espaciado entre líneas</label>
+    <div class="a11y-row">
+      <button class="a11y-btn" id="lineDecrease" aria-label="Reducir espaciado">↕−</button>
+      <span class="a11y-value" id="lineValue">Normal</span>
+      <button class="a11y-btn" id="lineIncrease" aria-label="Aumentar espaciado">↕+</button>
+    </div>
+
+    <label class="modal-label">Apariencia</label>
+    <div class="a11y-toggles">
+      <label class="a11y-toggle-row">
+        <input type="checkbox" id="highContrast">
+        <span>Alto contraste</span>
+      </label>
+      <label class="a11y-toggle-row">
+        <input type="checkbox" id="darkMode">
+        <span>Modo oscuro</span>
+      </label>
+      <label class="a11y-toggle-row">
+        <input type="checkbox" id="reduceMotion">
+        <span>Reducir animaciones</span>
+      </label>
+      <label class="a11y-toggle-row">
+        <input type="checkbox" id="underlineLinks">
+        <span>Subrayar vínculos y botones</span>
+      </label>
+    </div>
+
+    <div class="modal-actions">
+      <button id="a11yReset" class="modal-btn-secondary">Restablecer</button>
+      <button id="a11yClose" class="modal-btn-primary">Listo</button>
+    </div>
   </div>
 </div>
 
@@ -1390,6 +1507,86 @@ document.getElementById('settingsApply').addEventListener('click', async ()=>{
   }catch(e){ /* no saved config yet, keep default */ }
   updateHeroEyebrow();
 })();
+
+/* ===================== ACCESIBILIDAD ===================== */
+const A11Y_DEFAULTS = { fontSize: 100, lineHeight: 1, highContrast: false, darkMode: false, reduceMotion: false, underlineLinks: false };
+const LINE_LABELS = ['Compacto', 'Normal', 'Amplio', 'Muy amplio'];
+const LINE_VALUES = [1.35, 1.55, 1.8, 2.1];
+
+let a11yConfig = { ...A11Y_DEFAULTS };
+
+function applyA11y(){
+  document.documentElement.style.setProperty('--app-font-size', a11yConfig.fontSize + '%');
+  document.body.style.fontSize = a11yConfig.fontSize + '%';
+  document.body.style.lineHeight = LINE_VALUES[a11yConfig.lineHeight];
+  document.body.classList.toggle('high-contrast', a11yConfig.highContrast);
+  document.body.classList.toggle('dark-mode', a11yConfig.darkMode);
+  document.body.classList.toggle('reduce-motion', a11yConfig.reduceMotion);
+  document.body.classList.toggle('underline-links', a11yConfig.underlineLinks);
+  document.getElementById('fontValue').textContent = a11yConfig.fontSize + '%';
+  document.getElementById('lineValue').textContent = LINE_LABELS[a11yConfig.lineHeight];
+  document.getElementById('highContrast').checked = a11yConfig.highContrast;
+  document.getElementById('darkMode').checked = a11yConfig.darkMode;
+  document.getElementById('reduceMotion').checked = a11yConfig.reduceMotion;
+  document.getElementById('underlineLinks').checked = a11yConfig.underlineLinks;
+}
+
+async function saveA11y(){
+  await appStorage.set('a11y-config', JSON.stringify(a11yConfig));
+}
+
+(async function loadA11y(){
+  try{
+    const res = await appStorage.get('a11y-config');
+    if(res && res.value){
+      const saved = JSON.parse(res.value);
+      a11yConfig = { ...A11Y_DEFAULTS, ...saved };
+    }
+  }catch(e){}
+  applyA11y();
+})();
+
+document.getElementById('fontDecrease').addEventListener('click', async ()=>{
+  if(a11yConfig.fontSize > 70){ a11yConfig.fontSize = Math.max(70, a11yConfig.fontSize - 10); applyA11y(); await saveA11y(); }
+});
+document.getElementById('fontIncrease').addEventListener('click', async ()=>{
+  if(a11yConfig.fontSize < 160){ a11yConfig.fontSize = Math.min(160, a11yConfig.fontSize + 10); applyA11y(); await saveA11y(); }
+});
+document.getElementById('lineDecrease').addEventListener('click', async ()=>{
+  if(a11yConfig.lineHeight > 0){ a11yConfig.lineHeight--; applyA11y(); await saveA11y(); }
+});
+document.getElementById('lineIncrease').addEventListener('click', async ()=>{
+  if(a11yConfig.lineHeight < LINE_VALUES.length - 1){ a11yConfig.lineHeight++; applyA11y(); await saveA11y(); }
+});
+
+['highContrast','darkMode','reduceMotion','underlineLinks'].forEach(key=>{
+  document.getElementById(key).addEventListener('change', async (e)=>{
+    a11yConfig[key] = e.target.checked;
+    applyA11y();
+    await saveA11y();
+  });
+});
+
+const a11yBackdrop = document.getElementById('a11yBackdrop');
+const a11yBtnEl = document.getElementById('a11yBtn');
+
+function closeA11yModal(){ a11yBackdrop.classList.remove('open'); a11yBtnEl.focus(); }
+
+a11yBtnEl.addEventListener('click', ()=>{
+  applyA11y();
+  a11yBackdrop.classList.add('open');
+  document.getElementById('fontIncrease').focus();
+});
+document.getElementById('a11yClose').addEventListener('click', closeA11yModal);
+document.getElementById('a11yReset').addEventListener('click', async ()=>{
+  a11yConfig = { ...A11Y_DEFAULTS };
+  applyA11y();
+  await saveA11y();
+});
+a11yBackdrop.addEventListener('click', (e)=>{ if(e.target === a11yBackdrop) closeA11yModal(); });
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape' && a11yBackdrop.classList.contains('open')) closeA11yModal();
+});
 
 /* ===================== PWA: service worker (real file, see sw.js) ===================== */
 if('serviceWorker' in navigator){
