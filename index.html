@@ -1286,11 +1286,25 @@ document.querySelectorAll('.map-chip').forEach(chip=>{
 /* ===================== BOTTOM NAV ===================== */
 document.querySelectorAll('.nav-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
+    // ajustesBtn abre el modal, no cambia de sección
+    if(btn.id === 'ajustesBtn'){
+      pendingArrivalDate = tripConfig.arrivalDate;
+      pendingArrivalTime = tripConfig.arrivalTime;
+      pendingTotalDays = tripConfig.totalDays;
+      arrivalDateInput.value = pendingArrivalDate;
+      arrivalTimeInput.value = pendingArrivalTime;
+      renderDayStepper();
+      applyA11y();
+      ajustesBackdrop.classList.add('open');
+      arrivalDateInput.focus();
+      return;
+    }
     document.querySelectorAll('.nav-btn').forEach(b=>{ b.classList.remove('active'); b.removeAttribute('aria-current'); });
     btn.classList.add('active');
     btn.setAttribute('aria-current', 'page');
     document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
     const activeSection = document.getElementById('sec-'+btn.dataset.target);
+    if(!activeSection) return;
     activeSection.classList.add('active');
     if(btn.dataset.target !== 'mapa'){ activeSection.focus({ preventScroll: true }); }
     if(btn.dataset.target === 'mapa'){
@@ -1444,17 +1458,6 @@ function closeAjustesModal(){
   ajustesBackdrop.classList.remove('open');
   ajustesBtnEl.focus();
 }
-
-ajustesBtnEl.addEventListener('click', ()=>{
-  pendingArrivalDate = tripConfig.arrivalDate;
-  pendingArrivalTime = tripConfig.arrivalTime;
-  pendingTotalDays = tripConfig.totalDays;
-  arrivalDateInput.value = pendingArrivalDate;
-  arrivalTimeInput.value = pendingArrivalTime;
-  renderDayStepper();
-  ajustesBackdrop.classList.add('open');
-  arrivalDateInput.focus();
-});
 
 ajustesBackdrop.addEventListener('click', (e)=>{
   if(e.target === ajustesBackdrop) closeAjustesModal();
