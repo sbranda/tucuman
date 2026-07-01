@@ -1070,8 +1070,12 @@ function buildMapaSection(){
 }
 
 function renderAll(){
-  // reset map instance so it gets rebuilt fresh against the new DAYS
-  if(leafletMap){ leafletMap.remove(); leafletMap = null; mapLayers = []; }
+  // Desactivar el mapa antes de limpiar el DOM para que no quede en estado inconsistente
+  const mapaSection = document.getElementById('sec-mapa');
+  if(mapaSection) mapaSection.classList.remove('active');
+
+  // Reset map instance so it gets rebuilt fresh against the new DAYS
+  if(leafletMap){ try{ leafletMap.remove(); }catch(e){} leafletMap = null; mapLayers = []; }
 
   sectionsRoot.innerHTML = '';
   sectionsRoot.appendChild(buildItinerarioSection());
