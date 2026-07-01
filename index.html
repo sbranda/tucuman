@@ -183,6 +183,14 @@
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     box-shadow:0 10px 40px rgba(0,0,0,0.3);
   }
+  .modal-card-tall{
+    max-height:88vh;overflow-y:auto;
+  }
+  .ajustes-section-title{
+    font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.1em;
+    color:var(--verde);margin:4px 0 2px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
   .modal-card h3{margin:0 0 4px;color:var(--verde);font-size:1.2rem;}
   .modal-sub{font-size:12.5px;color:var(--gris);margin:0 0 18px;line-height:1.4;}
   .modal-label{display:block;font-size:12.5px;font-weight:700;color:var(--verde);margin:14px 0 8px;}
@@ -482,94 +490,59 @@
   📲 Instalá esta guía en tu pantalla de inicio <button id="installBtn">Instalar</button>
 </div>
 
-<!-- HERO WRAPPER: hero + floating buttons en un mismo bloque relativo -->
-<div class="hero-wrapper">
-  <div class="hero-fab-bar">
-    <button id="settingsBtn" aria-label="Configurar viaje">⚙️ Configurar días</button>
-    <button id="a11yBtn" aria-label="Opciones de accesibilidad">♿ Accesibilidad</button>
-  </div>
-  <!-- HERO -->
-  <div class="hero">
-    <img id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/VistadeTafidelValle.jpg?width=900" alt="Valle de Tafí">
-    <div class="hero-overlay">
-      <div class="eyebrow" id="heroEyebrow">Guía interactiva · 6 días (mar-dom)</div>
-      <h1>Tucumán</h1>
-      <p>Capital, montaña y ruinas milenarias. Historia, valles calchaquíes y sabores del norte argentino — con curiosidades, tips y fotos de cada parada.</p>
-    </div>
+<!-- HERO -->
+<div class="hero">
+  <img id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/VistadeTafidelValle.jpg?width=900" alt="Valle de Tafí">
+  <div class="hero-overlay">
+    <div class="eyebrow" id="heroEyebrow">Guía interactiva · 6 días (mar-dom)</div>
+    <h1>Tucumán</h1>
+    <p>Capital, montaña y ruinas milenarias. Historia, valles calchaquíes y sabores del norte argentino — con curiosidades, tips y fotos de cada parada.</p>
   </div>
 </div>
 
-<!-- ACCESSIBILITY MODAL -->
-<div class="modal-backdrop" id="a11yBackdrop">
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="a11yTitle">
-    <h3 id="a11yTitle">Opciones de accesibilidad</h3>
-    <p class="modal-sub">Los cambios se aplican al instante y se guardan entre sesiones.</p>
+<!-- AJUSTES MODAL (viaje + accesibilidad combinados) -->
+<div class="modal-backdrop" id="ajustesBackdrop">
+  <div class="modal-card modal-card-tall" role="dialog" aria-modal="true" aria-labelledby="ajustesTitle">
+    <h3 id="ajustesTitle">⚙️ Ajustes</h3>
 
-    <label class="modal-label">Tamaño del texto</label>
-    <div class="a11y-row">
-      <button class="a11y-btn" id="fontDecrease" aria-label="Reducir texto">A−</button>
-      <span class="a11y-value" id="fontValue">100%</span>
-      <button class="a11y-btn" id="fontIncrease" aria-label="Aumentar texto">A+</button>
-    </div>
-
-    <label class="modal-label">Espaciado entre líneas</label>
-    <div class="a11y-row">
-      <button class="a11y-btn" id="lineDecrease" aria-label="Reducir espaciado">↕−</button>
-      <span class="a11y-value" id="lineValue">Normal</span>
-      <button class="a11y-btn" id="lineIncrease" aria-label="Aumentar espaciado">↕+</button>
-    </div>
-
-    <label class="modal-label">Apariencia</label>
-    <div class="a11y-toggles">
-      <label class="a11y-toggle-row">
-        <input type="checkbox" id="highContrast">
-        <span>Alto contraste</span>
-      </label>
-      <label class="a11y-toggle-row">
-        <input type="checkbox" id="darkMode">
-        <span>Modo oscuro</span>
-      </label>
-      <label class="a11y-toggle-row">
-        <input type="checkbox" id="reduceMotion">
-        <span>Reducir animaciones</span>
-      </label>
-      <label class="a11y-toggle-row">
-        <input type="checkbox" id="underlineLinks">
-        <span>Subrayar vínculos y botones</span>
-      </label>
-    </div>
-
-    <div class="modal-actions">
-      <button id="a11yReset" class="modal-btn-secondary">Restablecer</button>
-      <button id="a11yClose" class="modal-btn-primary">Listo</button>
-    </div>
-  </div>
-</div>
-
-<!-- SETTINGS MODAL -->
-<div class="modal-backdrop" id="settingsBackdrop">
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <h3 id="modalTitle">Configurar tu viaje</h3>
-    <p class="modal-sub">La app arma el orden de paradas sola: siempre capital → Tafí del Valle → capital.</p>
-
+    <div class="ajustes-section-title">Configurar viaje</div>
+    <p class="modal-sub">La app arma el orden de paradas sola.</p>
     <label class="modal-label">Fecha de llegada</label>
     <input type="date" id="arrivalDateInput" class="modal-input">
-
     <label class="modal-label">Hora de llegada</label>
     <input type="time" id="arrivalTimeInput" class="modal-input">
-
     <label class="modal-label">¿Cuántos días en total?</label>
     <div class="day-stepper">
       <button id="dayMinus" class="stepper-btn">−</button>
       <span id="dayCount">6</span>
       <button id="dayPlus" class="stepper-btn">+</button>
     </div>
-    <p class="modal-hint">Rango disponible: 5 a 7 días.</p>
+    <p class="modal-hint">5 a 7 días disponibles.</p>
     <p class="modal-hint" id="departurePreview"></p>
 
-    <div class="modal-actions">
-      <button id="settingsCancel" class="modal-btn-secondary">Cancelar</button>
-      <button id="settingsApply" class="modal-btn-primary">Aplicar</button>
+    <div class="ajustes-section-title" style="margin-top:16px;">Accesibilidad</div>
+    <label class="modal-label">Tamaño del texto</label>
+    <div class="a11y-row">
+      <button class="a11y-btn" id="fontDecrease" aria-label="Reducir texto">A−</button>
+      <span class="a11y-value" id="fontValue">100%</span>
+      <button class="a11y-btn" id="fontIncrease" aria-label="Aumentar texto">A+</button>
+    </div>
+    <label class="modal-label">Espaciado entre líneas</label>
+    <div class="a11y-row">
+      <button class="a11y-btn" id="lineDecrease" aria-label="Reducir espaciado">↕−</button>
+      <span class="a11y-value" id="lineValue">Normal</span>
+      <button class="a11y-btn" id="lineIncrease" aria-label="Aumentar espaciado">↕+</button>
+    </div>
+    <div class="a11y-toggles" style="margin-top:8px;">
+      <label class="a11y-toggle-row"><input type="checkbox" id="highContrast"><span>Alto contraste</span></label>
+      <label class="a11y-toggle-row"><input type="checkbox" id="darkMode"><span>Modo oscuro</span></label>
+      <label class="a11y-toggle-row"><input type="checkbox" id="reduceMotion"><span>Reducir animaciones</span></label>
+      <label class="a11y-toggle-row"><input type="checkbox" id="underlineLinks"><span>Subrayar botones</span></label>
+    </div>
+
+    <div class="modal-actions" style="margin-top:18px;">
+      <button id="ajustesReset" class="modal-btn-secondary">Restablecer</button>
+      <button id="ajustesApply" class="modal-btn-primary">Aplicar</button>
     </div>
   </div>
 </div>
@@ -579,9 +552,10 @@
 <nav class="bottomnav" aria-label="Secciones de la guía">
   <button class="nav-btn active" data-target="itinerario" aria-current="page"><span class="ic" aria-hidden="true">🗺️</span>Itinerario</button>
   <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa</button>
-  <button class="nav-btn" data-target="curiosidades"><span class="ic" aria-hidden="true">💡</span>Curiosidades</button>
+  <button class="nav-btn" data-target="curiosidades"><span class="ic" aria-hidden="true">💡</span>Info</button>
   <button class="nav-btn" data-target="tips"><span class="ic" aria-hidden="true">🎒</span>Tips</button>
-  <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Checklist</button>
+  <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Lista</button>
+  <button class="nav-btn" id="ajustesBtn"><span class="ic" aria-hidden="true">⚙️</span>Ajustes</button>
 </nav>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -1463,33 +1437,33 @@ arrivalTimeInput.addEventListener('change', ()=>{
   pendingArrivalTime = arrivalTimeInput.value || pendingArrivalTime;
 });
 
-const settingsBackdrop = document.getElementById('settingsBackdrop');
-const settingsBtnEl = document.getElementById('settingsBtn');
+const ajustesBackdrop = document.getElementById('ajustesBackdrop');
+const ajustesBtnEl = document.getElementById('ajustesBtn');
 
-function closeSettingsModal(){
-  settingsBackdrop.classList.remove('open');
-  settingsBtnEl.focus();
+function closeAjustesModal(){
+  ajustesBackdrop.classList.remove('open');
+  ajustesBtnEl.focus();
 }
 
-settingsBtnEl.addEventListener('click', ()=>{
+ajustesBtnEl.addEventListener('click', ()=>{
   pendingArrivalDate = tripConfig.arrivalDate;
   pendingArrivalTime = tripConfig.arrivalTime;
   pendingTotalDays = tripConfig.totalDays;
   arrivalDateInput.value = pendingArrivalDate;
   arrivalTimeInput.value = pendingArrivalTime;
   renderDayStepper();
-  settingsBackdrop.classList.add('open');
+  ajustesBackdrop.classList.add('open');
   arrivalDateInput.focus();
 });
-document.getElementById('settingsCancel').addEventListener('click', closeSettingsModal);
-settingsBackdrop.addEventListener('click', (e)=>{
-  if(e.target === settingsBackdrop) closeSettingsModal();
+
+ajustesBackdrop.addEventListener('click', (e)=>{
+  if(e.target === ajustesBackdrop) closeAjustesModal();
 });
 document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape' && settingsBackdrop.classList.contains('open')) closeSettingsModal();
+  if(e.key === 'Escape' && ajustesBackdrop.classList.contains('open')) closeAjustesModal();
 });
 
-document.getElementById('settingsApply').addEventListener('click', async ()=>{
+document.getElementById('ajustesApply').addEventListener('click', async ()=>{
   tripConfig = {
     totalDays: pendingTotalDays,
     arrivalDate: pendingArrivalDate,
@@ -1498,7 +1472,7 @@ document.getElementById('settingsApply').addEventListener('click', async ()=>{
   DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
   updateHeroEyebrow();
   renderAll();
-  settingsBackdrop.classList.remove('open');
+  ajustesBackdrop.classList.remove('open');
   try{ await appStorage.set('trip-config', JSON.stringify(tripConfig)); }catch(err){}
 });
 
@@ -1584,25 +1558,25 @@ document.getElementById('lineIncrease').addEventListener('click', async ()=>{
   });
 });
 
-const a11yBackdrop = document.getElementById('a11yBackdrop');
-const a11yBtnEl = document.getElementById('a11yBtn');
 
-function closeA11yModal(){ a11yBackdrop.classList.remove('open'); a11yBtnEl.focus(); }
 
-a11yBtnEl.addEventListener('click', ()=>{
-  applyA11y();
-  a11yBackdrop.classList.add('open');
-  document.getElementById('fontIncrease').focus();
-});
-document.getElementById('a11yClose').addEventListener('click', closeA11yModal);
-document.getElementById('a11yReset').addEventListener('click', async ()=>{
+
+
+
+document.getElementById('ajustesReset').addEventListener('click', async ()=>{
   a11yConfig = { ...A11Y_DEFAULTS };
+  tripConfig = { totalDays: 6, arrivalDate: todayISO(), arrivalTime: "08:00" };
+  DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
+  updateHeroEyebrow();
   applyA11y();
   await saveA11y();
+  await appStorage.set('trip-config', JSON.stringify(tripConfig));
+  renderAll();
+  closeAjustesModal();
 });
-a11yBackdrop.addEventListener('click', (e)=>{ if(e.target === a11yBackdrop) closeA11yModal(); });
+
 document.addEventListener('keydown', (e)=>{
-  if(e.key === 'Escape' && a11yBackdrop.classList.contains('open')) closeA11yModal();
+  if(e.key === 'Escape' && ajustesBackdrop.classList.contains('open')) closeAjustesModal();
 });
 
 /* ===================== PWA: service worker (real file, see sw.js) ===================== */
