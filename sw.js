@@ -1,10 +1,10 @@
-const CACHE_NAME = "tucuman-5dias-v38";
+const CACHE_NAME = "tucuman-5dias-v39";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
-  "./icon-192.svg",
-  "./icon-512.svg"
+  "./icon-192.png",
+  "./icon-512.png"
 ];
 
 self.addEventListener("install", (event) => {
