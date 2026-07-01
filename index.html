@@ -1208,6 +1208,8 @@ function renderAll(){
 
   initStopChecklists();
   initVisitedToggles();
+  // re-apply zoom since #sections was rebuilt
+  if(typeof a11yConfig !== 'undefined') applyA11y();
 }
 
 /* expand/collapse curiosity+tip */
@@ -1516,9 +1518,17 @@ const LINE_VALUES = [1.35, 1.55, 1.8, 2.1];
 let a11yConfig = { ...A11Y_DEFAULTS };
 
 function applyA11y(){
-  document.documentElement.style.setProperty('--app-font-size', a11yConfig.fontSize + '%');
-  document.body.style.fontSize = a11yConfig.fontSize + '%';
-  document.body.style.lineHeight = LINE_VALUES[a11yConfig.lineHeight];
+  const scale = a11yConfig.fontSize / 100;
+  // zoom scales content visually regardless of whether CSS uses px, em or rem
+  const zoomTargets = ['sections','heroImg'];
+  zoomTargets.forEach(id=>{ const el=document.getElementById(id); if(el) el.style.zoom=scale; });
+  // also scale hero text overlay
+  const heroOverlay = document.querySelector('.hero-overlay');
+  if(heroOverlay) heroOverlay.style.zoom = scale;
+
+  // line height on sections content
+  document.getElementById('sections').style.lineHeight = LINE_VALUES[a11yConfig.lineHeight];
+
   document.body.classList.toggle('high-contrast', a11yConfig.highContrast);
   document.body.classList.toggle('dark-mode', a11yConfig.darkMode);
   document.body.classList.toggle('reduce-motion', a11yConfig.reduceMotion);
