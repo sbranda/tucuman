@@ -436,6 +436,27 @@
   .conn-badge.needs-net{background:#FBF1E8;color:var(--terracota);border:1px solid #F0DCC4;}
   .conn-badge.offline-ok{background:#F0F6EF;color:var(--verde-claro);border:1px solid #DCE9D9;}
 
+  .data-saver-banner{background:#F0F6EF;border-bottom-color:#DCE9D9;color:var(--verde-claro);}
+  .data-saver-banner .offline-dismiss{color:var(--verde-claro);}
+  .data-saver-activate{
+    display:block;margin-top:6px;background:var(--verde-claro);color:#fff;border:none;
+    border-radius:7px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+
+  /* ---------- MODO SOLO TEXTO ---------- */
+  body.text-only-mode .stop img,
+  body.text-only-mode .extras-card img,
+  body.text-only-mode .hero img,
+  body.text-only-mode .zoom-hint,
+  body.text-only-mode .stop-visited-badge{
+    display:none !important;
+  }
+  .text-only-note{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:11px;color:var(--gris);margin-top:4px;
+  }
+
   .section-title{
     font-size:1.4rem;color:var(--verde);margin:6px 0 4px;
   }
@@ -740,6 +761,16 @@
     El Clima y el Mapa necesitan internet — el resto de la guía (Itinerario, Extras, Tips, Checklist) funciona sin problema.
   </span>
   <button class="offline-dismiss" id="offlineDismiss" aria-label="Cerrar aviso">✕</button>
+</div>
+
+<div class="offline-banner data-saver-banner" id="dataSaverBanner" role="status" aria-live="polite">
+  <span class="offline-icon" aria-hidden="true">🐌</span>
+  <span class="offline-text">
+    <b>Conexión lenta detectada</b>
+    Podés activar el modo solo texto para dejar de cargar fotos y ahorrar datos.
+    <button class="data-saver-activate" id="dataSaverActivate">Activar modo solo texto</button>
+  </span>
+  <button class="offline-dismiss" id="dataSaverDismiss" aria-label="Cerrar aviso">✕</button>
 </div>
 
 <!-- HERO -->
@@ -1258,6 +1289,72 @@ async function saveA11y(){
   }catch(e){}
   applyA11y();
 })();
+
+/* ===================== MODO SOLO TEXTO (ahorrar datos) ===================== */
+let textOnlyMode = false;
+let dataSaverSuggestionDismissed = false;
+
+function applyTextOnlyMode(){
+  document.body.classList.toggle('text-only-mode', textOnlyMode);
+  const cb = document.getElementById('textOnlyToggle');
+  if(cb) cb.checked = textOnlyMode;
+}
+
+async function saveTextOnlyMode(){
+  try{ await appStorage.set('textOnlyMode', JSON.stringify(textOnlyMode)); }catch(e){}
+}
+
+function checkDataSaverSuggestion(){
+  const banner = document.getElementById('dataSaverBanner');
+  if(!banner) return;
+  if(textOnlyMode || dataSaverSuggestionDismissed){
+    banner.classList.remove('show');
+    return;
+  }
+  const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+  if(!conn) return; // API no soportada en este navegador (ej. Safari/iOS) — no mostramos nada
+  const isSlow = conn.saveData === true || conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g';
+  banner.classList.toggle('show', !!isSlow);
+}
+
+(async function loadTextOnlyMode(){
+  let hasSavedPreference = false;
+  try{
+    const res = await appStorage.get('textOnlyMode');
+    if(res && res.value !== null && res.value !== undefined){
+      textOnlyMode = JSON.parse(res.value);
+      hasSavedPreference = true;
+    }
+  }catch(e){}
+
+  // Sin preferencia guardada todavía: si el sistema ya tiene "Ahorro de datos" activado,
+  // lo tomamos como punto de partida razonable (el usuario lo puede desactivar cuando quiera).
+  if(!hasSavedPreference){
+    try{
+      const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+      if(conn && conn.saveData === true) textOnlyMode = true;
+    }catch(e){}
+  }
+
+  applyTextOnlyMode();
+  checkDataSaverSuggestion();
+
+  const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
+  if(conn && conn.addEventListener){
+    conn.addEventListener('change', checkDataSaverSuggestion);
+  }
+})();
+
+document.getElementById('dataSaverActivate').addEventListener('click', ()=>{
+  textOnlyMode = true;
+  applyTextOnlyMode();
+  saveTextOnlyMode();
+  document.getElementById('dataSaverBanner').classList.remove('show');
+});
+document.getElementById('dataSaverDismiss').addEventListener('click', ()=>{
+  dataSaverSuggestionDismissed = true;
+  document.getElementById('dataSaverBanner').classList.remove('show');
+});
 
 /* ===================== EXTRAS (lugares opcionales no incluidos en el itinerario) ===================== */
 const EXTRAS = [
@@ -1861,6 +1958,15 @@ function buildAjustesSection(){
     </div>
 
     <div class="ajustes-group">
+      <div class="ajustes-group-title">Datos y conexión</div>
+      <label class="ajustes-toggle-row">
+        <span>Modo solo texto (ocultar fotos para ahorrar datos)</span>
+        <input type="checkbox" id="textOnlyToggle">
+      </label>
+      <p class="text-only-note">Con esto activado no se cargan las fotos de las paradas ni de Extras. El mapa y el clima siguen necesitando conexión igual.</p>
+    </div>
+
+    <div class="ajustes-group">
       <div class="ajustes-group-title">📤 Compartir itinerario</div>
       <p class="ajustes-reset-desc">Arma un texto con tus días y horarios configurados, listo para mandarle a quien viaje con vos.</p>
       <button class="ajustes-share-btn" id="shareItineraryBtn">📲 Compartir por WhatsApp / apps</button>
@@ -1900,6 +2006,18 @@ function buildAjustesSection(){
     sec.querySelector('#a11yDarkMode').addEventListener('change', e=>{ a11yState.darkMode=e.target.checked; applyA11y(); saveA11y(); });
     sec.querySelector('#a11yReduceMotion').addEventListener('change', e=>{ a11yState.reduceMotion=e.target.checked; applyA11y(); saveA11y(); });
     sec.querySelector('#a11yReset').addEventListener('click', ()=>{ a11yState={...A11Y_DEFAULTS}; applyA11y(); saveA11y(); });
+
+    // Modo solo texto (ahorrar datos)
+    const textOnlyCb = sec.querySelector('#textOnlyToggle');
+    textOnlyCb.checked = textOnlyMode;
+    textOnlyCb.addEventListener('change', e=>{
+      textOnlyMode = e.target.checked;
+      applyTextOnlyMode();
+      saveTextOnlyMode();
+      if(textOnlyMode){
+        document.getElementById('dataSaverBanner').classList.remove('show');
+      }
+    });
 
     // Compartir / copiar itinerario
     sec.querySelector('#shareItineraryBtn').addEventListener('click', shareItinerary);
