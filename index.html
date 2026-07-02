@@ -776,6 +776,8 @@
     border:1px solid var(--crema-osc);background:#fff;color:var(--gris);cursor:pointer;
   }
   .map-chip.active{background:var(--terracota);color:#fff;border-color:var(--terracota);}
+  .map-chip-extras{border-color:#D9D7EA;color:var(--indigo);}
+  .map-chip-extras.active{background:var(--indigo);color:#fff;border-color:var(--indigo);}
   #leafletMap{
     width:100%;
     flex:1 1 auto;
@@ -812,6 +814,18 @@
     border-style:dashed;
     font-size:15px;
   }
+  .extra-marker-icon{
+    background:var(--indigo);color:#fff;border-radius:7px;width:26px;height:26px;
+    display:flex;align-items:center;justify-content:center;font-size:13px;
+    border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.35);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  .extra-marker-icon.visited-marker{
+    filter:grayscale(55%) brightness(1.3);
+    border-style:dashed;
+    font-size:14px;font-weight:800;
+  }
+  .popup-goto-btn-extra{background:var(--indigo);}
 
   /* ---------- LIGHTBOX (foto ampliada) ---------- */
   .lightbox-backdrop{
@@ -1494,6 +1508,7 @@ const EXTRAS = [
     places:[
       {
         name:"Museo Folclórico Provincial",
+        lat:-26.8299, lng:-65.2044,
         img:IMG("Museo Folklorico Provincial de Tucuman.jpg"),
         desc:"Uno de los museos más queridos de la capital, con una sala dedicada a Mercedes Sosa con instrumentos originales, fotos y vestuario de escena. Entrada gratuita.",
         tip:"Está a pocas cuadras de la Plaza Independencia. Cerrá bien el horario antes de ir — suele cerrar al mediodía.",
@@ -1501,6 +1516,7 @@ const EXTRAS = [
       },
       {
         name:"Museo Casa Padilla",
+        lat:-26.8305, lng:-65.2032,
         img:IMG("Tucuman govthouse.jpg"),
         desc:"Casa histórica del siglo XIX convertida en museo de arte decorativo: porcelanas europeas, biombos chinos, muebles y pinturas de colección privada donados al estado provincial.",
         tip:"Entrada a voluntad. El edificio en sí (de estilo italianizante) es una joya arquitectónica que vale verlo aunque no entres.",
@@ -1508,6 +1524,7 @@ const EXTRAS = [
       },
       {
         name:"Museo de la Industria Azucarera — Casa del Obispo Colombres",
+        lat:-26.8292678, lng:-65.1916518,
         img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
         desc:"Está dentro del Parque 9 de Julio, a poca distancia del Cabildo. Cuenta la historia del azúcar tucumana, que desde fines del siglo XIX fue el motor económico de toda la provincia.",
         tip:"Fácil de combinar con el día que ya tenés el parque en el itinerario — queda literalmente dentro del mismo predio.",
@@ -1515,6 +1532,7 @@ const EXTRAS = [
       },
       {
         name:"Basílica Nuestra Señora de la Merced",
+        lat:-26.8284, lng:-65.2049,
         img:IMG("Plaza Independencia 01.JPG"),
         desc:"Templo colonial a dos cuadras de la Plaza Independencia donde el general Belgrano rezó antes de la Batalla de Tucumán (1812), una de las victorias clave de las guerras de independencia.",
         tip:"La entrada es libre y la visita es corta (15-20 min). Arquitectura colonial bien conservada con altar barroco.",
@@ -1522,6 +1540,7 @@ const EXTRAS = [
       },
       {
         name:"Museo del Ejército",
+        lat:-26.8155, lng:-65.2280,
         img:IMG("Casa Histórica de Tucumán 04.JPG"),
         desc:"Museo histórico militar con una sala dedicada a los veteranos de Malvinas, una de las pocas en el interior del país con testimonios, uniformes y material de la guerra.",
         tip:"Hay que confirmar horarios por teléfono antes de ir — en algunos períodos solo atiende con reserva previa.",
@@ -1529,6 +1548,7 @@ const EXTRAS = [
       },
       {
         name:"Bus Turístico Gratuito",
+        lat:-26.8302, lng:-65.2036,
         img:IMG("San Miguel de Tucumán - panoramio.jpg"),
         desc:"Servicio de bus turístico gratuito que recorre los principales puntos históricos de la capital con paradas en la Casa Histórica, Parque 9 de Julio, museos y plazas.",
         tip:"Sale desde Plaza Independencia. Muy útil si en algún momento querés un repaso rápido de la ciudad sin caminar todo bajo el frío de invierno.",
@@ -1541,6 +1561,7 @@ const EXTRAS = [
     places:[
       {
         name:"Museo Jesuítico La Banda",
+        lat:-26.66, lng:-66.00,
         img:IMG("Mestize amaicha.jpg"),
         desc:"Sitio arqueológico a pocos kilómetros de Amaicha del Valle con restos de la presencia jesuita-diaguita en los valles calchaquíes, anterior a la expulsión de los jesuitas en 1767.",
         tip:"Preguntá en la agencia de Tafí si la excursión a Quilmes incluye parada en La Banda — muchas lo hacen sin publicidad.",
@@ -1548,6 +1569,7 @@ const EXTRAS = [
       },
       {
         name:"Mirador del Indio y Quebrada de Amaicha",
+        lat:-26.70, lng:-65.95,
         img:IMG("Indio en Tafi del Valle - Provincia de Tucuman.jpg"),
         desc:"Mirador con una figura tallada en roca y vista panorámica a la quebrada de Amaicha — parada corta en el camino entre Tafí y las Ruinas de Quilmes.",
         tip:"La mayoría de las excursiones organizadas a Quilmes paran acá sin que esté explícito en el itinerario — vale preguntar.",
@@ -1555,6 +1577,7 @@ const EXTRAS = [
       },
       {
         name:"Ruta del Vino de Amaicha",
+        lat:-26.63, lng:-66.015,
         img:IMG("Valle De Tafí (234462759).jpeg"),
         desc:"Bodegas boutique de altura en el valle calchaquí que producen torrontés y malbec con características únicas por la altitud. Las visitas incluyen degustación y recorrido del viñedo.",
         tip:"Conviene reservar la visita con al menos un día de anticipación. Las bodegas son pequeñas y familiares — pocas aceptan visitas espontáneas.",
@@ -1562,6 +1585,7 @@ const EXTRAS = [
       },
       {
         name:"Observatorio Astronómico Ampimpa",
+        lat:-26.72, lng:-65.95,
         img:IMG("VistadeTafidelValle-1.jpg"),
         desc:"Observatorio de montaña cerca de Amaicha con cielos excepcionales por la altitud y baja contaminación lumínica. Ofrece visitas nocturnas con telescopios y explicación de la bóveda celeste.",
         tip:"Las visitas son nocturnas — reservar con anticipación y abrigarse bien, de noche el frío en altura es intenso incluso en verano.",
@@ -1574,6 +1598,7 @@ const EXTRAS = [
     places:[
       {
         name:"Aerosillas y cerro El Cadillal",
+        lat:-26.6258, lng:-65.1842,
         img:IMG("Dique el Cadillal Tucuman.jpg"),
         desc:"El Cadillal tiene aerosillas que suben a un cerro con vista panorámica al dique y las sierras circundantes. Una opción diferente al simple paseo por la costanera.",
         tip:"Las aerosillas no siempre están en funcionamiento fuera de temporada alta — conviene confirmar el día anterior antes de ir hasta allá.",
@@ -1581,6 +1606,7 @@ const EXTRAS = [
       },
       {
         name:"Museo Arqueológico El Cadillal",
+        lat:-26.6250, lng:-65.1838,
         img:IMG("Dique el Cadillal Tucuman.jpg"),
         desc:"Pequeño museo in situ con piezas arqueológicas halladas en la zona durante la construcción del dique en los años 60, incluyendo cerámica y utensilios de los pueblos originarios del área.",
         tip:"Está dentro del predio del área recreativa. Vale sumarle 30 minutos si ya estás en El Cadillal ese día.",
@@ -1730,6 +1756,17 @@ function jumpToStop(dayId, stopId){
       }
     }
 
+    card.scrollIntoView({behavior:'smooth', block:'center'});
+    card.classList.add('search-highlight');
+    setTimeout(()=> card.classList.remove('search-highlight'), 2200);
+  });
+}
+
+function jumpToExtra(extraId){
+  switchToTab('extras');
+  requestAnimationFrame(()=>{
+    const card = document.querySelector(`.extras-card[data-extra="${extraId}"]`);
+    if(!card) return;
     card.scrollIntoView({behavior:'smooth', block:'center'});
     card.classList.add('search-highlight');
     setTimeout(()=> card.classList.remove('search-highlight'), 2200);
@@ -2330,6 +2367,7 @@ function buildAjustesSection(){
 
       // Reset estado en memoria de "visitado" (paradas), no solo el storage
       visitedStopsState = {};
+      visitedExtrasState = {};
 
       // Rebuild everything
       updateHeroEyebrow();
@@ -2364,6 +2402,12 @@ function buildMapaSection(){
     chip.textContent = d.weekdayShort ? `${d.weekdayShort} ${d.dateLabel}` : `Día ${d.num}`;
     filter.appendChild(chip);
   });
+
+  const extrasChip = document.createElement('button');
+  extrasChip.className = 'map-chip map-chip-extras';
+  extrasChip.dataset.day = 'extras';
+  extrasChip.textContent = '✨ Extras';
+  filter.appendChild(extrasChip);
 
   // Listeners attached here so they survive every renderAll() rebuild
   filter.addEventListener('click', (e)=>{
@@ -2500,6 +2544,37 @@ function buildStopPopupHtml(dayId, stopId, dayNum, time, name, desc, isVisited){
   `;
 }
 
+function buildExtraMarkerIcon(icon, isVisited){
+  return L.divIcon({
+    className:'',
+    html:`<div class="extra-marker-icon${isVisited ? ' visited-marker' : ''}">${isVisited ? '✓' : icon}</div>`,
+    iconSize:[26,26], iconAnchor:[13,13]
+  });
+}
+
+function updateMapExtraMarkerVisited(extraId, isVisited){
+  const marker = mapLayers.find(l => l.extraId === extraId);
+  if(!marker) return;
+  marker.setIcon(buildExtraMarkerIcon(marker.extraIcon, isVisited));
+  if(marker.isPopupOpen()){
+    marker.setPopupContent(buildExtraPopupHtml(marker.extraId, marker.extraZone, marker.extraName, marker.extraDesc, marker.extraPrice, isVisited));
+  }
+}
+
+function buildExtraPopupHtml(extraId, zone, name, desc, price, isVisited){
+  return `
+    <div class="popup-time">✨ ${zone}</div>
+    <div class="popup-name">${name}</div>
+    <p class="popup-desc">${desc.slice(0,110)}${desc.length>110?'…':''}</p>
+    <span class="badge" style="margin-bottom:8px;display:inline-block;">${price}</span>
+    <label class="popup-visited-toggle">
+      <input type="checkbox" ${isVisited ? 'checked' : ''} onchange="setExtraVisited('${extraId}', this.checked); this.nextElementSibling.textContent = this.checked ? '✓ Visitado' : 'Marcar visitado';">
+      <span>${isVisited ? '✓ Visitado' : 'Marcar visitado'}</span>
+    </label>
+    <button type="button" class="popup-goto-btn popup-goto-btn-extra" onclick="jumpToExtra('${extraId}')">✨ Ver en Extras</button>
+  `;
+}
+
 renderAll();
 
 function initMap(){
@@ -2527,41 +2602,70 @@ function renderMapMarkers(filterDay){
   mapLayers.forEach(l => leafletMap.removeLayer(l));
   mapLayers = [];
 
-  const daysToShow = filterDay === 'all' ? DAYS : DAYS.filter(d=>d.id===filterDay);
   const allPoints = [];
+  const showDays = filterDay === 'all' || DAYS.some(d=>d.id===filterDay);
+  const showExtras = filterDay === 'all' || filterDay === 'extras';
 
-  daysToShow.forEach(day=>{
-    const color = DAY_COLORS[day.id] || "#1F3D2E";
-    const routeCoords = [];
+  if(showDays && filterDay !== 'extras'){
+    const daysToShow = filterDay === 'all' ? DAYS : DAYS.filter(d=>d.id===filterDay);
 
-    day.stops.forEach((s, i)=>{
-      if(s.lat == null) return;
-      routeCoords.push([s.lat, s.lng]);
-      allPoints.push([s.lat, s.lng]);
+    daysToShow.forEach(day=>{
+      const color = DAY_COLORS[day.id] || "#1F3D2E";
+      const routeCoords = [];
 
-      const stopId = `${day.id}-stop-${i}`;
-      const isVisited = !!visitedStopsState[stopId];
-      const icon = buildMarkerIcon(day.num, color, isVisited);
-      const marker = L.marker([s.lat, s.lng], {icon}).addTo(leafletMap);
+      day.stops.forEach((s, i)=>{
+        if(s.lat == null) return;
+        routeCoords.push([s.lat, s.lng]);
+        allPoints.push([s.lat, s.lng]);
 
-      // Guardamos los datos en el propio marcador para poder actualizarlo después sin re-renderizar todo
-      marker.dayId = day.id;
-      marker.stopId = stopId;
-      marker.dayNum = day.num;
-      marker.markerColor = color;
-      marker.stopTime = s.time;
-      marker.stopName = s.name;
-      marker.stopDesc = s.desc;
+        const stopId = `${day.id}-stop-${i}`;
+        const isVisited = !!visitedStopsState[stopId];
+        const icon = buildMarkerIcon(day.num, color, isVisited);
+        const marker = L.marker([s.lat, s.lng], {icon}).addTo(leafletMap);
 
-      marker.bindPopup(buildStopPopupHtml(day.id, stopId, day.num, s.time, s.name, s.desc, isVisited));
-      mapLayers.push(marker);
+        // Guardamos los datos en el propio marcador para poder actualizarlo después sin re-renderizar todo
+        marker.dayId = day.id;
+        marker.stopId = stopId;
+        marker.dayNum = day.num;
+        marker.markerColor = color;
+        marker.stopTime = s.time;
+        marker.stopName = s.name;
+        marker.stopDesc = s.desc;
+
+        marker.bindPopup(buildStopPopupHtml(day.id, stopId, day.num, s.time, s.name, s.desc, isVisited));
+        mapLayers.push(marker);
+      });
+
+      if(routeCoords.length > 1 && filterDay !== 'all'){
+        const line = L.polyline(routeCoords, {color, weight:3, dashArray:'6,6', opacity:0.8}).addTo(leafletMap);
+        mapLayers.push(line);
+      }
     });
+  }
 
-    if(routeCoords.length > 1 && filterDay !== 'all'){
-      const line = L.polyline(routeCoords, {color, weight:3, dashArray:'6,6', opacity:0.8}).addTo(leafletMap);
-      mapLayers.push(line);
-    }
-  });
+  if(showExtras){
+    EXTRAS.forEach((group, gIdx)=>{
+      group.places.forEach((p, pIdx)=>{
+        if(p.lat == null) return;
+        const extraId = `extra-${gIdx}-${pIdx}`;
+        allPoints.push([p.lat, p.lng]);
+
+        const isVisited = !!visitedExtrasState[extraId];
+        const icon = buildExtraMarkerIcon(p.icon, isVisited);
+        const marker = L.marker([p.lat, p.lng], {icon}).addTo(leafletMap);
+
+        marker.extraId = extraId;
+        marker.extraIcon = p.icon;
+        marker.extraZone = group.zone;
+        marker.extraName = p.name;
+        marker.extraDesc = p.desc;
+        marker.extraPrice = p.price;
+
+        marker.bindPopup(buildExtraPopupHtml(extraId, group.zone, p.name, p.desc, p.price, isVisited));
+        mapLayers.push(marker);
+      });
+    });
+  }
 
   if(allPoints.length){
     leafletMap.fitBounds(allPoints, {padding:[30,30]});
@@ -2815,25 +2919,48 @@ async function initVisitedToggles(){
 initVisitedToggles();
 
 /* ===================== EXTRAS VISITED TOGGLE (persisted via window.storage) ===================== */
-async function initExtrasVisitedToggles(){
-  let saved = {};
+let visitedExtrasState = {};
+
+async function loadVisitedExtrasState(){
   try{
     const res = await appStorage.get('visited-extras');
-    if(res && res.value) saved = JSON.parse(res.value);
+    if(res && res.value) visitedExtrasState = JSON.parse(res.value);
   }catch(e){ /* no saved state yet */ }
+}
+
+async function saveVisitedExtrasState(){
+  try{ await appStorage.set('visited-extras', JSON.stringify(visitedExtrasState)); }catch(err){}
+}
+
+function setExtraVisited(extraId, isVisited){
+  visitedExtrasState[extraId] = isVisited;
+  saveVisitedExtrasState();
+
+  const cb = document.querySelector(`.extras-visited-check[data-extra="${extraId}"]`);
+  if(cb){
+    cb.checked = isVisited;
+    const card = cb.closest('.extras-card');
+    if(card) card.classList.toggle('is-visited', isVisited);
+  }
+
+  if(leafletMap) updateMapExtraMarkerVisited(extraId, isVisited);
+}
+
+async function initExtrasVisitedToggles(){
+  if(!Object.keys(visitedExtrasState).length){
+    await loadVisitedExtrasState();
+  }
 
   document.querySelectorAll('.extras-visited-check').forEach(cb=>{
     const extraId = cb.dataset.extra;
     const card = cb.closest('.extras-card');
     if(!card) return;
-    const isVisited = !!saved[extraId];
+    const isVisited = !!visitedExtrasState[extraId];
     cb.checked = isVisited;
     card.classList.toggle('is-visited', isVisited);
 
-    cb.addEventListener('change', async ()=>{
-      saved[extraId] = cb.checked;
-      card.classList.toggle('is-visited', cb.checked);
-      try{ await appStorage.set('visited-extras', JSON.stringify(saved)); }catch(err){}
+    cb.addEventListener('change', ()=>{
+      setExtraVisited(extraId, cb.checked);
     });
   });
 }
