@@ -785,6 +785,19 @@
     touch-action:pan-x pan-y;
     overscroll-behavior:contain;
   }
+  .map-style-switcher{
+    position:absolute;top:64px;right:14px;z-index:1500;
+    display:flex;flex-direction:column;gap:6px;
+    background:#fff;border-radius:12px;padding:5px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.25);
+  }
+  .map-style-btn{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    border:none;background:transparent;color:var(--gris);
+    font-size:11.5px;font-weight:600;padding:7px 10px;border-radius:8px;
+    cursor:pointer;text-align:left;white-space:nowrap;
+  }
+  .map-style-btn.active{background:var(--verde);color:#fff;}
   .locate-btn{
     position:absolute;right:14px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:1500;
     width:44px;height:44px;border-radius:50%;border:none;
@@ -2449,6 +2462,23 @@ function buildMapaSection(){
   mapDiv.setAttribute('aria-label', 'Mapa interactivo con las paradas del itinerario');
   wrap.appendChild(mapDiv);
 
+  const styleSwitcher = document.createElement('div');
+  styleSwitcher.className = 'map-style-switcher';
+  Object.keys(MAP_BASE_LAYERS).forEach(key=>{
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'map-style-btn' + (key === currentMapStyle ? ' active' : '');
+    btn.dataset.style = key;
+    btn.textContent = MAP_BASE_LAYERS[key].label;
+    styleSwitcher.appendChild(btn);
+  });
+  styleSwitcher.addEventListener('click', (e)=>{
+    const btn = e.target.closest('.map-style-btn');
+    if(!btn) return;
+    setMapStyle(btn.dataset.style);
+  });
+  wrap.appendChild(styleSwitcher);
+
   const locateBtn = document.createElement('button');
   locateBtn.className = 'locate-btn';
   locateBtn.id = 'locateBtn';
@@ -2473,7 +2503,11 @@ function renderAll(){
   if(mapaSection) mapaSection.classList.remove('active');
 
   // Reset map instance so it gets rebuilt fresh against the new DAYS
-  if(leafletMap){ try{ leafletMap.remove(); }catch(e){} leafletMap = null; mapLayers = []; userLocationMarker = null; userLocationCircle = null; }
+  if(leafletMap){
+    try{ leafletMap.remove(); }catch(e){}
+    leafletMap = null; mapLayers = []; userLocationMarker = null; userLocationCircle = null;
+    Object.keys(MAP_BASE_LAYERS).forEach(key=>{ MAP_BASE_LAYERS[key].layer = null; });
+  }
 
   sectionsRoot.innerHTML = '';
   sectionsRoot.appendChild(buildItinerarioSection());
@@ -2615,15 +2649,76 @@ function buildExtraPopupHtml(extraId, zone, name, desc, price, isVisited){
   `;
 }
 
+const MAP_BASE_LAYERS = {
+  calles: {
+    label:'🗺️ Calles',
+    layer: null,
+    create: ()=> L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution:'&copy; OpenStreetMap',
+      maxZoom: 19
+    })
+  },
+  satelite: {
+    label:'🛰️ Satélite',
+    layer: null,
+    create: ()=> L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution:'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics',
+      maxZoom: 19
+    })
+  },
+  topo: {
+    label:'⛰️ Topográfico',
+    layer: null,
+    create: ()=> L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+      attribution:'Map data: &copy; OpenStreetMap contributors, SRTM — Map style: &copy; OpenTopoMap (CC-BY-SA)',
+      subdomains:'abc',
+      maxZoom: 17
+    })
+  }
+};
+let currentMapStyle = 'calles';
+
+(async function loadMapStyle(){
+  try{
+    const res = await appStorage.get('map-style');
+    if(res && res.value && MAP_BASE_LAYERS[res.value]){
+      currentMapStyle = res.value;
+      document.querySelectorAll('.map-style-btn').forEach(b=>{
+        b.classList.toggle('active', b.dataset.style === currentMapStyle);
+      });
+      if(leafletMap) setMapStyle(currentMapStyle);
+    }
+  }catch(e){}
+})();
+
 renderAll();
+
+function setMapStyle(styleKey){
+  if(!leafletMap || !MAP_BASE_LAYERS[styleKey]) return;
+
+  Object.keys(MAP_BASE_LAYERS).forEach(key=>{
+    const entry = MAP_BASE_LAYERS[key];
+    if(entry.layer && leafletMap.hasLayer(entry.layer)){
+      leafletMap.removeLayer(entry.layer);
+    }
+  });
+
+  const entry = MAP_BASE_LAYERS[styleKey];
+  if(!entry.layer) entry.layer = entry.create();
+  entry.layer.addTo(leafletMap);
+  currentMapStyle = styleKey;
+
+  document.querySelectorAll('.map-style-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.style === styleKey);
+  });
+
+  try{ appStorage.set('map-style', styleKey); }catch(e){}
+}
 
 function initMap(){
   if(leafletMap) return;
   leafletMap = L.map('leafletMap', {scrollWheelZoom:true}).setView([-26.78, -65.55], 9);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution:'&copy; OpenStreetMap',
-    maxZoom: 18
-  }).addTo(leafletMap);
+  setMapStyle(currentMapStyle);
   renderMapMarkers('all');
 
   // Reliable resize handling: recalculates whenever the container's
