@@ -713,6 +713,24 @@
     background:var(--crema);border-radius:8px;padding:8px 10px;
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   }
+  .extras-check-row{display:flex;justify-content:flex-end;margin-top:8px;}
+  .extras-visited-toggle{
+    display:flex;align-items:center;gap:5px;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:11.5px;font-weight:700;color:var(--gris);user-select:none;
+  }
+  .extras-visited-toggle input{width:16px;height:16px;accent-color:var(--verde-claro);}
+  .extras-visited-toggle input:checked ~ span{color:var(--verde-claro);}
+  .extras-card.is-visited{border-color:var(--verde-claro);background:#FBFBF6;}
+  .extras-card.is-visited img{filter:saturate(0.55) brightness(0.92);}
+  .extras-visited-badge{
+    display:none;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    position:absolute;top:10px;right:10px;background:var(--verde-claro);color:#fff;
+    font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;
+    box-shadow:0 1px 4px rgba(0,0,0,0.25);
+  }
+  .extras-card.is-visited .extras-visited-badge{display:inline-block;}
 
   /* ---------- ACCESSIBILITY MODES ---------- */
   body.a11y-high-contrast{
@@ -2103,12 +2121,14 @@ function buildExtrasSection(){
   let html = `<h2 class="section-title">✨ Lugares extras</h2>
     <p class="section-sub">Opcionales no incluidos en el itinerario — para si sobra tiempo o querés explorar más.</p>`;
 
-  EXTRAS.forEach(group=>{
+  EXTRAS.forEach((group, gIdx)=>{
     html += `<h3 class="extras-zone-title">${group.zone}</h3>`;
-    group.places.forEach(p=>{
-      html += `<div class="extras-card">
+    group.places.forEach((p, pIdx)=>{
+      const extraId = `extra-${gIdx}-${pIdx}`;
+      html += `<div class="extras-card" data-extra="${extraId}">
         <img class="zoomable-img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
         <span class="zoom-hint" aria-hidden="true">🔍</span>
+        <span class="extras-visited-badge">✓ Visitado</span>
         <div class="extras-body">
           <div class="extras-header">
             <span class="extras-icon">${p.icon}</span>
@@ -2117,6 +2137,12 @@ function buildExtrasSection(){
           </div>
           <p class="extras-desc">${p.desc}</p>
           <div class="extras-tip">🎒 ${p.tip}</div>
+          <div class="extras-check-row">
+            <label class="extras-visited-toggle">
+              <input type="checkbox" class="extras-visited-check" data-extra="${extraId}">
+              <span>Visitado</span>
+            </label>
+          </div>
         </div>
       </div>`;
     });
@@ -2272,7 +2298,7 @@ function buildAjustesSection(){
     });
     resetConfirmOk.addEventListener('click', async ()=>{
       // Clear all localStorage keys for this app
-      const keys = ['checklist-state','stop-checklists-state','visited-stops','stop-notes','presupuesto','trip-config','a11y'];
+      const keys = ['checklist-state','stop-checklists-state','visited-stops','visited-extras','stop-notes','presupuesto','trip-config','a11y'];
       for(const k of keys){ await appStorage.set(k, null); localStorage.removeItem('tucuman-app:'+k); }
 
       // Reset trip config to today
@@ -2363,6 +2389,7 @@ function renderAll(){
 
   initStopChecklists();
   initVisitedToggles();
+  initExtrasVisitedToggles();
   initStopNotes();
   renderChecklist();
   renderPresupuesto();
@@ -2692,6 +2719,31 @@ async function initVisitedToggles(){
   });
 }
 initVisitedToggles();
+
+/* ===================== EXTRAS VISITED TOGGLE (persisted via window.storage) ===================== */
+async function initExtrasVisitedToggles(){
+  let saved = {};
+  try{
+    const res = await appStorage.get('visited-extras');
+    if(res && res.value) saved = JSON.parse(res.value);
+  }catch(e){ /* no saved state yet */ }
+
+  document.querySelectorAll('.extras-visited-check').forEach(cb=>{
+    const extraId = cb.dataset.extra;
+    const card = cb.closest('.extras-card');
+    if(!card) return;
+    const isVisited = !!saved[extraId];
+    cb.checked = isVisited;
+    card.classList.toggle('is-visited', isVisited);
+
+    cb.addEventListener('change', async ()=>{
+      saved[extraId] = cb.checked;
+      card.classList.toggle('is-visited', cb.checked);
+      try{ await appStorage.set('visited-extras', JSON.stringify(saved)); }catch(err){}
+    });
+  });
+}
+initExtrasVisitedToggles();
 
 /* ===================== NOTAS PROPIAS POR PARADA (persisted via window.storage) ===================== */
 async function initStopNotes(){
