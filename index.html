@@ -282,6 +282,20 @@
   .road-status-block p{font-size:12px;color:var(--texto);line-height:1.5;margin:0 0 6px;}
   .road-status-block .road-contacts{font-size:11px;color:var(--gris);line-height:1.6;}
 
+  .dish-block{
+    display:flex;align-items:flex-start;gap:8px;
+    background:#FDF6EA;border:1px solid #F0E4C7;border-radius:10px;
+    padding:9px 11px;margin:10px 0;
+  }
+  .dish-block .dish-icon{font-size:16px;flex:0 0 auto;line-height:1.3;}
+  .dish-block .dish-text{flex:1;}
+  .dish-block .dish-label{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:800;
+    color:var(--terracota);margin:0 0 2px;
+  }
+  .dish-block p{margin:0;font-size:13px;color:var(--texto);line-height:1.45;}
+
   .stop-checklist{display:flex;flex-direction:column;gap:6px;}
   .check-item-mini{
     display:flex;align-items:flex-start;gap:8px;cursor:pointer;
@@ -703,6 +717,7 @@ const BLOCKS = [
         lat:-26.8285, lng:-65.2278,
         img:IMG("38-Jungas rumbo a Tafi del Valle.jpg"),
         desc:"Desde la Terminal de Ómnibus de San Miguel salen combis y micros regulares a Tafí del Valle varias veces al día (empresas como Aconquija o Bus Cevil Redondo). El viaje dura cerca de 2 horas y atraviesa tres pisos ecológicos distintos por la Cuesta del Clavillo, de la selva de Yungas al pastizal de altura.",
+        dish:"Antes de subir, comprá empanadas tucumanas en alguno de los puestos de la Terminal — se comen paradas, calentitas, mientras esperás el micro.",
         history:"La ruta 307 sigue en gran parte un antiguo camino utilizado por los pueblos originarios y luego por las tropas del general Belgrano para mover ganado y cañones entre el valle y la capital durante las guerras de independencia. El asfaltado moderno es relativamente reciente (terminado recién a fines del siglo XX), antes el cruce a Tafí podía llevar un día entero. Buena parte del trayecto atraviesa la Reserva de Biosfera de las Yungas, reconocida por la UNESCO, un corredor de selva de montaña que se extiende desde Salta hasta Catamarca y que fue clave como refugio y ruta de paso tanto para los pueblos calchaquíes como, más tarde, para los arrieros que bajaban ganado desde el valle hacia la capital.",
         curiosity:"En pocos kilómetros el paisaje pasa de selva tropical húmeda a estepa de montaña — es uno de los gradientes ecológicos más marcados y rápidos que se pueden recorrer en Argentina, y se ve genial desde la ventanilla sin tener que manejar las curvas.",
         tip:"Si tu vuelo/micro llega bien temprano a la capital, comprá el pasaje de combi apenas llegues (o el día anterior online si la empresa lo permite) — en temporada alta de invierno los horarios más cómodos se llenan rápido. Pedí ventanilla del lado de la montaña para la mejor vista.",
@@ -719,6 +734,7 @@ const BLOCKS = [
         lat:-26.853002, lng:-65.7084218,
         img:IMG("Valle De Tafí (234462759).jpeg"),
         desc:"Pueblo de unos 2.000 msnm, antiguo asentamiento de la cultura Tafí (siglos I-VIII) y luego estancia jesuítica dedicada a la producción de quesos artesanales.",
+        dish:"Apenas llegues, probá el queso de Tafí de alguna quesería cercana al alojamiento — es el mejor primer contacto con el sabor del valle.",
         history:"Antes de la llegada española, el valle fue hogar de la cultura arqueológica Tafí, conocida por sus menhires y túmulos funerarios (visibles hoy en el Parque de los Menhires, cerca de El Mollar). En el siglo XVII los jesuitas instalaron la Estancia de Tafí dedicada a la ganadería y producción de quesos; tras su expulsión en 1767 la propiedad pasó a manos privadas y luego se fue poblando el pueblo actual. La cultura Tafí ocupó el valle entre los siglos I y VIII d.C. y es una de las más antiguas del Noroeste argentino: sus habitantes vivían en aldeas de casas circulares de piedra, practicaban agricultura de altura y tallaron los menhires como parte de su vida ceremonial, mucho antes de que llegaran los diaguitas o los incas a la región.",
         curiosity:"Los quesos de Tafí del Valle tienen una tradición que se remonta a los jesuitas, expulsados en 1767. La técnica quedó en manos de las familias locales y hoy es Indicación Geográfica protegida.",
         tip:"Las noches son frías incluso en verano (puede bajar a 5-10°C) — llevá una campera de abrigo aunque en la capital haga calor.",
@@ -731,6 +747,7 @@ const BLOCKS = [
         lat:-26.8202371, lng:-65.7191014,
         img:IMG("Mestize amaicha.jpg"),
         desc:"Empanadas, locro y humitas caseras con vista al valle. El locro es un guiso de origen prehispánico, base de la dieta andina mucho antes de la llegada española.",
+        dish:"Locro tafinisto con empanadas al horno de barro de entrada y humita como postre — el combo clásico de la casa.",
         history:"El locro tiene raíces en la dieta de los pueblos andinos previos a la conquista, basada en maíz, zapallo y porotos cultivados en terrazas de altura. Con la llegada del ganado europeo se sumó carne de cerdo y vaca a la receta original, dando la versión mestiza que se cocina hoy en toda la región andina sudamericana. En Argentina el locro terminó asociado a las fechas patrias (25 de mayo y 9 de julio) precisamente por ese origen mestizo: es uno de los pocos platos que combina de forma directa un ingrediente prehispánico central, el maíz, con la ganadería que trajeron los españoles, y por eso se lo suele presentar como un símbolo culinario de la propia mezcla cultural americana.",
         curiosity:"La receta del locro varía de provincia en provincia, pero la base de maíz blanco, zapallo y porotos es prácticamente la misma que comían los pueblos diaguitas hace siglos.",
         tip:"Pedí las empanadas \"al horno de barro\" si las ofrecen — tienen un sabor ahumado distinto a las fritas. Buen primer almuerzo después del viaje, sin apuro.",
@@ -748,6 +765,7 @@ const BLOCKS = [
         lat:-26.8583277, lng:-65.7211985,
         img:IMG("Indio en Tafi del Valle - Provincia de Tucuman.jpg"),
         desc:"Talleres de telar donde artesanas locales tejen con lana de oveja u llama usando técnicas heredadas de generaciones, sin telares industriales.",
+        dish:"En los puestos del camino suele haber quesillo con miel de caña o buñuelos recién fritos — un buen bocado para media mañana.",
         history:"El tejido en telar de cintura o de pie es una práctica que viene directamente de las comunidades calchaquíes prehispánicas y se mantuvo viva a través de la transmisión oral y familiar, sin pasar por procesos industriales. Hoy varias cooperativas de artesanas de Tafí trabajan bajo programas de comercio justo que buscan proteger esta tradición frente a la competencia de tejidos industriales baratos.",
         curiosity:"Los diseños geométricos de los tejidos calchaquíes no son solo decorativos: muchos patrones identifican a la familia o comunidad que los teje, una tradición textil que antecede a la conquista.",
         tip:"Llevá efectivo — la mayoría de las artesanas no tiene posnet y prefieren venta directa sin intermediarios.",
@@ -759,6 +777,7 @@ const BLOCKS = [
         lat:-26.853002, lng:-65.7084218,
         img:IMG("Valle De Tafí (234462759).jpeg"),
         desc:"Almuerzo libre en el centro y visita a alguna quesería familiar — buen momento para probar el queso de Tafí en el lugar donde se hace.",
+        dish:"Una tabla de quesos de cabra y de vaca con dulce de cayote — la combinación dulce-salado típica de las queserías de Tafí.",
         curiosity:"Muchas queserías familiares de Tafí ofrecen degustación gratuita o a muy bajo costo si comprás algo — es una buena forma de conocer el proceso de elaboración del queso tafinisto en persona.",
         tip:"Si todavía no probaste el queso de cabra o las conservas regionales (dulce de cayote, miel de caña), este es el momento — el centro de Tafí tiene varias casas de productos regionales sobre la calle principal.",
         duration:"1h30-2h", price:"Variable", access:"Pueblo chico y caminable, sin necesidad de coordinar transporte.",
@@ -769,6 +788,7 @@ const BLOCKS = [
         lat:-26.86686, lng:-65.714342,
         img:IMG("VistadeTafidelValle-1.jpg"),
         desc:"Caminata corta (40 min) hasta un mirador con la mejor vista panorámica del pueblo, el dique La Angostura y la cordillera de fondo.",
+        dish:"De bajada, un té de peperina o un submarino caliente en algún bar del centro es el cierre perfecto después del frío del mirador.",
         history:"La cruz en la cima fue instalada por pobladores locales como punto de fe y orientación, y con el tiempo el cerro se convirtió en el mirador no oficial más popular del pueblo, sin intervención turística formal: no hay entrada paga ni infraestructura, es un sendero que se mantiene por el uso constante de vecinos y visitantes.",
         curiosity:"El sendero no está oficialmente señalizado más que por cruces de madera dejadas por los propios caminantes a lo largo de los años — es casi una tradición local marcar el camino así.",
         tip:"Subí antes del atardecer: la luz baja sobre el valle es el mejor momento para fotos, pero bajá con tiempo porque no hay iluminación en el sendero.",
@@ -787,6 +807,7 @@ const BLOCKS = [
         lat:-26.9175123, lng:-65.6955712,
         img:IMG("Lago La Angostura, Tafí del Valle, Tucumán, Argentina.jpg"),
         desc:"Embalse a 10 minutos de Tafí, rodeado de miradores. Abastece de agua a parte del valle y es punto de pesca y deportes náuticos en temporada.",
+        dish:"Si hay puestos en los miradores, un mate cocido con torta frita es el clásico para el frío de la mañana.",
         history:"Se construyó en la década de 1950 como parte de un plan provincial de obras hídricas, inundando terrenos que antes eran de pastoreo de las antiguas estancias jesuíticas. La obra cambió el paisaje del sur del valle de forma permanente y hoy es uno de los puntos más fotografiados de la zona, además de fuente de agua para riego y consumo.",
         curiosity:"El dique se construyó en los años 50 inundando parte de las tierras donde antes pastaban las majadas de las estancias jesuíticas — varios puesteros debieron reubicarse cuando se llenó el embalse.",
         tip:"Si vas en excursión organizada, este suele ser el primer paseo del día — la van/combi para en los miradores de la ruta 307 antes de seguir viaje. Si coordinaste algo por tu cuenta, preguntá si el dique entra en el recorrido.",
@@ -798,6 +819,7 @@ const BLOCKS = [
         lat:-26.4674982, lng:-66.0333735,
         img:IMG("Ruinas de Quilmes - Tucumán.jpg"),
         desc:"La ciudadela prehispánica más grande de Argentina: llegó a albergar hasta 5.000 personas del pueblo Quilmes antes de la conquista. Resistió casi 130 años a los incas y a los españoles. Sin auto propio, la forma más práctica de llegar es una excursión organizada de día completo desde Tafí, que suele combinar Quilmes con una parada en Amaicha del Valle (otro pueblo calchaquí con su propio museo y feria de artesanos).",
+        dish:"En la parada de Amaicha del Valle, las empanadas calchaquíes (más picantes que las de la capital) y un vaso de vino de altura son infaltables.",
         history:"Fundada hacia el siglo IX, la ciudadela de Quilmes fue el centro de una confederación de comunidades diaguitas que resistió primero el avance del Imperio Inca y luego, durante más de un siglo, las campañas militares españolas. La resistencia diaguita-calchaquí fue una de las más prolongadas del continente. Tras la rendición final en 1665, la corona española ordenó el desarraigo forzado: los sobrevivientes —unos 2.000— fueron obligados a caminar más de 1.200 km hasta Buenos Aires como castigo y para evitar nuevos levantamientos. El sitio quedó abandonado y fue redescubierto y parcialmente reconstruido recién en el siglo XX. En su apogeo, entre los siglos XII y XV, la ciudadela llegó a albergar a varios miles de personas organizadas en un complejo de viviendas de piedra con techos de paja y cardón, dos fortalezas defensivas (el Castillo y la Ciudadela) y un sistema de riego basado en represas para el agua de lluvia. Los quilmes dominaban la metalurgia del bronce, la cerámica y el tejido fino, y su resistencia tuvo dos grandes hitos: el levantamiento liderado por el cacique que da nombre al valle en 1562, y una segunda rebelión en 1630 encabezada por Juan Chelemín, que terminó ejecutado. El asedio final, en 1665, fue obra del gobernador Alonso Mercado y Villacorta, quien cercó la ciudadela hasta rendirla por hambre. Los descendientes de los deportados fundaron con el tiempo la actual ciudad de Quilmes, en la provincia de Buenos Aires. Las ruinas fueron estudiadas científicamente por primera vez en 1897 por el arqueólogo Juan Bautista Ambrosetti, y su reconstrucción parcial —tal como se la ve hoy— se hizo en 1978, en un proceso que generó controversia porque no siguió del todo los protocolos arqueológicos de la época.",
         curiosity:"Los Quilmes resistieron tanto que España terminó deportando a los sobrevivientes a pie hasta Buenos Aires en 1666 — un viaje de más de 1.200 km del que murió la mayoría. Los descendientes fundaron lo que hoy es la ciudad de Quilmes, provincia de Buenos Aires (sí, la de la cerveza).",
         tip:"Reservá la excursión un día antes en alguna agencia de Tafí (se consiguen sobre la calle principal o preguntando en el alojamiento) — suelen salir temprano (8-9 h) y volver a la tardecita, con almuerzo incluido o parada en Amaicha para comer. Llevá protector solar, gorro y agua: no hay sombra en el recorrido. El tiempo en el sitio depende del grupo, pero suele rondar 1h30-2h.",
@@ -810,6 +832,7 @@ const BLOCKS = [
         lat:-26.8493388, lng:-65.6971914,
         img:IMG("Valle De Tafí (235097791).jpeg"),
         desc:"Propuesta gastronómica más elaborada en Tafí, con platos que reinterpretan ingredientes andinos (papines, quesos de cabra, hierbas de la zona).",
+        dish:"Papines andinos con crema de queso de cabra y hierbas de la zona — el plato que mejor resume la propuesta de la casa.",
         history:"Forma parte de una nueva generación de propuestas gastronómicas en el NOA que buscan poner en valor ingredientes de altura (papa andina, quinoa, amaranto, quesos de cabra) con técnicas de cocina contemporánea, en contraste con la oferta más tradicional de parrillas y rotiserías del pueblo.",
         curiosity:"La cocina de altura del NOA está teniendo un resurgimiento gastronómico: chefs jóvenes están recuperando ingredientes como la quinoa local, el amaranto y los quesos artesanales en propuestas de cocina contemporánea.",
         tip:"Cierra lunes y martes — confirmá el horario antes de ir, sobre todo fuera de temporada alta.",
@@ -827,6 +850,7 @@ const BLOCKS = [
         lat:-26.9398, lng:-65.7146,
         img:IMG("Menhir de Tafi.jpg"),
         desc:"Colección de más de 100 menhires (piedras paradas talladas) de la cultura Tafí, prehispánica y anterior a los diaguitas. Hoy están reunidos en un parque a cielo abierto en El Mollar, a unos 20 minutos de Tafí.",
+        dish:"En los puestos de El Mollar se consigue dulce de cayote y alfajores de maicena caseros — buenos para el mate de la tarde.",
         history:"Los menhires originalmente estaban dispersos por todo el valle, marcando sitios ceremoniales y funerarios de la cultura Tafí (siglos I al VIII d.C.). Cuando se construyó el Dique La Angostura en los años 50 y el agua empezó a cubrir parte del valle, se reunieron y reubicaron en este parque en 1977 para protegerlos, aunque eso significó perder su ubicación y contexto original. Se conservan más de un centenar de piedras, algunas de más de dos metros de altura, con grabados que combinan figuras humanas esquemáticas, animales y motivos geométricos; los arqueólogos coinciden en que marcaban espacios de culto vinculados al ciclo agrícola y a los ancestros, aunque —al no existir registro escrito de esta cultura— buena parte de su significado exacto sigue siendo objeto de debate académico.",
         curiosity:"Nadie sabe con certeza qué representan las figuras talladas en los menhires — hay teorías que van desde representaciones de antepasados hasta marcadores astronómicos, pero ningún registro escrito sobrevivió para confirmarlo.",
         tip:"Se llega en remís corto desde Tafí (unos 20 min) o en alguna combi local que una El Mollar con el pueblo — preguntá en el alojamiento por el horario del día. Hay un mirador del Dique La Angostura justo al lado, fotogénico para la mañana.",
@@ -839,6 +863,7 @@ const BLOCKS = [
         lat:-26.853002, lng:-65.7084218,
         img:IMG("Valle De Tafí (234462759).jpeg"),
         desc:"Tarde sin agenda fija: buen momento para volver a la quesería o al lugar que más haya gustado de los días anteriores, dar una vuelta final por el centro del pueblo, o simplemente descansar antes de bajar a la capital al día siguiente.",
+        dish:"Una última ronda de empanadas tafinistas o un helado artesanal de leche de cabra, como despedida del valle.",
         history:"",
         curiosity:"",
         tip:"Aprovechá para hacer las últimas compras de regionales (quesos, tejidos, dulces) antes de bajar — en la capital cuesta encontrar los mismos productos.",
@@ -856,6 +881,7 @@ const BLOCKS = [
         lat:-26.852686, lng:-65.7105579,
         img:IMG("Ruta 307 - panoramio.jpg"),
         desc:"Vuelta a la capital en combi (~2 h desde Tafí, misma empresa que el viaje de ida). Antes de subir, buen momento para una última pasada por la oficina de turismo de Tafí si falta comprar algo.",
+        dish:"Aprovechá para llevar humitas o tamales para comer en el viaje — se consiguen en los puestos cerca de la terminal de Tafí.",
         history:"La oficina de turismo de Tafí funciona como punto de coordinación entre las distintas cooperativas de productores de queso y artesanos del valle, y suele tener folletería con mapas y recomendaciones actualizadas.",
         curiosity:"El queso tafinisto se elabora todavía con leche cruda de tambos familiares pequeños; cada productor tiene su propia variación de maduración y sabor.",
         tip:"Si comprás queso para el resto del viaje, pedí que te lo envuelvan al vacío — aguanta mucho mejor el calor de la bajada y los días que quedan en la capital.",
@@ -871,6 +897,7 @@ const BLOCKS = [
         lat:-26.8331348, lng:-65.2038418,
         img:IMG("Casa Histórica de Tucumán 04.JPG"),
         desc:"Donde 29 diputados firmaron la independencia el 9 de julio de 1816. El edificio actual es en gran parte una reconstrucción de los años 40, ya que el original sufrió demoliciones y refacciones a lo largo del siglo XIX.",
+        dish:"Cerca de Plaza Independencia hay varios puestos de empanadas tucumanas clásicas — jugosas, se comen de pie y son ideales entre visita y visita.",
         history:"La casa perteneció originalmente a la familia Laguna y fue alquilada en 1816 para sesionar el Congreso porque Buenos Aires, sede natural, estaba ocupada por tropas realistas y no era segura. Tras la independencia, el edificio cambió de manos varias veces y partes fueron demolidas en 1869 para abrir una calle. Recién en 1941 el estado nacional encaró una reconstrucción histórica basándose en planos, fotografías y relatos de la época para devolverle el aspecto colonial que tiene hoy. Es Monumento Histórico Nacional desde 1941 y sigue siendo sede de actos oficiales cada 9 de julio.",
         curiosity:"La sala donde se firmó el Acta no es la original: fue reconstruida en 1943 a partir de pinturas y descripciones de la época, porque la casa real había sido modificada drásticamente. La cúpula azul que se ve hoy tampoco existía en 1816, se agregó después.",
         tip:"Cerrado los lunes — sábado está bien. De noche hay un espectáculo de luz y sonido (\"Tucumán, Casa de la Libertad\") que cuenta la historia sobre la fachada — conviene reservar con anticipación en la web oficial.",
@@ -882,6 +909,7 @@ const BLOCKS = [
         lat:-26.8292678, lng:-65.1916518,
         img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
         desc:"Con 40 hectáreas, es uno de los parques urbanos más grandes de Argentina, diseñado por Carlos Thays (el mismo paisajista del Jardín Botánico de Buenos Aires y Parque Sarmiento en Córdoba).",
+        dish:"Los puestos del parque suelen tener garrapiñada y choripán — un clásico argentino para comer caminando por las avenidas de Thays.",
         history:"El predio perteneció a la antigua Quinta Agronómica de la provincia, un terreno experimental de fines del siglo XIX usado para aclimatar especies vegetales traídas de otras partes del mundo. En 1916, para el centenario de la independencia, el gobierno tucumano contrató a Thays para transformarlo en parque público al estilo de los grandes paseos europeos, con lagos artificiales, glorietas y un sistema de avenidas curvas que todavía se conserva casi intacto.",
         curiosity:"El parque ocupa los terrenos de la ex Quinta Agronómica y todavía conserva ejemplares de árboles centenarios plantados como parte de un proyecto experimental de aclimatación de especies a fines del siglo XIX.",
         tip:"Sábado hay ferias de artesanos cerca del Cabildo. Llevá efectivo chico, no todos los puestos tienen posnet.",
@@ -893,6 +921,7 @@ const BLOCKS = [
         lat:-26.8307884, lng:-65.2029329,
         img:IMG("Plaza Independencia en San Miguel de Tucumán, capital de la Provincia de Tucumán.jpg"),
         desc:"Balcón con vista directa a la Plaza Independencia y la estatua de la Libertad de Lola Mora, una de las pocas obras públicas de esta escultora tucumana en su propia provincia.",
+        dish:"El matambre a la tucumana o un bife de chorizo con guarnición regional son buenas opciones para la última cena en la capital.",
         history:"La Plaza Independencia ocupa el lugar de la plaza mayor fundacional de la ciudad desde el siglo XVI, reubicada acá en 1685 tras el segundo y definitivo traslado de San Miguel de Tucumán. La estatua de la Libertad que corona la fuente central es obra de Lola Mora, encargada en 1903 pero que tardó años en instalarse por disputas sobre su desnudez parcial, consideradas escandalosas para la época.",
         curiosity:"Lola Mora, autora de la fuente de las Nereidas en Buenos Aires, nació a pocos kilómetros de acá, en Trancas. Gran parte de su obra monumental terminó fuera de Tucumán por conflictos con la Iglesia y el poder político de su época.",
         tip:"Pedí mesa en el balcón si el clima acompaña — de noche, con la Catedral iluminada, es de las mejores postales de la ciudad.",
@@ -910,6 +939,7 @@ const BLOCKS = [
         lat:-26.6258, lng:-65.1842,
         img:IMG("Dique el Cadillal Tucuman.jpg"),
         desc:"Embalse a unos 25 km al norte de la capital, con playas de arena, costaneras y paseos en lancha — el clásico destino de fin de semana de los tucumanos para escapar del calor.",
+        dish:"En las parrillas de la costanera es tradición pedir pescado de río, surubí o pacú, recién sacado del embalse.",
         history:"Se construyó en los años 60 sobre el río Tapia-Lules como parte de un plan de obras hídricas para abastecer de agua a San Miguel de Tucumán y generar energía. Su nombre oficial es dique Celestino Gelsi, en honor al gobernador que impulsó la obra entre 1958 y 1962; quedó operativo en 1966. Cerca del dique, en la zona de Las Lomas del Tafí, hay además hallazgos arqueológicos de pinturas rupestres de varios miles de años, anteriores a los pueblos calchaquíes. En 1971, mientras se llenaba el embalse, el movimiento del agua dejó al descubierto un cementerio indígena prehispánico en la costa, y en los meses siguientes aparecieron otros diez yacimientos con cerámica, puntas de flecha y urnas funerarias de culturas como la Candelaria, la Ciénaga y la Tafí. Ese hallazgo llevó a crear en 1973 el actual Museo Arqueológico El Cadillal, que resguarda las piezas encontradas durante la construcción de la represa.",
         curiosity:"En épocas de mucha bajante se pueden ver restos de antiguas construcciones que quedaron sumergidas al llenarse el embalse — los lugareños cuentan que en años de sequía fuerte hasta reaparecieron caminos viejos.",
         tip:"Se llega en remís (unos 30-40 min desde el centro) o en colectivo de línea que sale de la capital — no hay combi turística regular, así que conviene coordinar el regreso con el mismo remís o preguntar el horario del colectivo de vuelta.",
@@ -922,6 +952,7 @@ const BLOCKS = [
         lat:-26.8230446, lng:-65.3057499,
         img:IMG("San Miguel de Tucumán - panoramio.jpg"),
         desc:"Yerba Buena queda apenas 10 minutos del centro, pero el clima cambia notablemente: está al pie del Cerro San Javier y se siente bastante más fresco y arbolado que la capital.",
+        dish:"Yerba Buena tiene una escena de cafés de especialidad muy fuerte — buen momento para un café de filtro y medialunas antes de seguir el día.",
         history:"Yerba Buena era hasta mediados del siglo XX una zona de quintas y fincas de descanso para familias tucumanas adineradas, gracias a su clima más templado que el centro. Desde los años 80 se urbanizó fuerte y hoy es el municipio con mejor índice de calidad de vida del Gran Tucumán, sede de buena parte de la vida universitaria y gastronómica de la provincia. El Cristo Bendicente que corona el Cerro San Javier, visible desde toda la ciudad, fue encargado en 1938 al escultor tucumano Juan Carlos Iramain e inaugurado en 1942, el mismo año en que se fundó la villa de Yerba Buena. Mide 28 metros y pesa más de 135 toneladas; se construyó por partes en hormigón y se ensambló en la cima pese a lo escarpado del terreno y a los caminos precarios de la época. Iramain vivió en la zona hasta su muerte en 1973 y, por voluntad propia, sus restos descansan al pie de la escultura.",
         curiosity:"El nombre del Cerro San Javier (y de Yerba Buena) viene de la antigua presencia de yerba mate silvestre y plantas aromáticas en sus laderas, antes de que la zona se urbanizara.",
         tip:"Si hay tiempo, el Cristo Bendicente en lo alto del cerro se ve iluminado de noche desde toda la ciudad — es la referencia geográfica de los tucumanos.",
@@ -933,6 +964,7 @@ const BLOCKS = [
         lat:-26.8268899, lng:-65.2038176,
         img:IMG("Tucuman govthouse.jpg"),
         desc:"Pizzería clásica tucumana, conocida por sus calzones y la variedad de la carta. Buena relación precio-calidad y siempre con movimiento de gente local.",
+        dish:"El calzone de jamón y queso es la especialidad de la casa, junto con la pizza a la piedra bien cargada de relleno.",
         history:"Forma parte de una generación de pizzerías de barrio que se multiplicaron en Tucumán desde mediados del siglo XX, con fuerte influencia de la inmigración italiana que llegó a la provincia atraída por la industria azucarera. El estilo \"a la piedra\" con mucho relleno se consolidó como variante regional, distinta de la pizza porteña más fina.",
         curiosity:"La pizza al molde \"a la piedra\" con mucho relleno es una marca registrada de la cocina porteña-tucumana adaptada; en el NOA conviven con las empanadas como comida social por excelencia.",
         tip:"Domingo al mediodía suele estar tranquilo. Comé sin apuro, no hay mucho más en agenda para esta tarde.",
@@ -944,6 +976,7 @@ const BLOCKS = [
         lat:-26.8292678, lng:-65.1916518,
         img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
         desc:"Como la salida es recién a la noche, queda tiempo extra para volver a algún lugar que haya gustado, hacer las últimas compras de regionales, o simplemente descansar en algún café antes de ir a la terminal/aeropuerto. El Jardín Botánico y el Museo de Ciencias Naturales Lillo suelen cerrar los domingos, así que no entran en el plan de hoy.",
+        dish:"Buen momento para comprar alfajores tucumanos o dulce de leche artesanal como regalo — se conservan bien para el viaje de vuelta.",
         history:"",
         curiosity:"",
         tip:"Calculá el traslado a la terminal o aeropuerto con margen — el tránsito de domingo a la tarde-noche suele ser tranquilo, pero mejor no ajustar el horario al límite.",
@@ -961,6 +994,7 @@ const BLOCKS = [
         lat:-26.8309311, lng:-65.2220534,
         img:IMG("Cerro San Javier.JPG"),
         desc:"Un fragmento de selva de Yungas conservado en pleno centro urbano, anexo al museo de ciencias naturales más importante del norte argentino.",
+        dish:"Cerca del Jardín hay confiterías tradicionales del centro donde parar por un café antes de seguir al museo.",
         history:"El predio y la colección nacieron de la donación del médico y naturalista Miguel Lillo, quien a comienzos del siglo XX cedió su fortuna personal y miles de especímenes botánicos y zoológicos al Estado para fundar un instituto científico. Hoy depende de la Universidad Nacional de Tucumán y es uno de los pocos lugares del país donde se puede caminar dentro de un fragmento real de selva de Yungas sin salir de una capital provincial.",
         curiosity:"La Fundación Miguel Lillo lleva el nombre del médico y naturalista tucumano que donó toda su fortuna y su colección de especímenes al estado para crear un instituto de investigación, hoy referencia en botánica y zoología sudamericana.",
         tip:"Entrada con donación voluntaria. Cierra temprano (18 h) y los domingos está cerrado — conviene ir a media tarde, no al final del día.",
@@ -972,6 +1006,7 @@ const BLOCKS = [
         lat:-26.8314509, lng:-65.2211412,
         img:IMG("Cerrosanjaviernieve.jpg"),
         desc:"Colección de fósiles, minerales y fauna regional reunida durante más de un siglo de expediciones científicas por el norte argentino.",
+        dish:"A la salida, una heladería artesanal de la zona es un buen cierre para la tarde — Tucumán tiene buena tradición heladera.",
         history:"El museo nació junto con la Fundación Lillo en 1936 y desde entonces sus investigadores han recorrido el NOA documentando especies y formaciones geológicas. Buena parte del material expuesto proviene de expediciones propias del instituto, no de compras o donaciones externas, lo que lo hace una referencia académica además de atractivo turístico. Miguel Lillo (1862-1931) fue un naturalista tucumano autodidacta que dedicó medio siglo a estudiar la flora y fauna del norte argentino; a su muerte legó al Estado su fortuna personal, su biblioteca de miles de volúmenes y una vasta colección de especímenes, con la que se organizó formalmente la Fundación en 1933. Entre sus aportes más citados está la publicación pionera \"Fauna Tucumana (Aves)\" de 1905, y la colección incorporó más tarde el legado del naturalista Stewart Shipton, una de las piezas clave del acervo actual del museo.",
         curiosity:"Entre las piezas más comentadas está un molde de huevo de dinosaurio hallado en Valle de la Luna y ejemplares de fauna de las Yungas que no se ven en ningún otro museo del país.",
         tip:"Las visitas guiadas (cuando hay personal disponible) mejoran mucho la experiencia — preguntá en la entrada si hay alguna programada para ese horario, aunque las vitrinas también tienen fichas escritas detalladas.",
@@ -1311,6 +1346,13 @@ function buildItinerarioSection(){
           </div>
           <h3>${s.name}</h3>
           <p class="desc">${s.desc}</p>
+          ${s.dish ? `<div class="dish-block">
+            <span class="dish-icon" aria-hidden="true">🍴</span>
+            <div class="dish-text">
+              <div class="dish-label">Plato recomendado</div>
+              <p>${s.dish}</p>
+            </div>
+          </div>` : ''}
           <div class="badges">
             ${s.duration ? `<span class="badge">⏱ ${s.duration}</span>` : ''}
             ${s.price ? `<span class="badge">💰 ${s.price}</span>` : ''}
