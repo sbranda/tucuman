@@ -488,6 +488,17 @@
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     font-size:12.5px;color:var(--gris);line-height:1.5;margin:0 0 10px;
   }
+  .ajustes-share-btn{
+    width:100%;padding:13px;border-radius:12px;border:none;
+    background:var(--verde-claro);color:#fff;font-size:14px;font-weight:700;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    margin-bottom:8px;
+  }
+  .ajustes-copy-btn{
+    width:100%;padding:13px;border-radius:12px;border:1.5px solid var(--crema-osc);
+    background:#fff;color:var(--verde);font-size:14px;font-weight:700;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
   .ajustes-reset-all-btn{
     width:100%;padding:13px;border-radius:12px;border:1.5px solid #C0392B;
     background:#fff;color:#C0392B;font-size:14px;font-weight:700;cursor:pointer;
@@ -1850,6 +1861,13 @@ function buildAjustesSection(){
     </div>
 
     <div class="ajustes-group">
+      <div class="ajustes-group-title">📤 Compartir itinerario</div>
+      <p class="ajustes-reset-desc">Arma un texto con tus días y horarios configurados, listo para mandarle a quien viaje con vos.</p>
+      <button class="ajustes-share-btn" id="shareItineraryBtn">📲 Compartir por WhatsApp / apps</button>
+      <button class="ajustes-copy-btn" id="copyItineraryBtn">📋 Copiar como texto</button>
+    </div>
+
+    <div class="ajustes-group">
       <div class="ajustes-group-title">Restablecer</div>
       <button class="ajustes-reset-btn" id="a11yReset">Volver a los valores de accesibilidad originales</button>
     </div>
@@ -1882,6 +1900,10 @@ function buildAjustesSection(){
     sec.querySelector('#a11yDarkMode').addEventListener('change', e=>{ a11yState.darkMode=e.target.checked; applyA11y(); saveA11y(); });
     sec.querySelector('#a11yReduceMotion').addEventListener('change', e=>{ a11yState.reduceMotion=e.target.checked; applyA11y(); saveA11y(); });
     sec.querySelector('#a11yReset').addEventListener('click', ()=>{ a11yState={...A11Y_DEFAULTS}; applyA11y(); saveA11y(); });
+
+    // Compartir / copiar itinerario
+    sec.querySelector('#shareItineraryBtn').addEventListener('click', shareItinerary);
+    sec.querySelector('#copyItineraryBtn').addEventListener('click', copyItineraryText);
 
     // Reset everything
     const resetAllBtn = sec.querySelector('#resetAllBtn');
@@ -2364,6 +2386,71 @@ function updateHeroEyebrow(){
     const first = `${DAYS[0].weekdayShort} ${DAYS[0].dateLabel}`;
     const last = `${DAYS[DAYS.length-1].weekdayShort} ${DAYS[DAYS.length-1].dateLabel}`;
     eyebrow.textContent = `Guía interactiva · ${tripConfig.totalDays} días (${first} – ${last})`;
+  }
+}
+
+/* ===================== COMPARTIR ITINERARIO (texto plano) ===================== */
+function buildItineraryText(){
+  const lines = [];
+  const first = DAYS[0], last = DAYS[DAYS.length - 1];
+  lines.push(`🗺️ VIAJE A TUCUMÁN — ${tripConfig.totalDays} días`);
+  if(first && first.weekday){
+    lines.push(`${first.weekday} ${first.dateLabel} → ${last.weekday} ${last.dateLabel}`);
+  }
+  lines.push('');
+
+  DAYS.forEach(day=>{
+    lines.push(`📅 ${day.weekday ? day.weekday + ' ' + day.dateLabel + ' · ' : ''}Día ${day.num} — ${day.title}`);
+    lines.push(`📍 ${day.base}`);
+    day.stops.forEach(s=>{
+      lines.push(`   ${s.time}  ${s.name}`);
+    });
+    lines.push('');
+  });
+
+  lines.push('— Armado con la guía de viaje a Tucumán 🌄');
+  return lines.join('\n');
+}
+
+async function shareItinerary(){
+  const text = buildItineraryText();
+  if(navigator.share){
+    try{
+      await navigator.share({ title:'Itinerario Tucumán', text });
+    }catch(e){ /* el usuario canceló el share, no hacemos nada */ }
+  }else{
+    const waUrl = 'https://wa.me/?text=' + encodeURIComponent(text);
+    window.open(waUrl, '_blank');
+  }
+}
+
+async function copyItineraryText(){
+  const text = buildItineraryText();
+  const btn = document.getElementById('copyItineraryBtn');
+  const original = btn ? btn.textContent : '';
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      await navigator.clipboard.writeText(text);
+    }else{
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    if(btn){
+      btn.textContent = '✓ Copiado al portapapeles';
+      setTimeout(()=>{ btn.textContent = original; }, 1800);
+    }
+  }catch(e){
+    if(btn){
+      btn.textContent = 'No se pudo copiar — probá de nuevo';
+      setTimeout(()=>{ btn.textContent = original; }, 1800);
+    }
   }
 }
 
