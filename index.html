@@ -200,6 +200,13 @@
     border:1px solid var(--crema-osc);
   }
   .stop img{width:100%;height:170px;object-fit:cover;display:block;background:var(--crema-osc);}
+  .zoomable-img{cursor:pointer;}
+  .zoom-hint{
+    position:absolute;top:10px;left:10px;z-index:2;
+    background:rgba(0,0,0,0.5);color:#fff;border-radius:50%;
+    width:26px;height:26px;display:flex;align-items:center;justify-content:center;
+    font-size:13px;pointer-events:none;
+  }
   .stop-body{padding:14px 16px 16px;}
   .stop-time{
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
@@ -541,8 +548,9 @@
   .extras-card{
     background:#fff;border-radius:14px;overflow:hidden;margin-bottom:14px;
     border:1px solid var(--crema-osc);box-shadow:0 1px 3px rgba(0,0,0,0.06);
+    position:relative;
   }
-  .extras-card img{width:100%;height:140px;object-fit:cover;display:block;background:var(--crema-osc);}
+  .extras-card img{width:100%;height:140px;object-fit:cover;display:block;background:var(--crema-osc);cursor:pointer;}
   .extras-body{padding:12px 14px 14px;}
   .extras-header{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
   .extras-icon{font-size:20px;flex:0 0 auto;margin-top:1px;}
@@ -615,6 +623,29 @@
     border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.35);
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   }
+
+  /* ---------- LIGHTBOX (foto ampliada) ---------- */
+  .lightbox-backdrop{
+    display:none;position:fixed;inset:0;z-index:9000;
+    background:rgba(15,15,13,0.92);
+    align-items:center;justify-content:center;
+    padding:env(safe-area-inset-top) 16px calc(env(safe-area-inset-bottom) + 16px);
+  }
+  .lightbox-backdrop.open{display:flex;flex-direction:column;}
+  .lightbox-backdrop img{
+    max-width:100%;max-height:78vh;object-fit:contain;border-radius:10px;
+    box-shadow:0 8px 40px rgba(0,0,0,0.5);
+  }
+  .lightbox-caption{
+    color:#EFE7D6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:13.5px;font-weight:600;text-align:center;margin-top:14px;padding:0 10px;
+  }
+  .lightbox-close{
+    position:absolute;top:calc(env(safe-area-inset-top) + 14px);right:16px;z-index:2;
+    width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.4);
+    background:rgba(0,0,0,0.5);color:#fff;font-size:17px;font-weight:700;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
 </style>
 </head>
 <body>
@@ -674,6 +705,12 @@
 </div>
 
 <div id="sections"></div>
+
+<div class="lightbox-backdrop" id="lightboxBackdrop" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar foto">✕</button>
+  <img id="lightboxImg" src="" alt="">
+  <div class="lightbox-caption" id="lightboxCaption"></div>
+</div>
 
 <nav class="bottomnav" aria-label="Secciones de la guía">
   <button class="nav-btn active" data-target="itinerario" aria-current="page"><span class="ic" aria-hidden="true">🗺️</span>Itinerario</button>
@@ -1334,7 +1371,8 @@ function buildItinerarioSection(){
       const card = document.createElement('div');
       card.className = 'stop';
       card.innerHTML = `
-        <img src="${s.img}" alt="${s.name}" loading="lazy" onerror="this.style.display='none'">
+        <img class="zoomable-img" src="${s.img}" alt="${s.name}" loading="lazy" onerror="this.style.display='none'">
+        <span class="zoom-hint" aria-hidden="true">🔍</span>
         <span class="stop-visited-badge">✓ Visitado</span>
         <div class="stop-body">
           <div class="stop-head-row">
@@ -1647,7 +1685,8 @@ function buildExtrasSection(){
     html += `<h3 class="extras-zone-title">${group.zone}</h3>`;
     group.places.forEach(p=>{
       html += `<div class="extras-card">
-        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+        <img class="zoomable-img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+        <span class="zoom-hint" aria-hidden="true">🔍</span>
         <div class="extras-body">
           <div class="extras-header">
             <span class="extras-icon">${p.icon}</span>
@@ -1864,6 +1903,40 @@ document.addEventListener('click', (e)=>{
   btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
   const label = btn.querySelector('.toggle-label');
   label.textContent = isOpen ? ' Ocultar' : ' Ver más: historia, curiosidad y tips';
+});
+
+/* ===================== LIGHTBOX (ampliar foto) ===================== */
+const lightboxBackdrop = document.getElementById('lightboxBackdrop');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCaption = document.getElementById('lightboxCaption');
+let lightboxLastFocus = null;
+
+function openLightbox(src, caption, triggerEl){
+  lightboxImg.src = src;
+  lightboxImg.alt = caption || '';
+  lightboxCaption.textContent = caption || '';
+  lightboxBackdrop.classList.add('open');
+  lightboxLastFocus = triggerEl || document.activeElement;
+  document.getElementById('lightboxClose').focus();
+}
+function closeLightbox(){
+  lightboxBackdrop.classList.remove('open');
+  lightboxImg.src = '';
+  if(lightboxLastFocus && lightboxLastFocus.focus) lightboxLastFocus.focus();
+}
+
+document.addEventListener('click', (e)=>{
+  const img = e.target.closest('.zoomable-img');
+  if(!img) return;
+  if(!img.src || img.style.display === 'none') return; // imagen rota, no hay nada que ampliar
+  openLightbox(img.src, img.alt, img);
+});
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+lightboxBackdrop.addEventListener('click', (e)=>{
+  if(e.target === lightboxBackdrop) closeLightbox();
+});
+document.addEventListener('keydown', (e)=>{
+  if(e.key === 'Escape' && lightboxBackdrop.classList.contains('open')) closeLightbox();
 });
 
 /* ===================== MAPA (Leaflet) ===================== */
