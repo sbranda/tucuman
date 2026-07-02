@@ -785,6 +785,29 @@
     touch-action:pan-x pan-y;
     overscroll-behavior:contain;
   }
+  .locate-btn{
+    position:absolute;right:14px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:1500;
+    width:44px;height:44px;border-radius:50%;border:none;
+    background:#fff;color:var(--verde);font-size:19px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.25);
+  }
+  .locate-btn.locating{animation:locatePulse 1s ease-in-out infinite;}
+  @keyframes locatePulse{0%,100%{opacity:1;}50%{opacity:0.45;}}
+  .locate-status{
+    display:none;position:absolute;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));
+    transform:translateX(-50%);z-index:1500;
+    background:rgba(20,30,25,0.88);color:#fff;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:99px;
+    white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.3);
+  }
+  .locate-status.show{display:block;}
+  .user-location-dot{
+    width:16px;height:16px;border-radius:50%;
+    background:#2B6CB0;border:3px solid #fff;
+    box-shadow:0 0 0 2px rgba(43,108,176,0.4), 0 1px 4px rgba(0,0,0,0.35);
+  }
   .leaflet-popup-content{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
   .popup-time{color:var(--terracota);font-weight:700;font-size:11px;}
   .popup-name{color:var(--verde);font-weight:700;font-size:13.5px;margin:2px 0 3px;}
@@ -2426,6 +2449,21 @@ function buildMapaSection(){
   mapDiv.setAttribute('aria-label', 'Mapa interactivo con las paradas del itinerario');
   wrap.appendChild(mapDiv);
 
+  const locateBtn = document.createElement('button');
+  locateBtn.className = 'locate-btn';
+  locateBtn.id = 'locateBtn';
+  locateBtn.type = 'button';
+  locateBtn.setAttribute('aria-label', 'Mostrar mi ubicación en el mapa');
+  locateBtn.textContent = '🎯';
+  wrap.appendChild(locateBtn);
+
+  const locateStatus = document.createElement('div');
+  locateStatus.className = 'locate-status';
+  locateStatus.id = 'locateStatus';
+  wrap.appendChild(locateStatus);
+
+  locateBtn.addEventListener('click', locateUser);
+
   return wrap;
 }
 
@@ -2435,7 +2473,7 @@ function renderAll(){
   if(mapaSection) mapaSection.classList.remove('active');
 
   // Reset map instance so it gets rebuilt fresh against the new DAYS
-  if(leafletMap){ try{ leafletMap.remove(); }catch(e){} leafletMap = null; mapLayers = []; }
+  if(leafletMap){ try{ leafletMap.remove(); }catch(e){} leafletMap = null; mapLayers = []; userLocationMarker = null; userLocationCircle = null; }
 
   sectionsRoot.innerHTML = '';
   sectionsRoot.appendChild(buildItinerarioSection());
@@ -2512,6 +2550,8 @@ document.addEventListener('keydown', (e)=>{
 const DAY_COLORS = {dia1:"#1F3D2E", dia2:"#2F5942", dia3:"#C2622F", dia4:"#2B2A4C", dia5:"#8C6A1F", dia6:"#A0522D", diaExtraCapital:"#5B7C8D"};
 let leafletMap = null;
 let mapLayers = [];
+let userLocationMarker = null;
+let userLocationCircle = null;
 
 function buildMarkerIcon(dayNum, color, isVisited){
   const label = isVisited ? '✓' : dayNum;
@@ -2670,6 +2710,64 @@ function renderMapMarkers(filterDay){
   if(allPoints.length){
     leafletMap.fitBounds(allPoints, {padding:[30,30]});
   }
+}
+
+/* ===================== MI UBICACIÓN ===================== */
+function showLocateStatus(message, autoHide){
+  const status = document.getElementById('locateStatus');
+  if(!status) return;
+  status.textContent = message;
+  status.classList.add('show');
+  if(autoHide){
+    setTimeout(()=>{
+      if(status.textContent === message) status.classList.remove('show');
+    }, 3200);
+  }
+}
+
+function locateUser(){
+  if(!leafletMap) return;
+  const btn = document.getElementById('locateBtn');
+
+  if(!('geolocation' in navigator)){
+    showLocateStatus('Tu navegador no soporta geolocalización.', true);
+    return;
+  }
+
+  if(btn){ btn.classList.add('locating'); btn.disabled = true; }
+  showLocateStatus('📡 Buscando tu ubicación...', false);
+
+  navigator.geolocation.getCurrentPosition(
+    (pos)=>{
+      if(btn){ btn.classList.remove('locating'); btn.disabled = false; }
+      const { latitude, longitude, accuracy } = pos.coords;
+
+      if(userLocationMarker){ leafletMap.removeLayer(userLocationMarker); }
+      if(userLocationCircle){ leafletMap.removeLayer(userLocationCircle); }
+
+      const dotIcon = L.divIcon({
+        className:'',
+        html:`<div class="user-location-dot"></div>`,
+        iconSize:[18,18], iconAnchor:[9,9]
+      });
+      userLocationMarker = L.marker([latitude, longitude], {icon:dotIcon, zIndexOffset:1000}).addTo(leafletMap);
+      userLocationCircle = L.circle([latitude, longitude], {
+        radius: accuracy,
+        color:'#2B6CB0', weight:1, fillColor:'#2B6CB0', fillOpacity:0.15
+      }).addTo(leafletMap);
+
+      leafletMap.setView([latitude, longitude], Math.max(leafletMap.getZoom(), 13));
+      showLocateStatus('📍 Esta es tu ubicación aproximada.', true);
+    },
+    (err)=>{
+      if(btn){ btn.classList.remove('locating'); btn.disabled = false; }
+      let msg = 'No se pudo obtener tu ubicación.';
+      if(err.code === err.PERMISSION_DENIED) msg = 'No diste permiso de ubicación — podés habilitarlo en la configuración del navegador.';
+      else if(err.code === err.TIMEOUT) msg = 'Tardó demasiado en responder. Probá de nuevo.';
+      showLocateStatus(msg, true);
+    },
+    { enableHighAccuracy:true, timeout:10000, maximumAge:60000 }
+  );
 }
 
 /* ===================== BOTTOM NAV ===================== */
