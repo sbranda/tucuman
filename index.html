@@ -794,6 +794,12 @@
   }
   .popup-visited-toggle input{width:15px;height:15px;accent-color:var(--verde-claro);}
   .popup-visited-toggle input:checked ~ span{color:var(--verde-claro);}
+  .popup-goto-btn{
+    display:block;width:100%;margin-top:8px;padding:6px 8px;
+    background:var(--verde);color:#fff;border:none;border-radius:7px;
+    font-size:11.5px;font-weight:700;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
   .day-marker-icon{
     position:relative;
     background:var(--verde);color:#fff;border-radius:50%;width:28px;height:28px;
@@ -2477,11 +2483,11 @@ function updateMapMarkerVisited(stopId, isVisited){
   if(!marker) return;
   marker.setIcon(buildMarkerIcon(marker.dayNum, marker.markerColor, isVisited));
   if(marker.isPopupOpen()){
-    marker.setPopupContent(buildStopPopupHtml(marker.stopId, marker.dayNum, marker.stopTime, marker.stopName, marker.stopDesc, isVisited));
+    marker.setPopupContent(buildStopPopupHtml(marker.dayId, marker.stopId, marker.dayNum, marker.stopTime, marker.stopName, marker.stopDesc, isVisited));
   }
 }
 
-function buildStopPopupHtml(stopId, dayNum, time, name, desc, isVisited){
+function buildStopPopupHtml(dayId, stopId, dayNum, time, name, desc, isVisited){
   return `
     <div class="popup-time">${time} · Día ${dayNum}</div>
     <div class="popup-name">${name}</div>
@@ -2490,6 +2496,7 @@ function buildStopPopupHtml(stopId, dayNum, time, name, desc, isVisited){
       <input type="checkbox" ${isVisited ? 'checked' : ''} onchange="setStopVisited('${stopId}', this.checked); this.nextElementSibling.textContent = this.checked ? '✓ Visitada' : 'Marcar visitada';">
       <span>${isVisited ? '✓ Visitada' : 'Marcar visitada'}</span>
     </label>
+    <button type="button" class="popup-goto-btn" onclick="goToItineraryStop('${dayId}','${stopId}')">📖 Ver en itinerario</button>
   `;
 }
 
@@ -2538,6 +2545,7 @@ function renderMapMarkers(filterDay){
       const marker = L.marker([s.lat, s.lng], {icon}).addTo(leafletMap);
 
       // Guardamos los datos en el propio marcador para poder actualizarlo después sin re-renderizar todo
+      marker.dayId = day.id;
       marker.stopId = stopId;
       marker.dayNum = day.num;
       marker.markerColor = color;
@@ -2545,7 +2553,7 @@ function renderMapMarkers(filterDay){
       marker.stopName = s.name;
       marker.stopDesc = s.desc;
 
-      marker.bindPopup(buildStopPopupHtml(stopId, day.num, s.time, s.name, s.desc, isVisited));
+      marker.bindPopup(buildStopPopupHtml(day.id, stopId, day.num, s.time, s.name, s.desc, isVisited));
       mapLayers.push(marker);
     });
 
@@ -2561,26 +2569,38 @@ function renderMapMarkers(filterDay){
 }
 
 /* ===================== BOTTOM NAV ===================== */
+function switchToTab(target){
+  document.querySelectorAll('.nav-btn').forEach(b=>{
+    const isTarget = b.dataset.target === target;
+    b.classList.toggle('active', isTarget);
+    if(isTarget) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+  });
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const activeSection = document.getElementById('sec-'+target);
+  if(!activeSection) return;
+  activeSection.classList.add('active');
+  if(target !== 'mapa'){ activeSection.focus({ preventScroll: true }); }
+  if(target === 'mapa'){
+    initMap();
+    requestAnimationFrame(()=>requestAnimationFrame(()=>{
+      if(leafletMap) leafletMap.invalidateSize();
+    }));
+    setTimeout(()=>leafletMap && leafletMap.invalidateSize(), 300);
+  }
+  if(target === 'clima'){ loadClima(); }
+}
+
 document.querySelectorAll('.nav-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    document.querySelectorAll('.nav-btn').forEach(b=>{ b.classList.remove('active'); b.removeAttribute('aria-current'); });
-    btn.classList.add('active');
-    btn.setAttribute('aria-current', 'page');
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    const activeSection = document.getElementById('sec-'+btn.dataset.target);
-    activeSection.classList.add('active');
-    if(btn.dataset.target !== 'mapa'){ activeSection.focus({ preventScroll: true }); }
-    if(btn.dataset.target === 'mapa'){
-      initMap();
-      requestAnimationFrame(()=>requestAnimationFrame(()=>{
-        if(leafletMap) leafletMap.invalidateSize();
-      }));
-      setTimeout(()=>leafletMap && leafletMap.invalidateSize(), 300);
-    }
-    if(btn.dataset.target === 'clima'){ loadClima(); }
+    switchToTab(btn.dataset.target);
     window.scrollTo({top:0, behavior:'smooth'});
   });
 });
+
+function goToItineraryStop(dayId, stopId){
+  switchToTab('itinerario');
+  jumpToStop(dayId, stopId);
+}
 
 /* ===================== CHECKLIST (persisted via window.storage) ===================== */
 async function renderChecklist(){
