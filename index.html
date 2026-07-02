@@ -307,6 +307,20 @@
   .tip-card h4{margin:0 0 4px;color:var(--verde);font-size:1rem;}
   .tip-card p{margin:0;font-size:13.5px;color:var(--gris);line-height:1.5;}
 
+  /* ---------- GLOSARIO NOA ---------- */
+  .glosario-title{
+    font-size:1.05rem;color:var(--indigo);margin:26px 0 4px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-weight:800;border-left:3px solid var(--indigo);padding-left:10px;
+  }
+  .glosario-intro{font-size:13px;color:var(--gris);font-style:italic;margin:0 0 14px;}
+  .glosario-item{
+    background:#fff;border-radius:12px;padding:12px 16px;margin-bottom:10px;
+    border-left:4px solid var(--indigo);box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+  .glosario-term{margin:0 0 3px;color:var(--indigo);font-size:0.98rem;font-weight:700;}
+  .glosario-def{margin:0;font-size:13px;color:var(--gris);line-height:1.5;}
+
   /* ---------- CHECKLIST ---------- */
   .check-item{
     display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;
@@ -1214,6 +1228,20 @@ const TIPS = [
   {icon:"🌅", title:"Días más cortos", body:"En invierno el sol se pone bastante más temprano (alrededor de las 18:30-19 h). Conviene adelantar las actividades al aire libre como el Cerro de la Cruz para no terminar caminando con frío y oscuridad."}
 ];
 
+const GLOSARIO = [
+  {term:"Chango / changa", def:"Forma cariñosa de decir \"chico\" o \"joven\" en todo el norte. \"Chango, vení que hay empanadas\" es una invitación, no un reto."},
+  {term:"Guagua", def:"Bebé o niño muy chico, palabra de origen quechua que se usa en gran parte de los Andes, de Tucumán hasta Bolivia y Perú."},
+  {term:"Yapa", def:"El \"regalito\" extra que te da el vendedor después de pagar — unas hojas de más en la feria, una empanada de propina. Viene del quechua y sigue muy vivo en los mercados del norte."},
+  {term:"Chuy / Tuy", def:"\"Qué frío\" y \"qué calor\", respectivamente. Se usan solas, casi como una exclamación, y también vienen del quechua."},
+  {term:"Cayote", def:"Zapallo grande de cáscara dura y pulpa fibrosa con el que se hace el dulce de cayote, un clásico de las queserías y dulcerías de Tafí."},
+  {term:"Chaguar / chagualera", def:"El chaguar es una planta textil andina de la que se saca una fibra resistente para tejer; \"chagualera\" es el terreno donde crece. Parte de la misma tradición textil que se ve en la Ruta del Artesano."},
+  {term:"Alfeñique", def:"Golosina artesanal a base de miel de caña, típica de las ferias y kioscos del interior tucumano."},
+  {term:"Achilata", def:"Hielo raspado con jarabe de colores — el \"raspadillo\" de toda la vida, ideal para el calor de la siesta."},
+  {term:"Turucutu", def:"Llevar a alguien sentado sobre los hombros o la espalda. En Salta a lo mismo le dicen \"cococho\"."},
+  {term:"Ahicito", def:"Ojo con este falso amigo: en el NOA no significa \"cerquita\" como sugiere el diminutivo, sino todo lo contrario — \"lejísimos\"."},
+  {term:"Yastá", def:"\"Ya está\": listo, de acuerdo, se terminó el tema. Sirve para cerrar casi cualquier conversación."}
+];
+
 const CHECKLIST_ITEMS = [
   "Documento / DNI",
   "Reserva alojamiento capital",
@@ -1383,6 +1411,19 @@ function buildTipsSection(){
     c.innerHTML = `<h4>${t.icon} ${t.title}</h4><p>${t.body}</p>`;
     wrap.appendChild(c);
   });
+
+  const glosarioHeader = document.createElement('div');
+  glosarioHeader.innerHTML = `<h3 class="glosario-title">🗣️ Glosario NOA</h3>
+    <p class="glosario-intro">Palabras y expresiones que vas a escuchar seguido en el norte — no hace falta usarlas, pero ayuda entenderlas.</p>`;
+  wrap.appendChild(glosarioHeader);
+
+  GLOSARIO.forEach(g=>{
+    const item = document.createElement('div');
+    item.className = 'glosario-item';
+    item.innerHTML = `<p class="glosario-term">${g.term}</p><p class="glosario-def">${g.def}</p>`;
+    wrap.appendChild(item);
+  });
+
   return wrap;
 }
 
