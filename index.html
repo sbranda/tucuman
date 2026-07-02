@@ -385,14 +385,17 @@
     position:fixed;bottom:0;left:0;right:0;z-index:5000;
     background:#fff;border-top:1px solid var(--crema-osc);
     display:flex;justify-content:space-around;
+    overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
     padding:8px 4px calc(8px + env(safe-area-inset-bottom));
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     transform:translateZ(0);
     -webkit-transform:translateZ(0);
   }
+  .bottomnav::-webkit-scrollbar{display:none;}
   .nav-btn{
     background:none;border:none;display:flex;flex-direction:column;align-items:center;
-    gap:3px;color:var(--gris);font-size:10.5px;font-weight:600;cursor:pointer;flex:1;
+    flex:1 0 58px;min-width:58px;
+    gap:3px;color:var(--gris);font-size:10.5px;font-weight:600;cursor:pointer;
   }
   .nav-btn .ic{font-size:19px;}
   .nav-btn.active{color:var(--terracota);}
@@ -505,6 +508,53 @@
     background:#C0392B;color:#fff;font-size:13px;font-weight:700;cursor:pointer;
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   }
+
+  /* ---------- PRESUPUESTO ---------- */
+  .budget-header{
+    display:grid;grid-template-columns:1fr 74px 74px 28px;gap:6px;
+    padding:0 4px;margin-bottom:6px;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;
+    color:var(--gris);
+  }
+  .budget-col-num{text-align:center;}
+  .budget-row{
+    display:grid;grid-template-columns:1fr 74px 74px 28px;gap:6px;align-items:center;
+    background:#fff;border:1px solid var(--crema-osc);border-radius:10px;
+    padding:8px;margin-bottom:8px;
+  }
+  .budget-row input{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    border:1.5px solid var(--crema-osc);border-radius:7px;
+    background:var(--crema);color:var(--texto);
+    padding:7px 6px;font-size:12.5px;width:100%;box-sizing:border-box;
+  }
+  .budget-row input:focus{border-color:var(--terracota);outline:none;}
+  .budget-input{text-align:right;}
+  .budget-remove{
+    background:none;border:none;color:var(--gris);font-size:15px;font-weight:700;
+    cursor:pointer;padding:4px;line-height:1;
+  }
+  .budget-add-btn{
+    width:100%;padding:11px;border-radius:10px;border:1.5px dashed var(--crema-osc);
+    background:#fff;color:var(--terracota);font-size:13.5px;font-weight:700;cursor:pointer;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    margin-bottom:20px;
+  }
+  .budget-summary{
+    background:#fff;border-radius:12px;padding:14px 16px;
+    border:1px solid var(--crema-osc);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  .budget-summary-row{
+    display:flex;justify-content:space-between;align-items:center;
+    padding:6px 0;font-size:13.5px;color:var(--texto);
+    border-bottom:1px solid var(--crema-osc);
+  }
+  .budget-summary-row:last-child{border-bottom:none;padding-top:10px;margin-top:2px;border-top:1.5px solid var(--crema-osc);}
+  .budget-summary-row b{font-size:14.5px;}
+  .budget-diff-ok b{color:var(--verde-claro);}
+  .budget-diff-over b{color:#C0392B;}
 
   /* ---------- CLIMA ---------- */
   .clima-loading{text-align:center;color:var(--gris);padding:30px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;}
@@ -735,6 +785,7 @@
   <button class="nav-btn" data-target="extras"><span class="ic" aria-hidden="true">✨</span>Extras</button>
   <button class="nav-btn" data-target="tips"><span class="ic" aria-hidden="true">🎒</span>Tips</button>
   <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Lista</button>
+  <button class="nav-btn" data-target="presupuesto"><span class="ic" aria-hidden="true">💰</span>Gastos</button>
   <button class="nav-btn" data-target="ajustes"><span class="ic" aria-hidden="true">⚙️</span>Ajustes</button>
 </nav>
 
@@ -1348,6 +1399,16 @@ const CHECKLIST_ITEMS = [
   "Bolso chico para las 3 noches en Tafí"
 ];
 
+const DEFAULT_BUDGET_ITEMS = [
+  {label:"Alojamiento (capital + Tafí)", estimado:0, real:0},
+  {label:"Combis / micros (capital ↔ Tafí)", estimado:0, real:0},
+  {label:"Excursión a Quilmes", estimado:0, real:0},
+  {label:"Comidas", estimado:0, real:0},
+  {label:"Entradas y museos", estimado:0, real:0},
+  {label:"Artesanías y regalos", estimado:0, real:0},
+  {label:"Imprevistos", estimado:0, real:0}
+];
+
 /* ===================== RENDER ===================== */
 const tabbar = document.getElementById('tabbar');
 const sectionsRoot = document.getElementById('sections');
@@ -1535,6 +1596,23 @@ function buildChecklistSection(){
   wrap.innerHTML = `<h2 class="section-title">Checklist de viaje</h2>
     <p class="section-sub">Se guarda automáticamente en este dispositivo.</p>
     <div id="checklistItems"></div>`;
+  return wrap;
+}
+
+function buildPresupuestoSection(){
+  const wrap = document.createElement('div');
+  wrap.className = 'section'; wrap.id = 'sec-presupuesto'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Presupuesto'); wrap.setAttribute('tabindex','-1');
+  wrap.innerHTML = `<h2 class="section-title">💰 Presupuesto</h2>
+    <p class="section-sub">Un presupuesto simple para todo el viaje. Se guarda automáticamente en este dispositivo.</p>
+    <div class="budget-header">
+      <span class="budget-col-label">Rubro</span>
+      <span class="budget-col-num">Estimado</span>
+      <span class="budget-col-num">Real</span>
+      <span class="budget-col-spacer" aria-hidden="true"></span>
+    </div>
+    <div id="presupuestoRows"></div>
+    <button class="budget-add-btn" id="addBudgetRow">+ Agregar rubro</button>
+    <div class="budget-summary" id="budgetSummary"></div>`;
   return wrap;
 }
 
@@ -1821,7 +1899,7 @@ function buildAjustesSection(){
     });
     resetConfirmOk.addEventListener('click', async ()=>{
       // Clear all localStorage keys for this app
-      const keys = ['checklist-state','stop-checklists-state','visited-stops','stop-notes','trip-config','a11y'];
+      const keys = ['checklist-state','stop-checklists-state','visited-stops','stop-notes','presupuesto','trip-config','a11y'];
       for(const k of keys){ await appStorage.set(k, null); localStorage.removeItem('tucuman-app:'+k); }
 
       // Reset trip config to today
@@ -1901,6 +1979,7 @@ function renderAll(){
   sectionsRoot.appendChild(buildExtrasSection());
   sectionsRoot.appendChild(buildTipsSection());
   sectionsRoot.appendChild(buildChecklistSection());
+  sectionsRoot.appendChild(buildPresupuestoSection());
   sectionsRoot.appendChild(buildAjustesSection());
 
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -1913,6 +1992,7 @@ function renderAll(){
   initVisitedToggles();
   initStopNotes();
   renderChecklist();
+  renderPresupuesto();
 }
 
 /* expand/collapse curiosity+tip */
@@ -2078,6 +2158,108 @@ async function renderChecklist(){
   });
 }
 renderChecklist();
+
+/* ===================== PRESUPUESTO (persisted via window.storage) ===================== */
+let budgetItems = [];
+
+function escapeHtml(str){
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function formatMoney(n){
+  const num = Number(n) || 0;
+  return '$' + num.toLocaleString('es-AR', {maximumFractionDigits:0});
+}
+
+async function saveBudget(){
+  try{ await appStorage.set('presupuesto', JSON.stringify(budgetItems)); }catch(err){}
+}
+
+function updateBudgetSummary(){
+  const summary = document.getElementById('budgetSummary');
+  if(!summary) return;
+  const totalEst = budgetItems.reduce((sum, it)=> sum + (Number(it.estimado) || 0), 0);
+  const totalReal = budgetItems.reduce((sum, it)=> sum + (Number(it.real) || 0), 0);
+  const diff = totalEst - totalReal;
+  const diffClass = diff >= 0 ? 'budget-diff-ok' : 'budget-diff-over';
+  const diffLabel = diff >= 0 ? `${formatMoney(diff)} por debajo del estimado` : `${formatMoney(Math.abs(diff))} por encima del estimado`;
+  summary.innerHTML = `
+    <div class="budget-summary-row"><span>Total estimado</span><b>${formatMoney(totalEst)}</b></div>
+    <div class="budget-summary-row"><span>Total real</span><b>${formatMoney(totalReal)}</b></div>
+    <div class="budget-summary-row ${diffClass}"><span>Diferencia</span><b>${diffLabel}</b></div>
+  `;
+}
+
+function bindBudgetRowEvents(){
+  document.querySelectorAll('.budget-label-input').forEach(input=>{
+    input.addEventListener('input', ()=>{
+      const item = budgetItems.find(it=>it.id === input.dataset.id);
+      if(item){ item.label = input.value; saveBudget(); }
+    });
+  });
+  document.querySelectorAll('.budget-estimado').forEach(input=>{
+    input.addEventListener('input', ()=>{
+      const item = budgetItems.find(it=>it.id === input.dataset.id);
+      if(item){ item.estimado = input.value === '' ? 0 : Number(input.value); updateBudgetSummary(); saveBudget(); }
+    });
+  });
+  document.querySelectorAll('.budget-real').forEach(input=>{
+    input.addEventListener('input', ()=>{
+      const item = budgetItems.find(it=>it.id === input.dataset.id);
+      if(item){ item.real = input.value === '' ? 0 : Number(input.value); updateBudgetSummary(); saveBudget(); }
+    });
+  });
+  document.querySelectorAll('.budget-remove').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      budgetItems = budgetItems.filter(it=>it.id !== btn.dataset.id);
+      drawBudgetRows();
+      saveBudget();
+    });
+  });
+}
+
+function drawBudgetRows(){
+  const rowsRoot = document.getElementById('presupuestoRows');
+  if(!rowsRoot) return;
+  rowsRoot.innerHTML = budgetItems.map(it => `
+    <div class="budget-row" data-id="${it.id}">
+      <input type="text" class="budget-label-input" data-id="${it.id}" value="${escapeHtml(it.label)}" aria-label="Rubro">
+      <input type="number" inputmode="decimal" min="0" class="budget-input budget-estimado" data-id="${it.id}" value="${it.estimado || ''}" placeholder="0" aria-label="Monto estimado">
+      <input type="number" inputmode="decimal" min="0" class="budget-input budget-real" data-id="${it.id}" value="${it.real || ''}" placeholder="0" aria-label="Monto real">
+      <button class="budget-remove" data-id="${it.id}" aria-label="Quitar rubro">✕</button>
+    </div>
+  `).join('');
+  bindBudgetRowEvents();
+  updateBudgetSummary();
+}
+
+async function renderPresupuesto(){
+  let saved = null;
+  try{
+    const res = await appStorage.get('presupuesto');
+    if(res && res.value) saved = JSON.parse(res.value);
+  }catch(e){ /* no saved state yet */ }
+
+  budgetItems = (saved && saved.length) ? saved : DEFAULT_BUDGET_ITEMS.map((it, i)=>({id:'b'+i, ...it}));
+  drawBudgetRows();
+
+  const addBtn = document.getElementById('addBudgetRow');
+  if(addBtn){
+    addBtn.addEventListener('click', ()=>{
+      const newItem = {id:'b'+Date.now(), label:'Nuevo rubro', estimado:0, real:0};
+      budgetItems.push(newItem);
+      drawBudgetRows();
+      saveBudget();
+      const newInput = document.querySelector(`.budget-label-input[data-id="${newItem.id}"]`);
+      if(newInput){ newInput.focus(); newInput.select(); }
+    });
+  }
+}
+renderPresupuesto();
 
 /* ===================== PER-STOP CHECKLISTS (persisted via window.storage) ===================== */
 async function initStopChecklists(){
