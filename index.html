@@ -193,6 +193,60 @@
     margin:14px 2px 18px;
   }
 
+  /* ---------- BUSCADOR DEL ITINERARIO ---------- */
+  .itin-search-wrap{margin:0 0 16px;}
+  .itin-search-box{
+    display:flex;align-items:center;gap:8px;
+    background:#fff;border:1.5px solid var(--crema-osc);border-radius:12px;
+    padding:9px 12px;
+  }
+  .itin-search-box:focus-within{border-color:var(--terracota);}
+  .itin-search-icon{font-size:15px;flex:0 0 auto;opacity:0.7;}
+  .itin-search-input{
+    flex:1;border:none;background:none;outline:none;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:14px;color:var(--texto);min-width:0;
+  }
+  .itin-search-input::placeholder{color:var(--gris);}
+  .itin-search-input::-webkit-search-cancel-button{display:none;}
+  .itin-search-clear{
+    flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+    width:22px;height:22px;border-radius:50%;border:none;
+    background:var(--crema-osc);color:var(--gris);font-size:12px;font-weight:700;cursor:pointer;
+  }
+  .itin-search-results{
+    display:none;margin-top:8px;background:#fff;border:1px solid var(--crema-osc);
+    border-radius:12px;overflow:hidden;max-height:340px;overflow-y:auto;
+  }
+  .itin-search-results.show{display:block;}
+  .itin-search-result{
+    display:flex;flex-direction:column;gap:1px;width:100%;text-align:left;
+    background:none;border:none;border-bottom:1px solid var(--crema-osc);
+    padding:10px 12px;cursor:pointer;
+  }
+  .itin-search-result:last-child{border-bottom:none;}
+  .itin-search-result:active{background:var(--crema);}
+  .itin-search-result-day{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;
+    color:var(--terracota);
+  }
+  .itin-search-result-name{font-size:13.5px;color:var(--texto);font-weight:600;}
+  .itin-search-empty{
+    padding:14px 12px;font-size:13px;color:var(--gris);font-style:italic;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+
+  @keyframes searchPulse{
+    0%{box-shadow:0 0 0 0 rgba(194,98,47,0.55);}
+    70%{box-shadow:0 0 0 10px rgba(194,98,47,0);}
+    100%{box-shadow:0 0 0 0 rgba(194,98,47,0);}
+  }
+  .search-highlight{
+    animation:searchPulse 1.1s ease-out 0s 2;
+    border-color:var(--terracota) !important;
+  }
+
   /* ---------- STOP CARD ---------- */
   .stop{
     background:#fff;border-radius:14px;overflow:hidden;margin-bottom:16px;
@@ -1521,6 +1575,90 @@ const DEFAULT_BUDGET_ITEMS = [
 const tabbar = document.getElementById('tabbar');
 const sectionsRoot = document.getElementById('sections');
 
+/* ===================== BUSCADOR DEL ITINERARIO ===================== */
+let itinerarySearchIndex = [];
+
+function normalizeForSearch(str){
+  return String(str || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, ''); // saca tildes para que "queso" encuentre "quesería" igual
+}
+
+function bindItinSearchEvents(wrap){
+  const input = wrap.querySelector('#itinSearchInput');
+  const clearBtn = wrap.querySelector('#itinSearchClear');
+  const resultsBox = wrap.querySelector('#itinSearchResults');
+  if(!input || !resultsBox) return;
+
+  const renderResults = (matches)=>{
+    if(!matches.length){
+      resultsBox.innerHTML = `<div class="itin-search-empty">No encontré nada con esa búsqueda. Probá con otra palabra.</div>`;
+      resultsBox.classList.add('show');
+      return;
+    }
+    resultsBox.innerHTML = matches.slice(0, 20).map(m => `
+      <button type="button" class="itin-search-result" data-day="${m.dayId}" data-stop="${m.stopId}">
+        <span class="itin-search-result-day">${m.dayLabel} · ${m.time}</span>
+        <span class="itin-search-result-name">${m.name}</span>
+      </button>
+    `).join('');
+    resultsBox.classList.add('show');
+    resultsBox.querySelectorAll('.itin-search-result').forEach(btn=>{
+      btn.addEventListener('click', ()=> jumpToStop(btn.dataset.day, btn.dataset.stop));
+    });
+  };
+
+  input.addEventListener('input', ()=>{
+    const q = normalizeForSearch(input.value.trim());
+    clearBtn.style.display = q ? 'flex' : 'none';
+    if(!q){ resultsBox.classList.remove('show'); resultsBox.innerHTML = ''; return; }
+    const matches = itinerarySearchIndex.filter(item => item.searchText.includes(q));
+    renderResults(matches);
+  });
+
+  clearBtn.addEventListener('click', ()=>{
+    input.value = '';
+    clearBtn.style.display = 'none';
+    resultsBox.classList.remove('show');
+    resultsBox.innerHTML = '';
+    input.focus();
+  });
+}
+
+function jumpToStop(dayId, stopId){
+  showDay(dayId);
+
+  const input = document.getElementById('itinSearchInput');
+  const clearBtn = document.getElementById('itinSearchClear');
+  const resultsBox = document.getElementById('itinSearchResults');
+  if(input) input.value = '';
+  if(clearBtn) clearBtn.style.display = 'none';
+  if(resultsBox){ resultsBox.classList.remove('show'); resultsBox.innerHTML = ''; }
+
+  requestAnimationFrame(()=>{
+    const extra = document.getElementById(stopId);
+    if(!extra) return;
+    const card = extra.closest('.stop');
+    if(!card) return;
+
+    if(!extra.classList.contains('open')){
+      const toggleBtn = document.querySelector(`.pill-toggle[data-target="${stopId}"]`);
+      extra.classList.add('open');
+      if(toggleBtn){
+        toggleBtn.classList.add('open');
+        toggleBtn.setAttribute('aria-expanded', 'true');
+        const label = toggleBtn.querySelector('.toggle-label');
+        if(label) label.textContent = ' Ocultar';
+      }
+    }
+
+    card.scrollIntoView({behavior:'smooth', block:'center'});
+    card.classList.add('search-highlight');
+    setTimeout(()=> card.classList.remove('search-highlight'), 2200);
+  });
+}
+
 function buildItinerarioSection(){
   const wrap = document.createElement('div');
   wrap.className = 'section'; wrap.id = 'sec-itinerario'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Itinerario'); wrap.setAttribute('tabindex','-1');
@@ -1530,11 +1668,26 @@ function buildItinerarioSection(){
   DAYS.forEach((d,i)=>{
     const b = document.createElement('button');
     b.className = 'tab' + (i===0?' active':'');
+    b.dataset.dayId = d.id;
     b.textContent = d.weekdayShort ? `${d.weekdayShort} ${d.dateLabel}` : `Día ${d.num}`;
-    b.onclick = ()=>{ showDay(d.id); [...subTabs.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); };
+    b.onclick = ()=>{ showDay(d.id); };
     subTabs.appendChild(b);
   });
   wrap.appendChild(subTabs);
+
+  const searchWrap = document.createElement('div');
+  searchWrap.className = 'itin-search-wrap';
+  searchWrap.innerHTML = `
+    <div class="itin-search-box">
+      <span class="itin-search-icon" aria-hidden="true">🔎</span>
+      <input type="search" id="itinSearchInput" class="itin-search-input" placeholder="Buscar en el itinerario (ej. queso, museo, combi)..." autocomplete="off">
+      <button type="button" id="itinSearchClear" class="itin-search-clear" style="display:none;" aria-label="Borrar búsqueda">✕</button>
+    </div>
+    <div id="itinSearchResults" class="itin-search-results"></div>
+  `;
+  wrap.appendChild(searchWrap);
+
+  itinerarySearchIndex = [];
 
   DAYS.forEach((day, idx)=>{
     const dayDiv = document.createElement('div');
@@ -1553,6 +1706,14 @@ function buildItinerarioSection(){
 
     day.stops.forEach((s, sIdx)=>{
       const stopId = `${day.id}-stop-${sIdx}`;
+
+      itinerarySearchIndex.push({
+        dayId: day.id,
+        dayLabel: day.weekdayShort ? `${day.weekdayShort} ${day.dateLabel}` : `Día ${day.num}`,
+        stopId, time: s.time, name: s.name,
+        searchText: normalizeForSearch([day.title, s.name, s.desc, s.dish, s.history, s.curiosity, s.tip, s.winterTip, s.access, (s.checklist||[]).join(' ')].filter(Boolean).join(' '))
+      });
+
       const card = document.createElement('div');
       card.className = 'stop';
       card.innerHTML = `
@@ -1641,12 +1802,17 @@ function buildItinerarioSection(){
     wrap.appendChild(dayDiv);
   });
 
+  bindItinSearchEvents(wrap);
+
   return wrap;
 }
 
 function showDay(id){
   document.querySelectorAll('.day-block').forEach(d=>{
     d.style.display = (d.id === 'day-'+id) ? 'block' : 'none';
+  });
+  document.querySelectorAll('.tabbar .tab[data-day-id]').forEach(t=>{
+    t.classList.toggle('active', t.dataset.dayId === id);
   });
 }
 
