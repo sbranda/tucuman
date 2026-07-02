@@ -357,6 +357,31 @@
     padding:4px 10px;font-size:11.5px;font-weight:700;cursor:pointer;
   }
 
+  /* ---------- OFFLINE BANNER ---------- */
+  .offline-banner{
+    display:none;
+    background:#FBF1E8;color:var(--terracota);
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:12px;font-weight:600;text-align:left;line-height:1.4;
+    padding:10px 14px;border-bottom:1px solid #F0DCC4;
+    align-items:center;gap:10px;
+  }
+  .offline-banner.show{display:flex;}
+  .offline-banner .offline-icon{font-size:17px;flex:0 0 auto;}
+  .offline-banner .offline-text{flex:1;}
+  .offline-banner .offline-text b{display:block;font-size:12.5px;margin-bottom:1px;}
+  .offline-banner .offline-dismiss{
+    flex:0 0 auto;background:none;border:none;color:var(--terracota);
+    font-size:17px;font-weight:700;cursor:pointer;padding:0 2px;line-height:1;
+  }
+  .conn-badge{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:99px;
+    margin-left:5px;vertical-align:middle;letter-spacing:0.02em;
+  }
+  .conn-badge.needs-net{background:#FBF1E8;color:var(--terracota);border:1px solid #F0DCC4;}
+  .conn-badge.offline-ok{background:#F0F6EF;color:var(--verde-claro);border:1px solid #DCE9D9;}
+
   .section-title{
     font-size:1.4rem;color:var(--verde);margin:6px 0 4px;
   }
@@ -572,6 +597,15 @@
   📲 Instalá esta guía en tu pantalla de inicio <button id="installBtn">Instalar</button>
 </div>
 
+<div class="offline-banner" id="offlineBanner" role="status" aria-live="polite">
+  <span class="offline-icon" aria-hidden="true">📡</span>
+  <span class="offline-text">
+    <b>Sin conexión ahora mismo</b>
+    El Clima y el Mapa necesitan internet — el resto de la guía (Itinerario, Extras, Tips, Checklist) funciona sin problema.
+  </span>
+  <button class="offline-dismiss" id="offlineDismiss" aria-label="Cerrar aviso">✕</button>
+</div>
+
 <!-- HERO -->
 <div class="hero">
   <img id="heroImg" src="https://commons.wikimedia.org/wiki/Special:FilePath/VistadeTafidelValle.jpg?width=900" alt="Valle de Tafí">
@@ -615,8 +649,8 @@
 
 <nav class="bottomnav" aria-label="Secciones de la guía">
   <button class="nav-btn active" data-target="itinerario" aria-current="page"><span class="ic" aria-hidden="true">🗺️</span>Itinerario</button>
-  <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa</button>
-  <button class="nav-btn" data-target="clima"><span class="ic" aria-hidden="true">🌤️</span>Clima</button>
+  <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa<span class="conn-badge needs-net" title="Necesita internet">📡</span></button>
+  <button class="nav-btn" data-target="clima"><span class="ic" aria-hidden="true">🌤️</span>Clima<span class="conn-badge needs-net" title="Necesita internet">📡</span></button>
   <button class="nav-btn" data-target="extras"><span class="ic" aria-hidden="true">✨</span>Extras</button>
   <button class="nav-btn" data-target="tips"><span class="ic" aria-hidden="true">🎒</span>Tips</button>
   <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Lista</button>
@@ -2026,6 +2060,29 @@ document.getElementById('settingsApply').addEventListener('click', async ()=>{
   }catch(e){ /* no saved config yet, keep default */ }
   updateHeroEyebrow();
 })();
+
+/* ===================== ESTADO DE CONEXIÓN (offline banner) ===================== */
+let offlineDismissedForThisOutage = false;
+
+function updateOfflineBanner(){
+  const banner = document.getElementById('offlineBanner');
+  if(!banner) return;
+  if(!navigator.onLine){
+    if(!offlineDismissedForThisOutage) banner.classList.add('show');
+  }else{
+    banner.classList.remove('show');
+    offlineDismissedForThisOutage = false; // reset para la próxima vez que se corte
+  }
+}
+
+document.getElementById('offlineDismiss').addEventListener('click', ()=>{
+  document.getElementById('offlineBanner').classList.remove('show');
+  offlineDismissedForThisOutage = true;
+});
+
+window.addEventListener('online', updateOfflineBanner);
+window.addEventListener('offline', updateOfflineBanner);
+updateOfflineBanner(); // chequeo inicial al cargar la app
 
 /* ===================== PWA: service worker (real file, see sw.js) ===================== */
 if('serviceWorker' in navigator){
