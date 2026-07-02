@@ -786,12 +786,27 @@
   .leaflet-popup-content{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
   .popup-time{color:var(--terracota);font-weight:700;font-size:11px;}
   .popup-name{color:var(--verde);font-weight:700;font-size:13.5px;margin:2px 0 3px;}
-  .popup-desc{font-size:12px;color:var(--gris);line-height:1.4;margin:0;}
+  .popup-desc{font-size:12px;color:var(--gris);line-height:1.4;margin:0 0 8px;}
+  .popup-visited-toggle{
+    display:flex;align-items:center;gap:6px;cursor:pointer;
+    font-size:11.5px;font-weight:700;color:var(--gris);user-select:none;
+    border-top:1px dashed var(--crema-osc);padding-top:6px;
+  }
+  .popup-visited-toggle input{width:15px;height:15px;accent-color:var(--verde-claro);}
+  .popup-visited-toggle input:checked ~ span{color:var(--verde-claro);}
   .day-marker-icon{
+    position:relative;
     background:var(--verde);color:#fff;border-radius:50%;width:28px;height:28px;
     display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;
     border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.35);
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  }
+  .day-marker-icon.visited-marker{opacity:0.5;}
+  .marker-check{
+    position:absolute;top:-4px;right:-4px;background:var(--verde-claro);color:#fff;
+    border-radius:50%;width:15px;height:15px;font-size:9px;font-weight:800;
+    display:flex;align-items:center;justify-content:center;border:1.5px solid #fff;
+    box-shadow:0 1px 3px rgba(0,0,0,0.3);
   }
 
   /* ---------- LIGHTBOX (foto ampliada) ---------- */
@@ -2309,6 +2324,9 @@ function buildAjustesSection(){
       a11yState = { ...A11Y_DEFAULTS };
       applyA11y();
 
+      // Reset estado en memoria de "visitado" (paradas), no solo el storage
+      visitedStopsState = {};
+
       // Rebuild everything
       updateHeroEyebrow();
       renderAll();
@@ -2447,6 +2465,35 @@ const DAY_COLORS = {dia1:"#1F3D2E", dia2:"#2F5942", dia3:"#C2622F", dia4:"#2B2A4
 let leafletMap = null;
 let mapLayers = [];
 
+function buildMarkerIcon(dayNum, color, isVisited){
+  return L.divIcon({
+    className:'',
+    html:`<div class="day-marker-icon${isVisited ? ' visited-marker' : ''}" style="background:${color}">${dayNum}${isVisited ? '<span class="marker-check">✓</span>' : ''}</div>`,
+    iconSize:[28,28], iconAnchor:[14,14]
+  });
+}
+
+function updateMapMarkerVisited(stopId, isVisited){
+  const marker = mapLayers.find(l => l.stopId === stopId);
+  if(!marker) return;
+  marker.setIcon(buildMarkerIcon(marker.dayNum, marker.markerColor, isVisited));
+  if(marker.isPopupOpen()){
+    marker.setPopupContent(buildStopPopupHtml(marker.stopId, marker.dayNum, marker.stopTime, marker.stopName, marker.stopDesc, isVisited));
+  }
+}
+
+function buildStopPopupHtml(stopId, dayNum, time, name, desc, isVisited){
+  return `
+    <div class="popup-time">${time} · Día ${dayNum}</div>
+    <div class="popup-name">${name}</div>
+    <p class="popup-desc">${desc.slice(0,110)}${desc.length>110?'…':''}</p>
+    <label class="popup-visited-toggle">
+      <input type="checkbox" ${isVisited ? 'checked' : ''} onchange="setStopVisited('${stopId}', this.checked); this.nextElementSibling.textContent = this.checked ? '✓ Visitada' : 'Marcar visitada';">
+      <span>${isVisited ? '✓ Visitada' : 'Marcar visitada'}</span>
+    </label>
+  `;
+}
+
 renderAll();
 
 function initMap(){
@@ -2486,17 +2533,20 @@ function renderMapMarkers(filterDay){
       routeCoords.push([s.lat, s.lng]);
       allPoints.push([s.lat, s.lng]);
 
-      const icon = L.divIcon({
-        className:'',
-        html:`<div class="day-marker-icon" style="background:${color}">${day.num}</div>`,
-        iconSize:[28,28], iconAnchor:[14,14]
-      });
+      const stopId = `${day.id}-stop-${i}`;
+      const isVisited = !!visitedStopsState[stopId];
+      const icon = buildMarkerIcon(day.num, color, isVisited);
       const marker = L.marker([s.lat, s.lng], {icon}).addTo(leafletMap);
-      marker.bindPopup(`
-        <div class="popup-time">${s.time} · Día ${day.num}</div>
-        <div class="popup-name">${s.name}</div>
-        <p class="popup-desc">${s.desc.slice(0,110)}${s.desc.length>110?'…':''}</p>
-      `);
+
+      // Guardamos los datos en el propio marcador para poder actualizarlo después sin re-renderizar todo
+      marker.stopId = stopId;
+      marker.dayNum = day.num;
+      marker.markerColor = color;
+      marker.stopTime = s.time;
+      marker.stopName = s.name;
+      marker.stopDesc = s.desc;
+
+      marker.bindPopup(buildStopPopupHtml(stopId, day.num, s.time, s.name, s.desc, isVisited));
       mapLayers.push(marker);
     });
 
@@ -2697,24 +2747,49 @@ async function initStopChecklists(){
 initStopChecklists();
 
 /* ===================== VISITED TOGGLE (persisted via window.storage) ===================== */
-async function initVisitedToggles(){
-  let saved = {};
+let visitedStopsState = {};
+
+async function loadVisitedStopsState(){
   try{
     const res = await appStorage.get('visited-stops');
-    if(res && res.value) saved = JSON.parse(res.value);
+    if(res && res.value) visitedStopsState = JSON.parse(res.value);
   }catch(e){ /* no saved state yet */ }
+}
+
+async function saveVisitedStopsState(){
+  try{ await appStorage.set('visited-stops', JSON.stringify(visitedStopsState)); }catch(err){}
+}
+
+function setStopVisited(stopId, isVisited){
+  visitedStopsState[stopId] = isVisited;
+  saveVisitedStopsState();
+
+  // Sincroniza el checkbox de la tarjeta del itinerario, si está en el DOM
+  const cb = document.querySelector(`.visited-check[data-stop="${stopId}"]`);
+  if(cb){
+    cb.checked = isVisited;
+    const card = cb.closest('.stop');
+    if(card) card.classList.toggle('is-visited', isVisited);
+  }
+
+  // Sincroniza el marcador del mapa, si está inicializado
+  if(leafletMap) updateMapMarkerVisited(stopId, isVisited);
+}
+
+async function initVisitedToggles(){
+  if(!Object.keys(visitedStopsState).length){
+    await loadVisitedStopsState();
+  }
 
   document.querySelectorAll('.visited-check').forEach(cb=>{
     const stopId = cb.dataset.stop;
     const card = cb.closest('.stop');
-    const isVisited = !!saved[stopId];
+    const isVisited = !!visitedStopsState[stopId];
     cb.checked = isVisited;
     card.classList.toggle('is-visited', isVisited);
 
-    cb.addEventListener('change', async ()=>{
-      saved[stopId] = cb.checked;
-      card.classList.toggle('is-visited', cb.checked);
-      try{ await appStorage.set('visited-stops', JSON.stringify(saved)); }catch(err){}
+    cb.addEventListener('change', ()=>{
+      setStopVisited(stopId, cb.checked);
     });
   });
 }
