@@ -1299,6 +1299,46 @@ function buildScheduleDays(totalDays, arrivalDateStr, arrivalTime){
 let tripConfig = { totalDays: 6, arrivalDate: todayISO(), arrivalTime: "08:00" };
 let DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
 
+/* ===================== MODO "HOY" ===================== */
+let openTodayMode = true;
+
+function getTodayDayIndex(){
+  if(!DAYS.length) return 0;
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  const arrival = parseDateInput(tripConfig.arrivalDate);
+  arrival.setHours(0,0,0,0);
+
+  for(let i=0; i<DAYS.length; i++){
+    const d = addDays(arrival, i);
+    d.setHours(0,0,0,0);
+    if(d.getTime() === today.getTime()) return i;
+  }
+  if(today < arrival) return 0; // el viaje todavía no arrancó — mostramos el día 1
+  return DAYS.length - 1; // el viaje ya terminó — mostramos el último día
+}
+
+function getInitialDayIndex(){
+  return openTodayMode ? getTodayDayIndex() : 0;
+}
+
+async function saveOpenTodayMode(){
+  try{ await appStorage.set('openTodayMode', JSON.stringify(openTodayMode)); }catch(e){}
+}
+
+(async function loadOpenTodayMode(){
+  try{
+    const res = await appStorage.get('openTodayMode');
+    if(res && res.value !== null && res.value !== undefined){
+      openTodayMode = JSON.parse(res.value);
+    }
+  }catch(e){}
+  // El primer render ya pudo haber pasado con el valor por defecto (true) —
+  // esto corrige el día mostrado apenas se conoce la preferencia guardada.
+  const idx = getInitialDayIndex();
+  if(DAYS[idx]) showDay(DAYS[idx].id);
+})();
+
 /* ===================== ACCESIBILIDAD ===================== */
 const LINE_VALUES = [1.35, 1.55, 1.8, 2.1];
 const LINE_LABELS = ['Compacto','Normal','Amplio','Muy amplio'];
@@ -1663,17 +1703,25 @@ function buildItinerarioSection(){
   const wrap = document.createElement('div');
   wrap.className = 'section'; wrap.id = 'sec-itinerario'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Itinerario'); wrap.setAttribute('tabindex','-1');
 
+  const initialIdx = getInitialDayIndex();
+
   const subTabs = document.createElement('div');
   subTabs.className = 'tabbar'; subTabs.style.position='static'; subTabs.style.borderBottom='none'; subTabs.style.padding='0 0 14px';
+  let activeTabBtn = null;
   DAYS.forEach((d,i)=>{
     const b = document.createElement('button');
-    b.className = 'tab' + (i===0?' active':'');
+    b.className = 'tab' + (i===initialIdx?' active':'');
     b.dataset.dayId = d.id;
     b.textContent = d.weekdayShort ? `${d.weekdayShort} ${d.dateLabel}` : `Día ${d.num}`;
     b.onclick = ()=>{ showDay(d.id); };
+    if(i===initialIdx) activeTabBtn = b;
     subTabs.appendChild(b);
   });
   wrap.appendChild(subTabs);
+
+  if(activeTabBtn){
+    requestAnimationFrame(()=> activeTabBtn.scrollIntoView({inline:'center', block:'nearest'}));
+  }
 
   const searchWrap = document.createElement('div');
   searchWrap.className = 'itin-search-wrap';
@@ -1693,7 +1741,7 @@ function buildItinerarioSection(){
     const dayDiv = document.createElement('div');
     dayDiv.className = 'day-block';
     dayDiv.id = 'day-'+day.id;
-    dayDiv.style.display = idx===0 ? 'block':'none';
+    dayDiv.style.display = idx===initialIdx ? 'block':'none';
 
     dayDiv.innerHTML = `
       <div class="day-banner">
@@ -2124,6 +2172,15 @@ function buildAjustesSection(){
     </div>
 
     <div class="ajustes-group">
+      <div class="ajustes-group-title">Al abrir la app</div>
+      <label class="ajustes-toggle-row">
+        <span>Abrir directo en el día de hoy</span>
+        <input type="checkbox" id="openTodayToggle">
+      </label>
+      <p class="text-only-note">Si está desactivado, la guía siempre abre en el Día 1.</p>
+    </div>
+
+    <div class="ajustes-group">
       <div class="ajustes-group-title">Datos y conexión</div>
       <label class="ajustes-toggle-row">
         <span>Modo solo texto (ocultar fotos para ahorrar datos)</span>
@@ -2172,6 +2229,16 @@ function buildAjustesSection(){
     sec.querySelector('#a11yDarkMode').addEventListener('change', e=>{ a11yState.darkMode=e.target.checked; applyA11y(); saveA11y(); });
     sec.querySelector('#a11yReduceMotion').addEventListener('change', e=>{ a11yState.reduceMotion=e.target.checked; applyA11y(); saveA11y(); });
     sec.querySelector('#a11yReset').addEventListener('click', ()=>{ a11yState={...A11Y_DEFAULTS}; applyA11y(); saveA11y(); });
+
+    // Abrir directo en el día de hoy
+    const openTodayCb = sec.querySelector('#openTodayToggle');
+    openTodayCb.checked = openTodayMode;
+    openTodayCb.addEventListener('change', e=>{
+      openTodayMode = e.target.checked;
+      saveOpenTodayMode();
+      const idx = getInitialDayIndex();
+      if(DAYS[idx]) showDay(DAYS[idx].id);
+    });
 
     // Modo solo texto (ahorrar datos)
     const textOnlyCb = sec.querySelector('#textOnlyToggle');
