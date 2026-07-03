@@ -2954,6 +2954,7 @@ function renderMapMarkers(filterDay){
   const allPoints = [];
   const showDays = filterDay === 'all' || DAYS.some(d=>d.id===filterDay);
   const showExtras = filterDay === 'all' || filterDay === 'extras';
+  const fullTripCoords = [];
 
   if(showDays && filterDay !== 'extras'){
     const daysToShow = filterDay === 'all' ? DAYS : DAYS.filter(d=>d.id===filterDay);
@@ -2966,6 +2967,7 @@ function renderMapMarkers(filterDay){
         if(s.lat == null) return;
         routeCoords.push([s.lat, s.lng]);
         allPoints.push([s.lat, s.lng]);
+        if(filterDay === 'all') fullTripCoords.push([s.lat, s.lng]);
 
         const stopId = `${day.id}-stop-${i}`;
         const isVisited = !!visitedStopsState[stopId];
@@ -2990,6 +2992,16 @@ function renderMapMarkers(filterDay){
         mapLayers.push(line);
       }
     });
+
+    // Ruta completa del viaje: conecta todas las paradas de todos los días en orden,
+    // solo cuando se ven todos juntos (con "Todos" seleccionado).
+    if(filterDay === 'all' && fullTripCoords.length > 1){
+      const fullLine = L.polyline(fullTripCoords, {
+        color:'#8A8478', weight:2, dashArray:'2,8', opacity:0.6, lineCap:'round'
+      }).addTo(leafletMap);
+      fullLine.bringToBack();
+      mapLayers.push(fullLine);
+    }
   }
 
   if(showExtras){
