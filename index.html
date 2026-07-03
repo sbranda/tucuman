@@ -770,6 +770,9 @@
     -webkit-overflow-scrolling:touch;scrollbar-width:none;
   }
   .map-day-filter::-webkit-scrollbar{display:none;}
+  .map-search-wrap{
+    flex:0 0 auto;padding:0 14px 10px;background:var(--crema);margin:0 !important;
+  }
   .map-chip{
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     flex:0 0 auto;padding:6px 13px;border-radius:99px;font-size:12.5px;font-weight:600;
@@ -1806,6 +1809,54 @@ function bindItinSearchEvents(wrap){
   });
 }
 
+function bindMapSearchEvents(wrap, mapSearchIndex){
+  const input = wrap.querySelector('#mapSearchInput');
+  const clearBtn = wrap.querySelector('#mapSearchClear');
+  const resultsBox = wrap.querySelector('#mapSearchResults');
+  if(!input || !resultsBox) return;
+
+  const renderResults = (matches)=>{
+    if(!matches.length){
+      resultsBox.innerHTML = `<div class="itin-search-empty">No encontré nada con esa búsqueda. Probá con otra palabra.</div>`;
+      resultsBox.classList.add('show');
+      return;
+    }
+    resultsBox.innerHTML = matches.slice(0, 20).map(m => `
+      <button type="button" class="itin-search-result" data-type="${m.type}" data-id="${m.id}">
+        <span class="itin-search-result-day">${m.sub}</span>
+        <span class="itin-search-result-name">${m.label}</span>
+      </button>
+    `).join('');
+    resultsBox.classList.add('show');
+    resultsBox.querySelectorAll('.itin-search-result').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        input.value = '';
+        clearBtn.style.display = 'none';
+        resultsBox.classList.remove('show');
+        resultsBox.innerHTML = '';
+        if(btn.dataset.type === 'extra') goToMapExtra(btn.dataset.id);
+        else goToMapStop(btn.dataset.id);
+      });
+    });
+  };
+
+  input.addEventListener('input', ()=>{
+    const q = normalizeForSearch(input.value.trim());
+    clearBtn.style.display = q ? 'flex' : 'none';
+    if(!q){ resultsBox.classList.remove('show'); resultsBox.innerHTML = ''; return; }
+    const matches = mapSearchIndex.filter(item => item.searchText.includes(q));
+    renderResults(matches);
+  });
+
+  clearBtn.addEventListener('click', ()=>{
+    input.value = '';
+    clearBtn.style.display = 'none';
+    resultsBox.classList.remove('show');
+    resultsBox.innerHTML = '';
+    input.focus();
+  });
+}
+
 function jumpToStop(dayId, stopId){
   showDay(dayId);
 
@@ -2497,6 +2548,44 @@ function buildMapaSection(){
 
   wrap.appendChild(filter);
 
+  const mapSearchWrap = document.createElement('div');
+  mapSearchWrap.className = 'itin-search-wrap map-search-wrap';
+  mapSearchWrap.innerHTML = `
+    <div class="itin-search-box">
+      <span class="itin-search-icon" aria-hidden="true">🔎</span>
+      <input type="search" id="mapSearchInput" class="itin-search-input" placeholder="Buscar un lugar en el mapa..." autocomplete="off">
+      <button type="button" id="mapSearchClear" class="itin-search-clear" style="display:none;" aria-label="Borrar búsqueda">✕</button>
+    </div>
+    <div id="mapSearchResults" class="itin-search-results"></div>
+  `;
+  wrap.appendChild(mapSearchWrap);
+
+  const mapSearchIndex = [];
+  DAYS.forEach(day=>{
+    day.stops.forEach((s, i)=>{
+      if(s.lat == null) return;
+      mapSearchIndex.push({
+        type:'stop', id:`${day.id}-stop-${i}`,
+        label:s.name,
+        sub: day.weekdayShort ? `📍 ${day.weekdayShort} ${day.dateLabel}` : `📍 Día ${day.num}`,
+        searchText: normalizeForSearch([s.name, day.title].join(' '))
+      });
+    });
+  });
+  EXTRAS.forEach((group, gIdx)=>{
+    group.places.forEach((p, pIdx)=>{
+      if(p.lat == null) return;
+      mapSearchIndex.push({
+        type:'extra', id:`extra-${gIdx}-${pIdx}`,
+        label:p.name,
+        sub:`✨ ${group.zone}`,
+        searchText: normalizeForSearch([p.name, group.zone].join(' '))
+      });
+    });
+  });
+
+  bindMapSearchEvents(wrap, mapSearchIndex);
+
   const mapDiv = document.createElement('div');
   mapDiv.id = 'leafletMap';
   mapDiv.setAttribute('role', 'application');
@@ -2740,6 +2829,21 @@ function goToMapExtra(extraId){
   renderMapMarkers('all');
 
   const marker = mapLayers.find(l => l.extraId === extraId);
+  if(!marker) return;
+  leafletMap.setView(marker.getLatLng(), Math.max(leafletMap.getZoom(), 14));
+  marker.openPopup();
+}
+
+function goToMapStop(stopId){
+  if(!leafletMap) return;
+
+  const filter = document.querySelector('.map-day-filter');
+  if(filter){
+    filter.querySelectorAll('.map-chip').forEach(c=>c.classList.toggle('active', c.dataset.day === 'all'));
+  }
+  renderMapMarkers('all');
+
+  const marker = mapLayers.find(l => l.stopId === stopId);
   if(!marker) return;
   leafletMap.setView(marker.getLatLng(), Math.max(leafletMap.getZoom(), 14));
   marker.openPopup();

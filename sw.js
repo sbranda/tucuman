@@ -1,4 +1,4 @@
-const CACHE_NAME = "tucuman-5dias-v60";
+const CACHE_NAME = "tucuman-5dias-v62";
 const APP_SHELL = [
   "./",
   "./index.html",
