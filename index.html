@@ -454,6 +454,24 @@
   .nav-btn .ic{font-size:19px;}
   .nav-btn.active{color:var(--terracota);}
 
+  .bottomnav-scroll-hint{
+    display:none;position:fixed;right:0;
+    bottom:env(safe-area-inset-bottom);
+    width:38px;height:64px;z-index:5001;
+    align-items:center;justify-content:flex-end;
+    pointer-events:none;
+    background:linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.94) 55%);
+  }
+  .bottomnav-scroll-hint.show{display:flex;}
+  .bottomnav-scroll-arrow{
+    color:var(--terracota);font-size:18px;font-weight:800;
+    margin-right:3px;animation:scrollHintNudge 1.3s ease-in-out infinite;
+  }
+  @keyframes scrollHintNudge{
+    0%,100%{transform:translateX(0);opacity:0.55;}
+    50%{transform:translateX(-3px);opacity:1;}
+  }
+
   .install-banner{
     display:none;
     background:var(--ocre);color:var(--verde);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
@@ -1005,7 +1023,7 @@
   <div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
 
-<nav class="bottomnav" aria-label="Secciones de la guía">
+<nav class="bottomnav" aria-label="Secciones de la guía" id="bottomnav">
   <button class="nav-btn active" data-target="itinerario" aria-current="page"><span class="ic" aria-hidden="true">🗺️</span>Itinerario</button>
   <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa<span class="conn-badge needs-net" title="Necesita internet">📡</span></button>
   <button class="nav-btn" data-target="clima"><span class="ic" aria-hidden="true">🌤️</span>Clima<span class="conn-badge needs-net" title="Necesita internet">📡</span></button>
@@ -1015,6 +1033,9 @@
   <button class="nav-btn" data-target="presupuesto"><span class="ic" aria-hidden="true">💰</span>Gastos</button>
   <button class="nav-btn" data-target="ajustes"><span class="ic" aria-hidden="true">⚙️</span>Ajustes</button>
 </nav>
+<div class="bottomnav-scroll-hint" id="bottomnavScrollHint" aria-hidden="true">
+  <span class="bottomnav-scroll-arrow">›</span>
+</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
@@ -3092,6 +3113,24 @@ function locateUser(){
 }
 
 /* ===================== BOTTOM NAV ===================== */
+function updateBottomnavScrollHint(){
+  const nav = document.getElementById('bottomnav');
+  const hint = document.getElementById('bottomnavScrollHint');
+  if(!nav || !hint) return;
+  const hasMoreToRight = (nav.scrollWidth - nav.clientWidth - nav.scrollLeft) > 4;
+  hint.classList.toggle('show', hasMoreToRight);
+}
+
+(function initBottomnavScrollHint(){
+  const nav = document.getElementById('bottomnav');
+  if(!nav) return;
+  nav.addEventListener('scroll', updateBottomnavScrollHint);
+  window.addEventListener('resize', updateBottomnavScrollHint);
+  window.addEventListener('orientationchange', ()=> setTimeout(updateBottomnavScrollHint, 250));
+  // Chequeo inicial (con un pequeño delay para que el navegador ya haya calculado el layout)
+  setTimeout(updateBottomnavScrollHint, 100);
+})();
+
 function switchToTab(target){
   document.querySelectorAll('.nav-btn').forEach(b=>{
     const isTarget = b.dataset.target === target;
