@@ -5,9 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
 <title>Viaje Tucumán</title>
 <meta name="theme-color" content="#1F3D2E">
-<link rel="manifest" href="manifest.json?v=3">
-<link rel="icon" href="icon-192.png">
-<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json?v=2">
+<link rel="icon" href="icon-192.svg">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
 <style>
   :root{
@@ -193,60 +192,6 @@
     margin:14px 2px 18px;
   }
 
-  /* ---------- BUSCADOR DEL ITINERARIO ---------- */
-  .itin-search-wrap{margin:0 0 16px;}
-  .itin-search-box{
-    display:flex;align-items:center;gap:8px;
-    background:#fff;border:1.5px solid var(--crema-osc);border-radius:12px;
-    padding:9px 12px;
-  }
-  .itin-search-box:focus-within{border-color:var(--terracota);}
-  .itin-search-icon{font-size:15px;flex:0 0 auto;opacity:0.7;}
-  .itin-search-input{
-    flex:1;border:none;background:none;outline:none;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:14px;color:var(--texto);min-width:0;
-  }
-  .itin-search-input::placeholder{color:var(--gris);}
-  .itin-search-input::-webkit-search-cancel-button{display:none;}
-  .itin-search-clear{
-    flex:0 0 auto;display:flex;align-items:center;justify-content:center;
-    width:22px;height:22px;border-radius:50%;border:none;
-    background:var(--crema-osc);color:var(--gris);font-size:12px;font-weight:700;cursor:pointer;
-  }
-  .itin-search-results{
-    display:none;margin-top:8px;background:#fff;border:1px solid var(--crema-osc);
-    border-radius:12px;overflow:hidden;max-height:340px;overflow-y:auto;
-  }
-  .itin-search-results.show{display:block;}
-  .itin-search-result{
-    display:flex;flex-direction:column;gap:1px;width:100%;text-align:left;
-    background:none;border:none;border-bottom:1px solid var(--crema-osc);
-    padding:10px 12px;cursor:pointer;
-  }
-  .itin-search-result:last-child{border-bottom:none;}
-  .itin-search-result:active{background:var(--crema);}
-  .itin-search-result-day{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;
-    color:var(--terracota);
-  }
-  .itin-search-result-name{font-size:13.5px;color:var(--texto);font-weight:600;}
-  .itin-search-empty{
-    padding:14px 12px;font-size:13px;color:var(--gris);font-style:italic;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
-
-  @keyframes searchPulse{
-    0%{box-shadow:0 0 0 0 rgba(194,98,47,0.55);}
-    70%{box-shadow:0 0 0 10px rgba(194,98,47,0);}
-    100%{box-shadow:0 0 0 0 rgba(194,98,47,0);}
-  }
-  .search-highlight{
-    animation:searchPulse 1.1s ease-out 0s 2;
-    border-color:var(--terracota) !important;
-  }
-
   /* ---------- STOP CARD ---------- */
   .stop{
     background:#fff;border-radius:14px;overflow:hidden;margin-bottom:16px;
@@ -254,29 +199,6 @@
     border:1px solid var(--crema-osc);
   }
   .stop img{width:100%;height:170px;object-fit:cover;display:block;background:var(--crema-osc);}
-  .zoomable-img{cursor:pointer;}
-  .stop-gallery{position:relative;}
-  .stop-gallery-track{
-    display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
-    -webkit-overflow-scrolling:touch;scrollbar-width:none;
-  }
-  .stop-gallery-track::-webkit-scrollbar{display:none;}
-  .stop-gallery-track img{flex:0 0 100%;scroll-snap-align:start;scroll-snap-stop:always;}
-  .stop-gallery-dots{
-    position:absolute;bottom:9px;left:0;right:0;z-index:2;
-    display:flex;justify-content:center;gap:5px;pointer-events:none;
-  }
-  .stop-gallery-dot{
-    width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.55);
-    box-shadow:0 0 3px rgba(0,0,0,0.45);transition:width .15s, background .15s;
-  }
-  .stop-gallery-dot.active{background:#fff;width:15px;border-radius:3px;}
-  .zoom-hint{
-    position:absolute;top:10px;left:10px;z-index:2;
-    background:rgba(0,0,0,0.5);color:#fff;border-radius:50%;
-    width:26px;height:26px;display:flex;align-items:center;justify-content:center;
-    font-size:13px;pointer-events:none;
-  }
   .stop-body{padding:14px 16px 16px;}
   .stop-time{
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
@@ -339,7 +261,6 @@
   .extra .label.hist{color:var(--indigo);}
   .extra .label.acc{color:#1F6B8C;}
   .extra .label.check{color:var(--terracota);}
-  .extra .label.note{color:var(--indigo);}
   .extra .label.winter{color:#1F6B8C;}
   .winter-block{
     background:#EEF5F8;border-radius:8px;padding:8px 10px;
@@ -360,20 +281,6 @@
   .road-status-block p{font-size:12px;color:var(--texto);line-height:1.5;margin:0 0 6px;}
   .road-status-block .road-contacts{font-size:11px;color:var(--gris);line-height:1.6;}
 
-  .dish-block{
-    display:flex;align-items:flex-start;gap:8px;
-    background:#FDF6EA;border:1px solid #F0E4C7;border-radius:10px;
-    padding:9px 11px;margin:10px 0;
-  }
-  .dish-block .dish-icon{font-size:16px;flex:0 0 auto;line-height:1.3;}
-  .dish-block .dish-text{flex:1;}
-  .dish-block .dish-label{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:10px;text-transform:uppercase;letter-spacing:0.07em;font-weight:800;
-    color:var(--terracota);margin:0 0 2px;
-  }
-  .dish-block p{margin:0;font-size:13px;color:var(--texto);line-height:1.45;}
-
   .stop-checklist{display:flex;flex-direction:column;gap:6px;}
   .check-item-mini{
     display:flex;align-items:flex-start;gap:8px;cursor:pointer;
@@ -389,21 +296,6 @@
     background:var(--crema);border:1px solid var(--crema-osc);border-radius:6px;
     padding:3px 8px;display:inline-block;margin-bottom:4px;
   }
-
-  .stop-note{
-    width:100%;box-sizing:border-box;resize:vertical;min-height:44px;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:13px;color:var(--texto);line-height:1.45;
-    background:var(--crema);border:1.5px solid var(--crema-osc);border-radius:8px;
-    padding:8px 10px;
-  }
-  .stop-note::placeholder{color:var(--gris);opacity:0.75;}
-  .stop-note:focus{border-color:var(--indigo);outline:none;}
-  .note-badge{background:#EEEDF6;color:var(--indigo);border-color:#D9D7EA;}
-  .note-save-hint{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:10px;color:var(--gris);margin-top:3px;min-height:12px;
-  }
   .extra p{font-size:13px;line-height:1.5;color:var(--gris);margin:0;}
 
   /* ---------- TIPS PAGE ---------- */
@@ -413,20 +305,6 @@
   }
   .tip-card h4{margin:0 0 4px;color:var(--verde);font-size:1rem;}
   .tip-card p{margin:0;font-size:13.5px;color:var(--gris);line-height:1.5;}
-
-  /* ---------- GLOSARIO NOA ---------- */
-  .glosario-title{
-    font-size:1.05rem;color:var(--indigo);margin:26px 0 4px;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-weight:800;border-left:3px solid var(--indigo);padding-left:10px;
-  }
-  .glosario-intro{font-size:13px;color:var(--gris);font-style:italic;margin:0 0 14px;}
-  .glosario-item{
-    background:#fff;border-radius:12px;padding:12px 16px;margin-bottom:10px;
-    border-left:4px solid var(--indigo);box-shadow:0 1px 3px rgba(0,0,0,0.05);
-  }
-  .glosario-term{margin:0 0 3px;color:var(--indigo);font-size:0.98rem;font-weight:700;}
-  .glosario-def{margin:0;font-size:13px;color:var(--gris);line-height:1.5;}
 
   /* ---------- CHECKLIST ---------- */
   .check-item{
@@ -455,38 +333,17 @@
     position:fixed;bottom:0;left:0;right:0;z-index:5000;
     background:#fff;border-top:1px solid var(--crema-osc);
     display:flex;justify-content:space-around;
-    overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
     padding:8px 4px calc(8px + env(safe-area-inset-bottom));
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     transform:translateZ(0);
     -webkit-transform:translateZ(0);
   }
-  .bottomnav::-webkit-scrollbar{display:none;}
   .nav-btn{
     background:none;border:none;display:flex;flex-direction:column;align-items:center;
-    flex:1 0 58px;min-width:58px;
-    gap:3px;color:var(--gris);font-size:10.5px;font-weight:600;cursor:pointer;
+    gap:3px;color:var(--gris);font-size:10.5px;font-weight:600;cursor:pointer;flex:1;
   }
   .nav-btn .ic{font-size:19px;}
   .nav-btn.active{color:var(--terracota);}
-
-  .bottomnav-scroll-hint{
-    display:none;position:fixed;right:0;
-    bottom:env(safe-area-inset-bottom);
-    width:38px;height:64px;z-index:5001;
-    align-items:center;justify-content:flex-end;
-    pointer-events:none;
-    background:linear-gradient(to right, rgba(255,255,255,0), rgba(255,255,255,0.94) 55%);
-  }
-  .bottomnav-scroll-hint.show{display:flex;}
-  .bottomnav-scroll-arrow{
-    color:var(--terracota);font-size:18px;font-weight:800;
-    margin-right:3px;animation:scrollHintNudge 1.3s ease-in-out infinite;
-  }
-  @keyframes scrollHintNudge{
-    0%,100%{transform:translateX(0);opacity:0.55;}
-    50%{transform:translateX(-3px);opacity:1;}
-  }
 
   .install-banner{
     display:none;
@@ -497,52 +354,6 @@
   .install-banner button{
     margin-left:10px;background:var(--verde);color:#fff;border:none;border-radius:6px;
     padding:4px 10px;font-size:11.5px;font-weight:700;cursor:pointer;
-  }
-
-  /* ---------- OFFLINE BANNER ---------- */
-  .offline-banner{
-    display:none;
-    background:#FBF1E8;color:var(--terracota);
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:12px;font-weight:600;text-align:left;line-height:1.4;
-    padding:10px 14px;border-bottom:1px solid #F0DCC4;
-    align-items:center;gap:10px;
-  }
-  .offline-banner.show{display:flex;}
-  .offline-banner .offline-icon{font-size:17px;flex:0 0 auto;}
-  .offline-banner .offline-text{flex:1;}
-  .offline-banner .offline-text b{display:block;font-size:12.5px;margin-bottom:1px;}
-  .offline-banner .offline-dismiss{
-    flex:0 0 auto;background:none;border:none;color:var(--terracota);
-    font-size:17px;font-weight:700;cursor:pointer;padding:0 2px;line-height:1;
-  }
-  .conn-badge{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:99px;
-    margin-left:5px;vertical-align:middle;letter-spacing:0.02em;
-  }
-  .conn-badge.needs-net{background:#FBF1E8;color:var(--terracota);border:1px solid #F0DCC4;}
-  .conn-badge.offline-ok{background:#F0F6EF;color:var(--verde-claro);border:1px solid #DCE9D9;}
-
-  .data-saver-banner{background:#F0F6EF;border-bottom-color:#DCE9D9;color:var(--verde-claro);}
-  .data-saver-banner .offline-dismiss{color:var(--verde-claro);}
-  .data-saver-activate{
-    display:block;margin-top:6px;background:var(--verde-claro);color:#fff;border:none;
-    border-radius:7px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
-
-  /* ---------- MODO SOLO TEXTO ---------- */
-  body.text-only-mode .stop img,
-  body.text-only-mode .extras-card img,
-  body.text-only-mode .hero img,
-  body.text-only-mode .zoom-hint,
-  body.text-only-mode .stop-visited-badge{
-    display:none !important;
-  }
-  .text-only-note{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:11px;color:var(--gris);margin-top:4px;
   }
 
   .section-title{
@@ -597,17 +408,6 @@
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     font-size:12.5px;color:var(--gris);line-height:1.5;margin:0 0 10px;
   }
-  .ajustes-share-btn{
-    width:100%;padding:13px;border-radius:12px;border:none;
-    background:var(--verde-claro);color:#fff;font-size:14px;font-weight:700;cursor:pointer;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    margin-bottom:8px;
-  }
-  .ajustes-copy-btn{
-    width:100%;padding:13px;border-radius:12px;border:1.5px solid var(--crema-osc);
-    background:#fff;color:var(--verde);font-size:14px;font-weight:700;cursor:pointer;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
   .ajustes-reset-all-btn{
     width:100%;padding:13px;border-radius:12px;border:1.5px solid #C0392B;
     background:#fff;color:#C0392B;font-size:14px;font-weight:700;cursor:pointer;
@@ -628,53 +428,6 @@
     background:#C0392B;color:#fff;font-size:13px;font-weight:700;cursor:pointer;
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   }
-
-  /* ---------- PRESUPUESTO ---------- */
-  .budget-header{
-    display:grid;grid-template-columns:1fr 74px 74px 28px;gap:6px;
-    padding:0 4px;margin-bottom:6px;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;
-    color:var(--gris);
-  }
-  .budget-col-num{text-align:center;}
-  .budget-row{
-    display:grid;grid-template-columns:1fr 74px 74px 28px;gap:6px;align-items:center;
-    background:#fff;border:1px solid var(--crema-osc);border-radius:10px;
-    padding:8px;margin-bottom:8px;
-  }
-  .budget-row input{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    border:1.5px solid var(--crema-osc);border-radius:7px;
-    background:var(--crema);color:var(--texto);
-    padding:7px 6px;font-size:12.5px;width:100%;box-sizing:border-box;
-  }
-  .budget-row input:focus{border-color:var(--terracota);outline:none;}
-  .budget-input{text-align:right;}
-  .budget-remove{
-    background:none;border:none;color:var(--gris);font-size:15px;font-weight:700;
-    cursor:pointer;padding:4px;line-height:1;
-  }
-  .budget-add-btn{
-    width:100%;padding:11px;border-radius:10px;border:1.5px dashed var(--crema-osc);
-    background:#fff;color:var(--terracota);font-size:13.5px;font-weight:700;cursor:pointer;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    margin-bottom:20px;
-  }
-  .budget-summary{
-    background:#fff;border-radius:12px;padding:14px 16px;
-    border:1px solid var(--crema-osc);
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
-  .budget-summary-row{
-    display:flex;justify-content:space-between;align-items:center;
-    padding:6px 0;font-size:13.5px;color:var(--texto);
-    border-bottom:1px solid var(--crema-osc);
-  }
-  .budget-summary-row:last-child{border-bottom:none;padding-top:10px;margin-top:2px;border-top:1.5px solid var(--crema-osc);}
-  .budget-summary-row b{font-size:14.5px;}
-  .budget-diff-ok b{color:var(--verde-claro);}
-  .budget-diff-over b{color:#C0392B;}
 
   /* ---------- CLIMA ---------- */
   .clima-loading{text-align:center;color:var(--gris);padding:30px;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;}
@@ -734,9 +487,8 @@
   .extras-card{
     background:#fff;border-radius:14px;overflow:hidden;margin-bottom:14px;
     border:1px solid var(--crema-osc);box-shadow:0 1px 3px rgba(0,0,0,0.06);
-    position:relative;
   }
-  .extras-card img{width:100%;height:140px;object-fit:cover;display:block;background:var(--crema-osc);cursor:pointer;}
+  .extras-card img{width:100%;height:140px;object-fit:cover;display:block;background:var(--crema-osc);}
   .extras-body{padding:12px 14px 14px;}
   .extras-header{display:flex;align-items:flex-start;gap:8px;margin-bottom:6px;flex-wrap:wrap;}
   .extras-icon{font-size:20px;flex:0 0 auto;margin-top:1px;}
@@ -747,24 +499,6 @@
     background:var(--crema);border-radius:8px;padding:8px 10px;
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
   }
-  .extras-check-row{display:flex;justify-content:flex-end;margin-top:8px;}
-  .extras-visited-toggle{
-    display:flex;align-items:center;gap:5px;cursor:pointer;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:11.5px;font-weight:700;color:var(--gris);user-select:none;
-  }
-  .extras-visited-toggle input{width:16px;height:16px;accent-color:var(--verde-claro);}
-  .extras-visited-toggle input:checked ~ span{color:var(--verde-claro);}
-  .extras-card.is-visited{border-color:var(--verde-claro);background:#FBFBF6;}
-  .extras-card.is-visited img{filter:saturate(0.55) brightness(0.92);}
-  .extras-visited-badge{
-    display:none;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    position:absolute;top:10px;right:10px;background:var(--verde-claro);color:#fff;
-    font-size:11px;font-weight:700;padding:4px 10px;border-radius:99px;
-    box-shadow:0 1px 4px rgba(0,0,0,0.25);
-  }
-  .extras-card.is-visited .extras-visited-badge{display:inline-block;}
 
   /* ---------- ACCESSIBILITY MODES ---------- */
   body.a11y-high-contrast{
@@ -804,17 +538,12 @@
     -webkit-overflow-scrolling:touch;scrollbar-width:none;
   }
   .map-day-filter::-webkit-scrollbar{display:none;}
-  .map-search-wrap{
-    flex:0 0 auto;padding:0 14px 10px;background:var(--crema);margin:0 !important;
-  }
   .map-chip{
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
     flex:0 0 auto;padding:6px 13px;border-radius:99px;font-size:12.5px;font-weight:600;
     border:1px solid var(--crema-osc);background:#fff;color:var(--gris);cursor:pointer;
   }
   .map-chip.active{background:var(--terracota);color:#fff;border-color:var(--terracota);}
-  .map-chip-extras{border-color:#D9D7EA;color:var(--indigo);}
-  .map-chip-extras.active{background:var(--indigo);color:#fff;border-color:var(--indigo);}
   #leafletMap{
     width:100%;
     flex:1 1 auto;
@@ -822,158 +551,15 @@
     touch-action:pan-x pan-y;
     overscroll-behavior:contain;
   }
-  .map-style-switcher{
-    position:absolute;top:64px;right:14px;z-index:1500;
-    display:flex;flex-direction:column;gap:6px;
-    background:#fff;border-radius:12px;padding:5px;
-    box-shadow:0 2px 8px rgba(0,0,0,0.25);
-  }
-  .map-style-btn{
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    border:none;background:transparent;color:var(--gris);
-    font-size:11.5px;font-weight:600;padding:7px 10px;border-radius:8px;
-    cursor:pointer;text-align:left;white-space:nowrap;
-  }
-  .map-style-btn.active{background:var(--verde);color:#fff;}
-  .locate-btn{
-    position:absolute;right:14px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:1500;
-    width:44px;height:44px;border-radius:50%;border:none;
-    background:#fff;color:var(--verde);font-size:19px;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 2px 8px rgba(0,0,0,0.25);
-  }
-  .locate-btn.locating{animation:locatePulse 1s ease-in-out infinite;}
-  @keyframes locatePulse{0%,100%{opacity:1;}50%{opacity:0.45;}}
-  .locate-status{
-    display:none;position:absolute;left:50%;bottom:calc(84px + env(safe-area-inset-bottom));
-    transform:translateX(-50%);z-index:1500;
-    background:rgba(20,30,25,0.88);color:#fff;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:99px;
-    white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,0.3);
-  }
-  .locate-status.show{display:block;}
-  .user-location-dot{
-    width:16px;height:16px;border-radius:50%;
-    background:#2B6CB0;border:3px solid #fff;
-    box-shadow:0 0 0 2px rgba(43,108,176,0.4), 0 1px 4px rgba(0,0,0,0.35);
-  }
-  .legend-btn{
-    position:absolute;left:14px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:1500;
-    width:44px;height:44px;border-radius:50%;border:none;
-    background:#fff;color:var(--verde);font-size:18px;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:0 2px 8px rgba(0,0,0,0.25);
-  }
-  .legend-panel{
-    display:none;position:absolute;left:14px;bottom:calc(136px + env(safe-area-inset-bottom));
-    z-index:1500;max-width:min(80vw, 300px);max-height:60vh;overflow-y:auto;
-    background:#fff;border-radius:12px;padding:12px 14px;
-    box-shadow:0 4px 16px rgba(0,0,0,0.28);
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
-  .legend-panel.show{display:block;}
-  .legend-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;color:var(--gris);margin-bottom:8px;}
-  .legend-subtitle{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:0.05em;color:var(--indigo);margin:2px 0 8px;}
-  .legend-divider{height:1px;background:var(--crema-osc);margin:10px 0;}
-  .legend-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;font-size:12px;color:var(--texto);line-height:1.3;}
-  .legend-row:last-child{margin-bottom:0;}
-  .legend-row-clickable{
-    width:100%;border:none;background:none;padding:4px 4px;margin:0 0 2px -4px;
-    border-radius:8px;cursor:pointer;text-align:left;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
-  .legend-row-clickable:active{background:var(--crema);}
-  .legend-swatch-day{
-    flex:0 0 auto;display:flex;align-items:center;justify-content:center;
-    width:18px;height:18px;border-radius:50%;background:var(--verde);color:#fff;
-    font-size:10px;font-weight:700;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.25);
-  }
-  .legend-swatch-visited{
-    flex:0 0 auto;display:flex;align-items:center;justify-content:center;
-    width:18px;height:18px;border-radius:50%;background:var(--verde-claro);
-    color:#fff;font-size:10px;font-weight:800;border:1.5px dashed #fff;box-shadow:0 1px 3px rgba(0,0,0,0.25);
-  }
-  .legend-swatch-extra{
-    flex:0 0 auto;display:flex;align-items:center;justify-content:center;
-    width:18px;height:18px;border-radius:5px;background:var(--indigo);
-    font-size:10px;border:1.5px solid #fff;box-shadow:0 1px 3px rgba(0,0,0,0.25);
-  }
   .leaflet-popup-content{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;}
   .popup-time{color:var(--terracota);font-weight:700;font-size:11px;}
   .popup-name{color:var(--verde);font-weight:700;font-size:13.5px;margin:2px 0 3px;}
-  .popup-desc{font-size:12px;color:var(--gris);line-height:1.4;margin:0 0 8px;}
-  .popup-visited-toggle{
-    display:flex;align-items:center;gap:6px;cursor:pointer;
-    font-size:11.5px;font-weight:700;color:var(--gris);user-select:none;
-    border-top:1px dashed var(--crema-osc);padding-top:6px;
-  }
-  .popup-visited-toggle input{width:15px;height:15px;accent-color:var(--verde-claro);}
-  .popup-visited-toggle input:checked ~ span{color:var(--verde-claro);}
-  .popup-goto-btn{
-    display:block;width:100%;margin-top:8px;padding:6px 8px;
-    background:var(--verde);color:#fff;border:none;border-radius:7px;
-    font-size:11.5px;font-weight:700;cursor:pointer;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
+  .popup-desc{font-size:12px;color:var(--gris);line-height:1.4;margin:0;}
   .day-marker-icon{
-    position:relative;
     background:var(--verde);color:#fff;border-radius:50%;width:28px;height:28px;
     display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px;
     border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.35);
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
-  .day-marker-icon.visited-marker{
-    filter:grayscale(55%) brightness(1.2);
-    border-style:dashed;
-    font-size:15px;
-  }
-  .extra-marker-icon{
-    background:var(--indigo);color:#fff;border-radius:7px;width:26px;height:26px;
-    display:flex;align-items:center;justify-content:center;font-size:13px;
-    border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,0.35);
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-  }
-  .extra-marker-icon.visited-marker{
-    filter:grayscale(55%) brightness(1.3);
-    border-style:dashed;
-    font-size:14px;font-weight:800;
-  }
-  .popup-goto-btn-extra{background:var(--indigo);}
-
-  /* ---------- LIGHTBOX (foto ampliada) ---------- */
-  .lightbox-backdrop{
-    display:none;position:fixed;inset:0;z-index:9000;
-    background:rgba(15,15,13,0.92);
-    align-items:center;justify-content:center;
-    padding:env(safe-area-inset-top) 16px calc(env(safe-area-inset-bottom) + 16px);
-  }
-  .lightbox-backdrop.open{display:flex;flex-direction:column;}
-  .lightbox-backdrop img{
-    max-width:100%;max-height:78vh;object-fit:contain;border-radius:10px;
-    box-shadow:0 8px 40px rgba(0,0,0,0.5);
-  }
-  .lightbox-caption{
-    color:#EFE7D6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:13.5px;font-weight:600;text-align:center;margin-top:14px;padding:0 10px;
-  }
-  .lightbox-close{
-    position:absolute;top:calc(env(safe-area-inset-top) + 14px);right:16px;z-index:2;
-    width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.4);
-    background:rgba(0,0,0,0.5);color:#fff;font-size:17px;font-weight:700;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .lightbox-nav{
-    display:none;position:absolute;top:50%;transform:translateY(-50%);z-index:2;
-    width:42px;height:42px;border-radius:50%;border:1.5px solid rgba(255,255,255,0.4);
-    background:rgba(0,0,0,0.5);color:#fff;font-size:22px;font-weight:700;cursor:pointer;
-    align-items:center;justify-content:center;line-height:1;
-  }
-  .lightbox-prev{left:10px;}
-  .lightbox-next{right:10px;}
-  .lightbox-counter{
-    display:none;color:#EFE7D6;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
-    font-size:11.5px;font-weight:700;text-align:center;margin-top:6px;opacity:0.8;
   }
 </style>
 </head>
@@ -983,25 +569,6 @@
 
 <div class="install-banner" id="installBanner">
   📲 Instalá esta guía en tu pantalla de inicio <button id="installBtn">Instalar</button>
-</div>
-
-<div class="offline-banner" id="offlineBanner" role="status" aria-live="polite">
-  <span class="offline-icon" aria-hidden="true">📡</span>
-  <span class="offline-text">
-    <b>Sin conexión ahora mismo</b>
-    El Clima y el Mapa necesitan internet — el resto de la guía (Itinerario, Extras, Tips, Checklist) funciona sin problema.
-  </span>
-  <button class="offline-dismiss" id="offlineDismiss" aria-label="Cerrar aviso">✕</button>
-</div>
-
-<div class="offline-banner data-saver-banner" id="dataSaverBanner" role="status" aria-live="polite">
-  <span class="offline-icon" aria-hidden="true">🐌</span>
-  <span class="offline-text">
-    <b>Conexión lenta detectada</b>
-    Podés activar el modo solo texto para dejar de cargar fotos y ahorrar datos.
-    <button class="data-saver-activate" id="dataSaverActivate">Activar modo solo texto</button>
-  </span>
-  <button class="offline-dismiss" id="dataSaverDismiss" aria-label="Cerrar aviso">✕</button>
 </div>
 
 <!-- HERO -->
@@ -1045,28 +612,15 @@
 
 <div id="sections"></div>
 
-<div class="lightbox-backdrop" id="lightboxBackdrop" role="dialog" aria-modal="true" aria-label="Foto ampliada">
-  <button class="lightbox-close" id="lightboxClose" aria-label="Cerrar foto">✕</button>
-  <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Foto anterior">‹</button>
-  <img id="lightboxImg" src="" alt="">
-  <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Foto siguiente">›</button>
-  <div class="lightbox-caption" id="lightboxCaption"></div>
-  <div class="lightbox-counter" id="lightboxCounter"></div>
-</div>
-
-<nav class="bottomnav" aria-label="Secciones de la guía" id="bottomnav">
+<nav class="bottomnav" aria-label="Secciones de la guía">
   <button class="nav-btn active" data-target="itinerario" aria-current="page"><span class="ic" aria-hidden="true">🗺️</span>Itinerario</button>
-  <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa<span class="conn-badge needs-net" title="Necesita internet">📡</span></button>
-  <button class="nav-btn" data-target="clima"><span class="ic" aria-hidden="true">🌤️</span>Clima<span class="conn-badge needs-net" title="Necesita internet">📡</span></button>
+  <button class="nav-btn" data-target="mapa"><span class="ic" aria-hidden="true">📍</span>Mapa</button>
+  <button class="nav-btn" data-target="clima"><span class="ic" aria-hidden="true">🌤️</span>Clima</button>
   <button class="nav-btn" data-target="extras"><span class="ic" aria-hidden="true">✨</span>Extras</button>
   <button class="nav-btn" data-target="tips"><span class="ic" aria-hidden="true">🎒</span>Tips</button>
   <button class="nav-btn" data-target="checklist"><span class="ic" aria-hidden="true">✅</span>Lista</button>
-  <button class="nav-btn" data-target="presupuesto"><span class="ic" aria-hidden="true">💰</span>Gastos</button>
   <button class="nav-btn" data-target="ajustes"><span class="ic" aria-hidden="true">⚙️</span>Ajustes</button>
 </nav>
-<div class="bottomnav-scroll-hint" id="bottomnavScrollHint" aria-hidden="true">
-  <span class="bottomnav-scroll-arrow">›</span>
-</div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 
@@ -1098,10 +652,9 @@ const BLOCKS = [
       {
         time:"09:30", name:"Combi a Tafí — Terminal de Ómnibus",
         lat:-26.8285, lng:-65.2278,
-        imgs:[IMG("38-Jungas rumbo a Tafi del Valle.jpg"), IMG("Tucuman Terminal Tafi 1.JPG")],
+        img:IMG("38-Jungas rumbo a Tafi del Valle.jpg"),
         desc:"Desde la Terminal de Ómnibus de San Miguel salen combis y micros regulares a Tafí del Valle varias veces al día (empresas como Aconquija o Bus Cevil Redondo). El viaje dura cerca de 2 horas y atraviesa tres pisos ecológicos distintos por la Cuesta del Clavillo, de la selva de Yungas al pastizal de altura.",
-        dish:"Antes de subir, comprá empanadas tucumanas en alguno de los puestos de la Terminal — se comen paradas, calentitas, mientras esperás el micro.",
-        history:"La ruta 307 sigue en gran parte un antiguo camino utilizado por los pueblos originarios y luego por las tropas del general Belgrano para mover ganado y cañones entre el valle y la capital durante las guerras de independencia. El asfaltado moderno es relativamente reciente (terminado recién a fines del siglo XX), antes el cruce a Tafí podía llevar un día entero. Buena parte del trayecto atraviesa la Reserva de Biosfera de las Yungas, reconocida por la UNESCO, un corredor de selva de montaña que se extiende desde Salta hasta Catamarca y que fue clave como refugio y ruta de paso tanto para los pueblos calchaquíes como, más tarde, para los arrieros que bajaban ganado desde el valle hacia la capital.",
+        history:"La ruta 307 sigue en gran parte un antiguo camino utilizado por los pueblos originarios y luego por las tropas del general Belgrano para mover ganado y cañones entre el valle y la capital durante las guerras de independencia. El asfaltado moderno es relativamente reciente (terminado recién a fines del siglo XX), antes el cruce a Tafí podía llevar un día entero.",
         curiosity:"En pocos kilómetros el paisaje pasa de selva tropical húmeda a estepa de montaña — es uno de los gradientes ecológicos más marcados y rápidos que se pueden recorrer en Argentina, y se ve genial desde la ventanilla sin tener que manejar las curvas.",
         tip:"Si tu vuelo/micro llega bien temprano a la capital, comprá el pasaje de combi apenas llegues (o el día anterior online si la empresa lo permite) — en temporada alta de invierno los horarios más cómodos se llenan rápido. Pedí ventanilla del lado de la montaña para la mejor vista.",
         winterTip:"En invierno (julio-agosto) puede haber hielo o nieve en el tramo de El Infiernillo, el punto más alto del camino — esto a veces demora o reprograma los horarios de combi. Dejá margen entre la llegada a la capital y la salida de la combi por las dudas.",
@@ -1115,10 +668,9 @@ const BLOCKS = [
       {
         time:"12:00", name:"Check-in en Tafí del Valle",
         lat:-26.853002, lng:-65.7084218,
-        imgs:[IMG("Valle De Tafí (234462759).jpeg"), IMG("Calle céntrica de Tafí del Valle.jpg")],
+        img:IMG("Valle De Tafí (234462759).jpeg"),
         desc:"Pueblo de unos 2.000 msnm, antiguo asentamiento de la cultura Tafí (siglos I-VIII) y luego estancia jesuítica dedicada a la producción de quesos artesanales.",
-        dish:"Apenas llegues, probá el queso de Tafí de alguna quesería cercana al alojamiento — es el mejor primer contacto con el sabor del valle.",
-        history:"Antes de la llegada española, el valle fue hogar de la cultura arqueológica Tafí, conocida por sus menhires y túmulos funerarios (visibles hoy en el Parque de los Menhires, cerca de El Mollar). En el siglo XVII los jesuitas instalaron la Estancia de Tafí dedicada a la ganadería y producción de quesos; tras su expulsión en 1767 la propiedad pasó a manos privadas y luego se fue poblando el pueblo actual. La cultura Tafí ocupó el valle entre los siglos I y VIII d.C. y es una de las más antiguas del Noroeste argentino: sus habitantes vivían en aldeas de casas circulares de piedra, practicaban agricultura de altura y tallaron los menhires como parte de su vida ceremonial, mucho antes de que llegaran los diaguitas o los incas a la región.",
+        history:"Antes de la llegada española, el valle fue hogar de la cultura arqueológica Tafí, conocida por sus menhires y túmulos funerarios (visibles hoy en el Parque de los Menhires, cerca de El Mollar). En el siglo XVII los jesuitas instalaron la Estancia de Tafí dedicada a la ganadería y producción de quesos; tras su expulsión en 1767 la propiedad pasó a manos privadas y luego se fue poblando el pueblo actual.",
         curiosity:"Los quesos de Tafí del Valle tienen una tradición que se remonta a los jesuitas, expulsados en 1767. La técnica quedó en manos de las familias locales y hoy es Indicación Geográfica protegida.",
         tip:"Las noches son frías incluso en verano (puede bajar a 5-10°C) — llevá una campera de abrigo aunque en la capital haga calor.",
         winterTip:"Julio es temporada alta de turismo interno (vacaciones de invierno argentinas), así que conviene reservar el alojamiento con bastante anticipación — se llena más rápido que en temporada baja. De noche puede bajar a 0°C o menos: llevá gorro, guantes y varias capas de abrigo.",
@@ -1128,10 +680,9 @@ const BLOCKS = [
       {
         time:"13:30", name:"Almuerzo: Rancho el Tuichy",
         lat:-26.8202371, lng:-65.7191014,
-        imgs:[IMG("Mestize amaicha.jpg")],
+        img:IMG("Mestize amaicha.jpg"),
         desc:"Empanadas, locro y humitas caseras con vista al valle. El locro es un guiso de origen prehispánico, base de la dieta andina mucho antes de la llegada española.",
-        dish:"Locro tafinisto con empanadas al horno de barro de entrada y humita como postre — el combo clásico de la casa.",
-        history:"El locro tiene raíces en la dieta de los pueblos andinos previos a la conquista, basada en maíz, zapallo y porotos cultivados en terrazas de altura. Con la llegada del ganado europeo se sumó carne de cerdo y vaca a la receta original, dando la versión mestiza que se cocina hoy en toda la región andina sudamericana. En Argentina el locro terminó asociado a las fechas patrias (25 de mayo y 9 de julio) precisamente por ese origen mestizo: es uno de los pocos platos que combina de forma directa un ingrediente prehispánico central, el maíz, con la ganadería que trajeron los españoles, y por eso se lo suele presentar como un símbolo culinario de la propia mezcla cultural americana.",
+        history:"El locro tiene raíces en la dieta de los pueblos andinos previos a la conquista, basada en maíz, zapallo y porotos cultivados en terrazas de altura. Con la llegada del ganado europeo se sumó carne de cerdo y vaca a la receta original, dando la versión mestiza que se cocina hoy en toda la región andina sudamericana.",
         curiosity:"La receta del locro varía de provincia en provincia, pero la base de maíz blanco, zapallo y porotos es prácticamente la misma que comían los pueblos diaguitas hace siglos.",
         tip:"Pedí las empanadas \"al horno de barro\" si las ofrecen — tienen un sabor ahumado distinto a las fritas. Buen primer almuerzo después del viaje, sin apuro.",
         duration:"1-1h30", price:"$$ (medio)", access:"Carta en papel, ambiente luminoso de día — bueno para comunicación visual.",
@@ -1146,9 +697,8 @@ const BLOCKS = [
       {
         time:"10:00", name:"Ruta del Artesano",
         lat:-26.8583277, lng:-65.7211985,
-        imgs:[IMG("Indio en Tafi del Valle - Provincia de Tucuman.jpg"), IMG("Campana Tafí del Valle.jpg")],
+        img:IMG("Indio en Tafi del Valle - Provincia de Tucuman.jpg"),
         desc:"Talleres de telar donde artesanas locales tejen con lana de oveja u llama usando técnicas heredadas de generaciones, sin telares industriales.",
-        dish:"En los puestos del camino suele haber quesillo con miel de caña o buñuelos recién fritos — un buen bocado para media mañana.",
         history:"El tejido en telar de cintura o de pie es una práctica que viene directamente de las comunidades calchaquíes prehispánicas y se mantuvo viva a través de la transmisión oral y familiar, sin pasar por procesos industriales. Hoy varias cooperativas de artesanas de Tafí trabajan bajo programas de comercio justo que buscan proteger esta tradición frente a la competencia de tejidos industriales baratos.",
         curiosity:"Los diseños geométricos de los tejidos calchaquíes no son solo decorativos: muchos patrones identifican a la familia o comunidad que los teje, una tradición textil que antecede a la conquista.",
         tip:"Llevá efectivo — la mayoría de las artesanas no tiene posnet y prefieren venta directa sin intermediarios.",
@@ -1158,9 +708,8 @@ const BLOCKS = [
       {
         time:"13:00", name:"Almuerzo y quesería",
         lat:-26.853002, lng:-65.7084218,
-        imgs:[IMG("Valle De Tafí (234462759).jpeg"), IMG("Valle De Tafí (234327713).jpeg")],
+        img:IMG("Valle De Tafí (234462759).jpeg"),
         desc:"Almuerzo libre en el centro y visita a alguna quesería familiar — buen momento para probar el queso de Tafí en el lugar donde se hace.",
-        dish:"Una tabla de quesos de cabra y de vaca con dulce de cayote — la combinación dulce-salado típica de las queserías de Tafí.",
         curiosity:"Muchas queserías familiares de Tafí ofrecen degustación gratuita o a muy bajo costo si comprás algo — es una buena forma de conocer el proceso de elaboración del queso tafinisto en persona.",
         tip:"Si todavía no probaste el queso de cabra o las conservas regionales (dulce de cayote, miel de caña), este es el momento — el centro de Tafí tiene varias casas de productos regionales sobre la calle principal.",
         duration:"1h30-2h", price:"Variable", access:"Pueblo chico y caminable, sin necesidad de coordinar transporte.",
@@ -1169,9 +718,8 @@ const BLOCKS = [
       {
         time:"17:00", name:"Cerro de la Cruz",
         lat:-26.86686, lng:-65.714342,
-        imgs:[IMG("VistadeTafidelValle-1.jpg"), IMG("Anfiteatro-Camino a Tafí del Valle.jpg")],
+        img:IMG("VistadeTafidelValle-1.jpg"),
         desc:"Caminata corta (40 min) hasta un mirador con la mejor vista panorámica del pueblo, el dique La Angostura y la cordillera de fondo.",
-        dish:"De bajada, un té de peperina o un submarino caliente en algún bar del centro es el cierre perfecto después del frío del mirador.",
         history:"La cruz en la cima fue instalada por pobladores locales como punto de fe y orientación, y con el tiempo el cerro se convirtió en el mirador no oficial más popular del pueblo, sin intervención turística formal: no hay entrada paga ni infraestructura, es un sendero que se mantiene por el uso constante de vecinos y visitantes.",
         curiosity:"El sendero no está oficialmente señalizado más que por cruces de madera dejadas por los propios caminantes a lo largo de los años — es casi una tradición local marcar el camino así.",
         tip:"Subí antes del atardecer: la luz baja sobre el valle es el mejor momento para fotos, pero bajá con tiempo porque no hay iluminación en el sendero.",
@@ -1188,9 +736,8 @@ const BLOCKS = [
       {
         time:"09:30", name:"Dique La Angostura",
         lat:-26.9175123, lng:-65.6955712,
-        imgs:[IMG("Lago La Angostura, Tafí del Valle, Tucumán, Argentina.jpg")],
+        img:IMG("Lago La Angostura, Tafí del Valle, Tucumán, Argentina.jpg"),
         desc:"Embalse a 10 minutos de Tafí, rodeado de miradores. Abastece de agua a parte del valle y es punto de pesca y deportes náuticos en temporada.",
-        dish:"Si hay puestos en los miradores, un mate cocido con torta frita es el clásico para el frío de la mañana.",
         history:"Se construyó en la década de 1950 como parte de un plan provincial de obras hídricas, inundando terrenos que antes eran de pastoreo de las antiguas estancias jesuíticas. La obra cambió el paisaje del sur del valle de forma permanente y hoy es uno de los puntos más fotografiados de la zona, además de fuente de agua para riego y consumo.",
         curiosity:"El dique se construyó en los años 50 inundando parte de las tierras donde antes pastaban las majadas de las estancias jesuíticas — varios puesteros debieron reubicarse cuando se llenó el embalse.",
         tip:"Si vas en excursión organizada, este suele ser el primer paseo del día — la van/combi para en los miradores de la ruta 307 antes de seguir viaje. Si coordinaste algo por tu cuenta, preguntá si el dique entra en el recorrido.",
@@ -1200,10 +747,9 @@ const BLOCKS = [
       {
         time:"11:30", name:"Ruinas de Quilmes",
         lat:-26.4674982, lng:-66.0333735,
-        imgs:[IMG("Ruinas de Quilmes - Tucumán.jpg"), IMG("Ciudad Sagrada de Quilmes.jpg"), IMG("Ruinas de los Quilmes.JPG")],
+        img:IMG("Ruinas de Quilmes - Tucumán.jpg"),
         desc:"La ciudadela prehispánica más grande de Argentina: llegó a albergar hasta 5.000 personas del pueblo Quilmes antes de la conquista. Resistió casi 130 años a los incas y a los españoles. Sin auto propio, la forma más práctica de llegar es una excursión organizada de día completo desde Tafí, que suele combinar Quilmes con una parada en Amaicha del Valle (otro pueblo calchaquí con su propio museo y feria de artesanos).",
-        dish:"En la parada de Amaicha del Valle, las empanadas calchaquíes (más picantes que las de la capital) y un vaso de vino de altura son infaltables.",
-        history:"Fundada hacia el siglo IX, la ciudadela de Quilmes fue el centro de una confederación de comunidades diaguitas que resistió primero el avance del Imperio Inca y luego, durante más de un siglo, las campañas militares españolas. La resistencia diaguita-calchaquí fue una de las más prolongadas del continente. Tras la rendición final en 1665, la corona española ordenó el desarraigo forzado: los sobrevivientes —unos 2.000— fueron obligados a caminar más de 1.200 km hasta Buenos Aires como castigo y para evitar nuevos levantamientos. El sitio quedó abandonado y fue redescubierto y parcialmente reconstruido recién en el siglo XX. En su apogeo, entre los siglos XII y XV, la ciudadela llegó a albergar a varios miles de personas organizadas en un complejo de viviendas de piedra con techos de paja y cardón, dos fortalezas defensivas (el Castillo y la Ciudadela) y un sistema de riego basado en represas para el agua de lluvia. Los quilmes dominaban la metalurgia del bronce, la cerámica y el tejido fino, y su resistencia tuvo dos grandes hitos: el levantamiento liderado por el cacique que da nombre al valle en 1562, y una segunda rebelión en 1630 encabezada por Juan Chelemín, que terminó ejecutado. El asedio final, en 1665, fue obra del gobernador Alonso Mercado y Villacorta, quien cercó la ciudadela hasta rendirla por hambre. Los descendientes de los deportados fundaron con el tiempo la actual ciudad de Quilmes, en la provincia de Buenos Aires. Las ruinas fueron estudiadas científicamente por primera vez en 1897 por el arqueólogo Juan Bautista Ambrosetti, y su reconstrucción parcial —tal como se la ve hoy— se hizo en 1978, en un proceso que generó controversia porque no siguió del todo los protocolos arqueológicos de la época.",
+        history:"Fundada hacia el siglo IX, la ciudadela de Quilmes fue el centro de una confederación de comunidades diaguitas que resistió primero el avance del Imperio Inca y luego, durante más de un siglo, las campañas militares españolas. La resistencia diaguita-calchaquí fue una de las más prolongadas del continente. Tras la rendición final en 1665, la corona española ordenó el desarraigo forzado: los sobrevivientes —unos 2.000— fueron obligados a caminar más de 1.200 km hasta Buenos Aires como castigo y para evitar nuevos levantamientos. El sitio quedó abandonado y fue redescubierto y parcialmente reconstruido recién en el siglo XX.",
         curiosity:"Los Quilmes resistieron tanto que España terminó deportando a los sobrevivientes a pie hasta Buenos Aires en 1666 — un viaje de más de 1.200 km del que murió la mayoría. Los descendientes fundaron lo que hoy es la ciudad de Quilmes, provincia de Buenos Aires (sí, la de la cerveza).",
         tip:"Reservá la excursión un día antes en alguna agencia de Tafí (se consiguen sobre la calle principal o preguntando en el alojamiento) — suelen salir temprano (8-9 h) y volver a la tardecita, con almuerzo incluido o parada en Amaicha para comer. Llevá protector solar, gorro y agua: no hay sombra en el recorrido. El tiempo en el sitio depende del grupo, pero suele rondar 1h30-2h.",
         winterTip:"En invierno hace bastante frío de mañana temprano (puede haber heladas) en el horario de salida de la excursión, pero el sol de altura sigue quemando fuerte al mediodía aunque el aire esté frío — llevá abrigo para la salida y aun así protector solar para las horas centrales del día.",
@@ -1213,9 +759,8 @@ const BLOCKS = [
       {
         time:"20:30", name:"Cena: MUPPA",
         lat:-26.8493388, lng:-65.6971914,
-        imgs:[IMG("Valle De Tafí (235097791).jpeg")],
+        img:IMG("Valle De Tafí (235097791).jpeg"),
         desc:"Propuesta gastronómica más elaborada en Tafí, con platos que reinterpretan ingredientes andinos (papines, quesos de cabra, hierbas de la zona).",
-        dish:"Papines andinos con crema de queso de cabra y hierbas de la zona — el plato que mejor resume la propuesta de la casa.",
         history:"Forma parte de una nueva generación de propuestas gastronómicas en el NOA que buscan poner en valor ingredientes de altura (papa andina, quinoa, amaranto, quesos de cabra) con técnicas de cocina contemporánea, en contraste con la oferta más tradicional de parrillas y rotiserías del pueblo.",
         curiosity:"La cocina de altura del NOA está teniendo un resurgimiento gastronómico: chefs jóvenes están recuperando ingredientes como la quinoa local, el amaranto y los quesos artesanales en propuestas de cocina contemporánea.",
         tip:"Cierra lunes y martes — confirmá el horario antes de ir, sobre todo fuera de temporada alta.",
@@ -1231,10 +776,9 @@ const BLOCKS = [
       {
         time:"10:30", name:"Parque de los Menhires, El Mollar",
         lat:-26.9398, lng:-65.7146,
-        imgs:[IMG("Menhir de Tafi.jpg"), IMG("El mollar, Tafí del Valle.jpg")],
+        img:IMG("Menhir de Tafi.jpg"),
         desc:"Colección de más de 100 menhires (piedras paradas talladas) de la cultura Tafí, prehispánica y anterior a los diaguitas. Hoy están reunidos en un parque a cielo abierto en El Mollar, a unos 20 minutos de Tafí.",
-        dish:"En los puestos de El Mollar se consigue dulce de cayote y alfajores de maicena caseros — buenos para el mate de la tarde.",
-        history:"Los menhires originalmente estaban dispersos por todo el valle, marcando sitios ceremoniales y funerarios de la cultura Tafí (siglos I al VIII d.C.). Cuando se construyó el Dique La Angostura en los años 50 y el agua empezó a cubrir parte del valle, se reunieron y reubicaron en este parque en 1977 para protegerlos, aunque eso significó perder su ubicación y contexto original. Se conservan más de un centenar de piedras, algunas de más de dos metros de altura, con grabados que combinan figuras humanas esquemáticas, animales y motivos geométricos; los arqueólogos coinciden en que marcaban espacios de culto vinculados al ciclo agrícola y a los ancestros, aunque —al no existir registro escrito de esta cultura— buena parte de su significado exacto sigue siendo objeto de debate académico.",
+        history:"Los menhires originalmente estaban dispersos por todo el valle, marcando sitios ceremoniales y funerarios de la cultura Tafí (siglos I al VIII d.C.). Cuando se construyó el Dique La Angostura en los años 50 y el agua empezó a cubrir parte del valle, se reunieron y reubicaron en este parque en 1977 para protegerlos, aunque eso significó perder su ubicación y contexto original.",
         curiosity:"Nadie sabe con certeza qué representan las figuras talladas en los menhires — hay teorías que van desde representaciones de antepasados hasta marcadores astronómicos, pero ningún registro escrito sobrevivió para confirmarlo.",
         tip:"Se llega en remís corto desde Tafí (unos 20 min) o en alguna combi local que una El Mollar con el pueblo — preguntá en el alojamiento por el horario del día. Hay un mirador del Dique La Angostura justo al lado, fotogénico para la mañana.",
         winterTip:"Las mañanas de invierno en El Mollar son frías y ventosas al estar tan cerca del dique — llevá abrigo extra para este paseo más que para otros del valle.",
@@ -1244,9 +788,8 @@ const BLOCKS = [
       {
         time:"13:00", name:"Almuerzo y tarde libre en Tafí",
         lat:-26.853002, lng:-65.7084218,
-        imgs:[IMG("Valle De Tafí (234462759).jpeg"), IMG("Aconquija - Aerial View (Montevideo - Lima route) - panoramio.jpg")],
+        img:IMG("Valle De Tafí (234462759).jpeg"),
         desc:"Tarde sin agenda fija: buen momento para volver a la quesería o al lugar que más haya gustado de los días anteriores, dar una vuelta final por el centro del pueblo, o simplemente descansar antes de bajar a la capital al día siguiente.",
-        dish:"Una última ronda de empanadas tafinistas o un helado artesanal de leche de cabra, como despedida del valle.",
         history:"",
         curiosity:"",
         tip:"Aprovechá para hacer las últimas compras de regionales (quesos, tejidos, dulces) antes de bajar — en la capital cuesta encontrar los mismos productos.",
@@ -1262,9 +805,8 @@ const BLOCKS = [
       {
         time:"09:00", name:"Combi de regreso a la capital",
         lat:-26.852686, lng:-65.7105579,
-        imgs:[IMG("Ruta 307 - panoramio.jpg"), IMG("El Infiernillo.JPG")],
+        img:IMG("Ruta 307 - panoramio.jpg"),
         desc:"Vuelta a la capital en combi (~2 h desde Tafí, misma empresa que el viaje de ida). Antes de subir, buen momento para una última pasada por la oficina de turismo de Tafí si falta comprar algo.",
-        dish:"Aprovechá para llevar humitas o tamales para comer en el viaje — se consiguen en los puestos cerca de la terminal de Tafí.",
         history:"La oficina de turismo de Tafí funciona como punto de coordinación entre las distintas cooperativas de productores de queso y artesanos del valle, y suele tener folletería con mapas y recomendaciones actualizadas.",
         curiosity:"El queso tafinisto se elabora todavía con leche cruda de tambos familiares pequeños; cada productor tiene su propia variación de maduración y sabor.",
         tip:"Si comprás queso para el resto del viaje, pedí que te lo envuelvan al vacío — aguanta mucho mejor el calor de la bajada y los días que quedan en la capital.",
@@ -1278,9 +820,8 @@ const BLOCKS = [
       {
         time:"13:00", name:"Casa Histórica de la Independencia",
         lat:-26.8331348, lng:-65.2038418,
-        imgs:[IMG("Casa Histórica de Tucumán 04.JPG"), IMG("Casa de tucuman - panoramio.jpg"), IMG("Tucumán Casa de la Independencia.JPG")],
+        img:IMG("Casa Histórica de Tucumán 04.JPG"),
         desc:"Donde 29 diputados firmaron la independencia el 9 de julio de 1816. El edificio actual es en gran parte una reconstrucción de los años 40, ya que el original sufrió demoliciones y refacciones a lo largo del siglo XIX.",
-        dish:"Cerca de Plaza Independencia hay varios puestos de empanadas tucumanas clásicas — jugosas, se comen de pie y son ideales entre visita y visita.",
         history:"La casa perteneció originalmente a la familia Laguna y fue alquilada en 1816 para sesionar el Congreso porque Buenos Aires, sede natural, estaba ocupada por tropas realistas y no era segura. Tras la independencia, el edificio cambió de manos varias veces y partes fueron demolidas en 1869 para abrir una calle. Recién en 1941 el estado nacional encaró una reconstrucción histórica basándose en planos, fotografías y relatos de la época para devolverle el aspecto colonial que tiene hoy. Es Monumento Histórico Nacional desde 1941 y sigue siendo sede de actos oficiales cada 9 de julio.",
         curiosity:"La sala donde se firmó el Acta no es la original: fue reconstruida en 1943 a partir de pinturas y descripciones de la época, porque la casa real había sido modificada drásticamente. La cúpula azul que se ve hoy tampoco existía en 1816, se agregó después.",
         tip:"Cerrado los lunes — sábado está bien. De noche hay un espectáculo de luz y sonido (\"Tucumán, Casa de la Libertad\") que cuenta la historia sobre la fachada — conviene reservar con anticipación en la web oficial.",
@@ -1290,9 +831,8 @@ const BLOCKS = [
       {
         time:"15:30", name:"Parque 9 de Julio",
         lat:-26.8292678, lng:-65.1916518,
-        imgs:[IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"), IMG("Parque 9 de Julio Tucuman.JPG")],
+        img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
         desc:"Con 40 hectáreas, es uno de los parques urbanos más grandes de Argentina, diseñado por Carlos Thays (el mismo paisajista del Jardín Botánico de Buenos Aires y Parque Sarmiento en Córdoba).",
-        dish:"Los puestos del parque suelen tener garrapiñada y choripán — un clásico argentino para comer caminando por las avenidas de Thays.",
         history:"El predio perteneció a la antigua Quinta Agronómica de la provincia, un terreno experimental de fines del siglo XIX usado para aclimatar especies vegetales traídas de otras partes del mundo. En 1916, para el centenario de la independencia, el gobierno tucumano contrató a Thays para transformarlo en parque público al estilo de los grandes paseos europeos, con lagos artificiales, glorietas y un sistema de avenidas curvas que todavía se conserva casi intacto.",
         curiosity:"El parque ocupa los terrenos de la ex Quinta Agronómica y todavía conserva ejemplares de árboles centenarios plantados como parte de un proyecto experimental de aclimatación de especies a fines del siglo XIX.",
         tip:"Sábado hay ferias de artesanos cerca del Cabildo. Llevá efectivo chico, no todos los puestos tienen posnet.",
@@ -1302,9 +842,8 @@ const BLOCKS = [
       {
         time:"20:30", name:"Cena: Los Naranjos Resto Bar",
         lat:-26.8307884, lng:-65.2029329,
-        imgs:[IMG("Plaza Independencia en San Miguel de Tucumán, capital de la Provincia de Tucumán.jpg")],
+        img:IMG("Plaza Independencia en San Miguel de Tucumán, capital de la Provincia de Tucumán.jpg"),
         desc:"Balcón con vista directa a la Plaza Independencia y la estatua de la Libertad de Lola Mora, una de las pocas obras públicas de esta escultora tucumana en su propia provincia.",
-        dish:"El matambre a la tucumana o un bife de chorizo con guarnición regional son buenas opciones para la última cena en la capital.",
         history:"La Plaza Independencia ocupa el lugar de la plaza mayor fundacional de la ciudad desde el siglo XVI, reubicada acá en 1685 tras el segundo y definitivo traslado de San Miguel de Tucumán. La estatua de la Libertad que corona la fuente central es obra de Lola Mora, encargada en 1903 pero que tardó años en instalarse por disputas sobre su desnudez parcial, consideradas escandalosas para la época.",
         curiosity:"Lola Mora, autora de la fuente de las Nereidas en Buenos Aires, nació a pocos kilómetros de acá, en Trancas. Gran parte de su obra monumental terminó fuera de Tucumán por conflictos con la Iglesia y el poder político de su época.",
         tip:"Pedí mesa en el balcón si el clima acompaña — de noche, con la Catedral iluminada, es de las mejores postales de la ciudad.",
@@ -1320,10 +859,9 @@ const BLOCKS = [
       {
         time:"08:30", name:"Dique El Cadillal",
         lat:-26.6258, lng:-65.1842,
-        imgs:[IMG("Dique el Cadillal Tucuman.jpg")],
+        img:IMG("Dique el Cadillal Tucuman.jpg"),
         desc:"Embalse a unos 25 km al norte de la capital, con playas de arena, costaneras y paseos en lancha — el clásico destino de fin de semana de los tucumanos para escapar del calor.",
-        dish:"En las parrillas de la costanera es tradición pedir pescado de río, surubí o pacú, recién sacado del embalse.",
-        history:"Se construyó en los años 60 sobre el río Tapia-Lules como parte de un plan de obras hídricas para abastecer de agua a San Miguel de Tucumán y generar energía. Su nombre oficial es dique Celestino Gelsi, en honor al gobernador que impulsó la obra entre 1958 y 1962; quedó operativo en 1966. Cerca del dique, en la zona de Las Lomas del Tafí, hay además hallazgos arqueológicos de pinturas rupestres de varios miles de años, anteriores a los pueblos calchaquíes. En 1971, mientras se llenaba el embalse, el movimiento del agua dejó al descubierto un cementerio indígena prehispánico en la costa, y en los meses siguientes aparecieron otros diez yacimientos con cerámica, puntas de flecha y urnas funerarias de culturas como la Candelaria, la Ciénaga y la Tafí. Ese hallazgo llevó a crear en 1973 el actual Museo Arqueológico El Cadillal, que resguarda las piezas encontradas durante la construcción de la represa.",
+        history:"Se construyó en los años 60 sobre el río Tapia-Lules como parte de un plan de obras hídricas para abastecer de agua a San Miguel de Tucumán y generar energía. Cerca del dique, en la zona de Las Lomas del Tafí, hay además hallazgos arqueológicos de pinturas rupestres de varios miles de años, anteriores a los pueblos calchaquíes.",
         curiosity:"En épocas de mucha bajante se pueden ver restos de antiguas construcciones que quedaron sumergidas al llenarse el embalse — los lugareños cuentan que en años de sequía fuerte hasta reaparecieron caminos viejos.",
         tip:"Se llega en remís (unos 30-40 min desde el centro) o en colectivo de línea que sale de la capital — no hay combi turística regular, así que conviene coordinar el regreso con el mismo remís o preguntar el horario del colectivo de vuelta.",
         winterTip:"En invierno el agua está fría para nadar, pero los paseos en lancha y las costaneras se disfrutan igual — andá con abrigo para la mañana, sobre todo si el viento viene del lago.",
@@ -1333,10 +871,9 @@ const BLOCKS = [
       {
         time:"11:30", name:"Plaza Vieja, Yerba Buena",
         lat:-26.8230446, lng:-65.3057499,
-        imgs:[IMG("San Miguel de Tucumán - panoramio.jpg"), IMG("Cerro San Javier - Cristo Bendicente.jpg")],
+        img:IMG("San Miguel de Tucumán - panoramio.jpg"),
         desc:"Yerba Buena queda apenas 10 minutos del centro, pero el clima cambia notablemente: está al pie del Cerro San Javier y se siente bastante más fresco y arbolado que la capital.",
-        dish:"Yerba Buena tiene una escena de cafés de especialidad muy fuerte — buen momento para un café de filtro y medialunas antes de seguir el día.",
-        history:"Yerba Buena era hasta mediados del siglo XX una zona de quintas y fincas de descanso para familias tucumanas adineradas, gracias a su clima más templado que el centro. Desde los años 80 se urbanizó fuerte y hoy es el municipio con mejor índice de calidad de vida del Gran Tucumán, sede de buena parte de la vida universitaria y gastronómica de la provincia. El Cristo Bendicente que corona el Cerro San Javier, visible desde toda la ciudad, fue encargado en 1938 al escultor tucumano Juan Carlos Iramain e inaugurado en 1942, el mismo año en que se fundó la villa de Yerba Buena. Mide 28 metros y pesa más de 135 toneladas; se construyó por partes en hormigón y se ensambló en la cima pese a lo escarpado del terreno y a los caminos precarios de la época. Iramain vivió en la zona hasta su muerte en 1973 y, por voluntad propia, sus restos descansan al pie de la escultura.",
+        history:"Yerba Buena era hasta mediados del siglo XX una zona de quintas y fincas de descanso para familias tucumanas adineradas, gracias a su clima más templado que el centro. Desde los años 80 se urbanizó fuerte y hoy es el municipio con mejor índice de calidad de vida del Gran Tucumán, sede de buena parte de la vida universitaria y gastronómica de la provincia.",
         curiosity:"El nombre del Cerro San Javier (y de Yerba Buena) viene de la antigua presencia de yerba mate silvestre y plantas aromáticas en sus laderas, antes de que la zona se urbanizara.",
         tip:"Si hay tiempo, el Cristo Bendicente en lo alto del cerro se ve iluminado de noche desde toda la ciudad — es la referencia geográfica de los tucumanos.",
         duration:"45 min - 1 h", price:"Gratis", access:"Zona peatonal tranquila, buena cartelería de calles y comercios.",
@@ -1345,9 +882,8 @@ const BLOCKS = [
       {
         time:"13:30", name:"Almuerzo: Il Postino",
         lat:-26.8268899, lng:-65.2038176,
-        imgs:[IMG("Tucuman govthouse.jpg")],
+        img:IMG("Tucuman govthouse.jpg"),
         desc:"Pizzería clásica tucumana, conocida por sus calzones y la variedad de la carta. Buena relación precio-calidad y siempre con movimiento de gente local.",
-        dish:"El calzone de jamón y queso es la especialidad de la casa, junto con la pizza a la piedra bien cargada de relleno.",
         history:"Forma parte de una generación de pizzerías de barrio que se multiplicaron en Tucumán desde mediados del siglo XX, con fuerte influencia de la inmigración italiana que llegó a la provincia atraída por la industria azucarera. El estilo \"a la piedra\" con mucho relleno se consolidó como variante regional, distinta de la pizza porteña más fina.",
         curiosity:"La pizza al molde \"a la piedra\" con mucho relleno es una marca registrada de la cocina porteña-tucumana adaptada; en el NOA conviven con las empanadas como comida social por excelencia.",
         tip:"Domingo al mediodía suele estar tranquilo. Comé sin apuro, no hay mucho más en agenda para esta tarde.",
@@ -1357,9 +893,8 @@ const BLOCKS = [
       {
         time:"16:00", name:"Tarde libre y compras de último momento",
         lat:-26.8292678, lng:-65.1916518,
-        imgs:[IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG")],
+        img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
         desc:"Como la salida es recién a la noche, queda tiempo extra para volver a algún lugar que haya gustado, hacer las últimas compras de regionales, o simplemente descansar en algún café antes de ir a la terminal/aeropuerto. El Jardín Botánico y el Museo de Ciencias Naturales Lillo suelen cerrar los domingos, así que no entran en el plan de hoy.",
-        dish:"Buen momento para comprar alfajores tucumanos o dulce de leche artesanal como regalo — se conservan bien para el viaje de vuelta.",
         history:"",
         curiosity:"",
         tip:"Calculá el traslado a la terminal o aeropuerto con margen — el tránsito de domingo a la tarde-noche suele ser tranquilo, pero mejor no ajustar el horario al límite.",
@@ -1375,9 +910,8 @@ const BLOCKS = [
       {
         time:"14:30", name:"Jardín Botánico Miguel Lillo",
         lat:-26.8309311, lng:-65.2220534,
-        imgs:[IMG("Cerro San Javier.JPG"), IMG("Anthutirum paraguayense-Jardin-botanico-Miguel-Lillo.jpg")],
+        img:IMG("Cerro San Javier.JPG"),
         desc:"Un fragmento de selva de Yungas conservado en pleno centro urbano, anexo al museo de ciencias naturales más importante del norte argentino.",
-        dish:"Cerca del Jardín hay confiterías tradicionales del centro donde parar por un café antes de seguir al museo.",
         history:"El predio y la colección nacieron de la donación del médico y naturalista Miguel Lillo, quien a comienzos del siglo XX cedió su fortuna personal y miles de especímenes botánicos y zoológicos al Estado para fundar un instituto científico. Hoy depende de la Universidad Nacional de Tucumán y es uno de los pocos lugares del país donde se puede caminar dentro de un fragmento real de selva de Yungas sin salir de una capital provincial.",
         curiosity:"La Fundación Miguel Lillo lleva el nombre del médico y naturalista tucumano que donó toda su fortuna y su colección de especímenes al estado para crear un instituto de investigación, hoy referencia en botánica y zoología sudamericana.",
         tip:"Entrada con donación voluntaria. Cierra temprano (18 h) y los domingos está cerrado — conviene ir a media tarde, no al final del día.",
@@ -1387,10 +921,9 @@ const BLOCKS = [
       {
         time:"16:00", name:"Museo de Ciencias Naturales Lillo",
         lat:-26.8314509, lng:-65.2211412,
-        imgs:[IMG("Cerrosanjaviernieve.jpg")],
+        img:IMG("Cerrosanjaviernieve.jpg"),
         desc:"Colección de fósiles, minerales y fauna regional reunida durante más de un siglo de expediciones científicas por el norte argentino.",
-        dish:"A la salida, una heladería artesanal de la zona es un buen cierre para la tarde — Tucumán tiene buena tradición heladera.",
-        history:"El museo nació junto con la Fundación Lillo en 1936 y desde entonces sus investigadores han recorrido el NOA documentando especies y formaciones geológicas. Buena parte del material expuesto proviene de expediciones propias del instituto, no de compras o donaciones externas, lo que lo hace una referencia académica además de atractivo turístico. Miguel Lillo (1862-1931) fue un naturalista tucumano autodidacta que dedicó medio siglo a estudiar la flora y fauna del norte argentino; a su muerte legó al Estado su fortuna personal, su biblioteca de miles de volúmenes y una vasta colección de especímenes, con la que se organizó formalmente la Fundación en 1933. Entre sus aportes más citados está la publicación pionera \"Fauna Tucumana (Aves)\" de 1905, y la colección incorporó más tarde el legado del naturalista Stewart Shipton, una de las piezas clave del acervo actual del museo.",
+        history:"El museo nació junto con la Fundación Lillo en 1936 y desde entonces sus investigadores han recorrido el NOA documentando especies y formaciones geológicas. Buena parte del material expuesto proviene de expediciones propias del instituto, no de compras o donaciones externas, lo que lo hace una referencia académica además de atractivo turístico.",
         curiosity:"Entre las piezas más comentadas está un molde de huevo de dinosaurio hallado en Valle de la Luna y ejemplares de fauna de las Yungas que no se ven en ningún otro museo del país.",
         tip:"Las visitas guiadas (cuando hay personal disponible) mejoran mucho la experiencia — preguntá en la entrada si hay alguna programada para ese horario, aunque las vitrinas también tienen fichas escritas detalladas.",
         duration:"1-1h30", price:"Entrada económica (consultar valor actualizado)", access:"Todas las piezas tienen cartel descriptivo individual, recorrido autoguiado posible sin depender de explicación oral.",
@@ -1482,46 +1015,6 @@ function buildScheduleDays(totalDays, arrivalDateStr, arrivalTime){
 let tripConfig = { totalDays: 6, arrivalDate: todayISO(), arrivalTime: "08:00" };
 let DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
 
-/* ===================== MODO "HOY" ===================== */
-let openTodayMode = true;
-
-function getTodayDayIndex(){
-  if(!DAYS.length) return 0;
-  const today = new Date();
-  today.setHours(0,0,0,0);
-  const arrival = parseDateInput(tripConfig.arrivalDate);
-  arrival.setHours(0,0,0,0);
-
-  for(let i=0; i<DAYS.length; i++){
-    const d = addDays(arrival, i);
-    d.setHours(0,0,0,0);
-    if(d.getTime() === today.getTime()) return i;
-  }
-  if(today < arrival) return 0; // el viaje todavía no arrancó — mostramos el día 1
-  return DAYS.length - 1; // el viaje ya terminó — mostramos el último día
-}
-
-function getInitialDayIndex(){
-  return openTodayMode ? getTodayDayIndex() : 0;
-}
-
-async function saveOpenTodayMode(){
-  try{ await appStorage.set('openTodayMode', JSON.stringify(openTodayMode)); }catch(e){}
-}
-
-(async function loadOpenTodayMode(){
-  try{
-    const res = await appStorage.get('openTodayMode');
-    if(res && res.value !== null && res.value !== undefined){
-      openTodayMode = JSON.parse(res.value);
-    }
-  }catch(e){}
-  // El primer render ya pudo haber pasado con el valor por defecto (true) —
-  // esto corrige el día mostrado apenas se conoce la preferencia guardada.
-  const idx = getInitialDayIndex();
-  if(DAYS[idx]) showDay(DAYS[idx].id);
-})();
-
 /* ===================== ACCESIBILIDAD ===================== */
 const LINE_VALUES = [1.35, 1.55, 1.8, 2.1];
 const LINE_LABELS = ['Compacto','Normal','Amplio','Muy amplio'];
@@ -1567,72 +1060,6 @@ async function saveA11y(){
   applyA11y();
 })();
 
-/* ===================== MODO SOLO TEXTO (ahorrar datos) ===================== */
-let textOnlyMode = false;
-let dataSaverSuggestionDismissed = false;
-
-function applyTextOnlyMode(){
-  document.body.classList.toggle('text-only-mode', textOnlyMode);
-  const cb = document.getElementById('textOnlyToggle');
-  if(cb) cb.checked = textOnlyMode;
-}
-
-async function saveTextOnlyMode(){
-  try{ await appStorage.set('textOnlyMode', JSON.stringify(textOnlyMode)); }catch(e){}
-}
-
-function checkDataSaverSuggestion(){
-  const banner = document.getElementById('dataSaverBanner');
-  if(!banner) return;
-  if(textOnlyMode || dataSaverSuggestionDismissed){
-    banner.classList.remove('show');
-    return;
-  }
-  const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
-  if(!conn) return; // API no soportada en este navegador (ej. Safari/iOS) — no mostramos nada
-  const isSlow = conn.saveData === true || conn.effectiveType === '2g' || conn.effectiveType === 'slow-2g';
-  banner.classList.toggle('show', !!isSlow);
-}
-
-(async function loadTextOnlyMode(){
-  let hasSavedPreference = false;
-  try{
-    const res = await appStorage.get('textOnlyMode');
-    if(res && res.value !== null && res.value !== undefined){
-      textOnlyMode = JSON.parse(res.value);
-      hasSavedPreference = true;
-    }
-  }catch(e){}
-
-  // Sin preferencia guardada todavía: si el sistema ya tiene "Ahorro de datos" activado,
-  // lo tomamos como punto de partida razonable (el usuario lo puede desactivar cuando quiera).
-  if(!hasSavedPreference){
-    try{
-      const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
-      if(conn && conn.saveData === true) textOnlyMode = true;
-    }catch(e){}
-  }
-
-  applyTextOnlyMode();
-  checkDataSaverSuggestion();
-
-  const conn = navigator.connection || navigator.webkitConnection || navigator.mozConnection;
-  if(conn && conn.addEventListener){
-    conn.addEventListener('change', checkDataSaverSuggestion);
-  }
-})();
-
-document.getElementById('dataSaverActivate').addEventListener('click', ()=>{
-  textOnlyMode = true;
-  applyTextOnlyMode();
-  saveTextOnlyMode();
-  document.getElementById('dataSaverBanner').classList.remove('show');
-});
-document.getElementById('dataSaverDismiss').addEventListener('click', ()=>{
-  dataSaverSuggestionDismissed = true;
-  document.getElementById('dataSaverBanner').classList.remove('show');
-});
-
 /* ===================== EXTRAS (lugares opcionales no incluidos en el itinerario) ===================== */
 const EXTRAS = [
   {
@@ -1640,7 +1067,6 @@ const EXTRAS = [
     places:[
       {
         name:"Museo Folclórico Provincial",
-        lat:-26.8299, lng:-65.2044,
         img:IMG("Museo Folklorico Provincial de Tucuman.jpg"),
         desc:"Uno de los museos más queridos de la capital, con una sala dedicada a Mercedes Sosa con instrumentos originales, fotos y vestuario de escena. Entrada gratuita.",
         tip:"Está a pocas cuadras de la Plaza Independencia. Cerrá bien el horario antes de ir — suele cerrar al mediodía.",
@@ -1648,7 +1074,6 @@ const EXTRAS = [
       },
       {
         name:"Museo Casa Padilla",
-        lat:-26.8305, lng:-65.2032,
         img:IMG("Tucuman govthouse.jpg"),
         desc:"Casa histórica del siglo XIX convertida en museo de arte decorativo: porcelanas europeas, biombos chinos, muebles y pinturas de colección privada donados al estado provincial.",
         tip:"Entrada a voluntad. El edificio en sí (de estilo italianizante) es una joya arquitectónica que vale verlo aunque no entres.",
@@ -1656,7 +1081,6 @@ const EXTRAS = [
       },
       {
         name:"Museo de la Industria Azucarera — Casa del Obispo Colombres",
-        lat:-26.8292678, lng:-65.1916518,
         img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
         desc:"Está dentro del Parque 9 de Julio, a poca distancia del Cabildo. Cuenta la historia del azúcar tucumana, que desde fines del siglo XIX fue el motor económico de toda la provincia.",
         tip:"Fácil de combinar con el día que ya tenés el parque en el itinerario — queda literalmente dentro del mismo predio.",
@@ -1664,7 +1088,6 @@ const EXTRAS = [
       },
       {
         name:"Basílica Nuestra Señora de la Merced",
-        lat:-26.8284, lng:-65.2049,
         img:IMG("Plaza Independencia 01.JPG"),
         desc:"Templo colonial a dos cuadras de la Plaza Independencia donde el general Belgrano rezó antes de la Batalla de Tucumán (1812), una de las victorias clave de las guerras de independencia.",
         tip:"La entrada es libre y la visita es corta (15-20 min). Arquitectura colonial bien conservada con altar barroco.",
@@ -1672,7 +1095,6 @@ const EXTRAS = [
       },
       {
         name:"Museo del Ejército",
-        lat:-26.8155, lng:-65.2280,
         img:IMG("Casa Histórica de Tucumán 04.JPG"),
         desc:"Museo histórico militar con una sala dedicada a los veteranos de Malvinas, una de las pocas en el interior del país con testimonios, uniformes y material de la guerra.",
         tip:"Hay que confirmar horarios por teléfono antes de ir — en algunos períodos solo atiende con reserva previa.",
@@ -1680,7 +1102,6 @@ const EXTRAS = [
       },
       {
         name:"Bus Turístico Gratuito",
-        lat:-26.8302, lng:-65.2036,
         img:IMG("San Miguel de Tucumán - panoramio.jpg"),
         desc:"Servicio de bus turístico gratuito que recorre los principales puntos históricos de la capital con paradas en la Casa Histórica, Parque 9 de Julio, museos y plazas.",
         tip:"Sale desde Plaza Independencia. Muy útil si en algún momento querés un repaso rápido de la ciudad sin caminar todo bajo el frío de invierno.",
@@ -1693,7 +1114,6 @@ const EXTRAS = [
     places:[
       {
         name:"Museo Jesuítico La Banda",
-        lat:-26.66, lng:-66.00,
         img:IMG("Mestize amaicha.jpg"),
         desc:"Sitio arqueológico a pocos kilómetros de Amaicha del Valle con restos de la presencia jesuita-diaguita en los valles calchaquíes, anterior a la expulsión de los jesuitas en 1767.",
         tip:"Preguntá en la agencia de Tafí si la excursión a Quilmes incluye parada en La Banda — muchas lo hacen sin publicidad.",
@@ -1701,7 +1121,6 @@ const EXTRAS = [
       },
       {
         name:"Mirador del Indio y Quebrada de Amaicha",
-        lat:-26.70, lng:-65.95,
         img:IMG("Indio en Tafi del Valle - Provincia de Tucuman.jpg"),
         desc:"Mirador con una figura tallada en roca y vista panorámica a la quebrada de Amaicha — parada corta en el camino entre Tafí y las Ruinas de Quilmes.",
         tip:"La mayoría de las excursiones organizadas a Quilmes paran acá sin que esté explícito en el itinerario — vale preguntar.",
@@ -1709,15 +1128,20 @@ const EXTRAS = [
       },
       {
         name:"Ruta del Vino de Amaicha",
-        lat:-26.63, lng:-66.015,
         img:IMG("Valle De Tafí (234462759).jpeg"),
         desc:"Bodegas boutique de altura en el valle calchaquí que producen torrontés y malbec con características únicas por la altitud. Las visitas incluyen degustación y recorrido del viñedo.",
         tip:"Conviene reservar la visita con al menos un día de anticipación. Las bodegas son pequeñas y familiares — pocas aceptan visitas espontáneas.",
         price:"Degustación paga", icon:"🍷"
       },
       {
+        name:"Cafayate y Quebrada de las Conchas",
+        img:IMG("Quebrada de las Conchas, Cafayate.jpg"),
+        desc:"Unos 50 km al sur de Quilmes por la ruta 40, ya en la provincia de Salta. Cafayate es cuna de bodegas de altura conocidas por el torrontés, y en el camino se cruza la Quebrada de las Conchas, un cañón de formaciones rojizas esculpidas por el viento y el agua (Garganta del Diablo, El Anfiteatro, El Sapo).",
+        tip:"Sumarlo al mismo día de Quilmes hace la jornada muy larga (11-12 h aprox.) — conviene preguntar en la agencia de Tafí si la excursión ya lo incluye, o si hace falta contratar un tour aparte específico a Cafayate.",
+        price:"Miradores de la Quebrada gratis, degustación en bodegas paga", icon:"🍇"
+      },
+      {
         name:"Observatorio Astronómico Ampimpa",
-        lat:-26.72, lng:-65.95,
         img:IMG("VistadeTafidelValle-1.jpg"),
         desc:"Observatorio de montaña cerca de Amaicha con cielos excepcionales por la altitud y baja contaminación lumínica. Ofrece visitas nocturnas con telescopios y explicación de la bóveda celeste.",
         tip:"Las visitas son nocturnas — reservar con anticipación y abrigarse bien, de noche el frío en altura es intenso incluso en verano.",
@@ -1730,7 +1154,6 @@ const EXTRAS = [
     places:[
       {
         name:"Aerosillas y cerro El Cadillal",
-        lat:-26.6258, lng:-65.1842,
         img:IMG("Dique el Cadillal Tucuman.jpg"),
         desc:"El Cadillal tiene aerosillas que suben a un cerro con vista panorámica al dique y las sierras circundantes. Una opción diferente al simple paseo por la costanera.",
         tip:"Las aerosillas no siempre están en funcionamiento fuera de temporada alta — conviene confirmar el día anterior antes de ir hasta allá.",
@@ -1738,7 +1161,6 @@ const EXTRAS = [
       },
       {
         name:"Museo Arqueológico El Cadillal",
-        lat:-26.6250, lng:-65.1838,
         img:IMG("Dique el Cadillal Tucuman.jpg"),
         desc:"Pequeño museo in situ con piezas arqueológicas halladas en la zona durante la construcción del dique en los años 60, incluyendo cerámica y utensilios de los pueblos originarios del área.",
         tip:"Está dentro del predio del área recreativa. Vale sumarle 30 minutos si ya estás en El Cadillal ese día.",
@@ -1764,20 +1186,6 @@ const TIPS = [
   {icon:"🌅", title:"Días más cortos", body:"En invierno el sol se pone bastante más temprano (alrededor de las 18:30-19 h). Conviene adelantar las actividades al aire libre como el Cerro de la Cruz para no terminar caminando con frío y oscuridad."}
 ];
 
-const GLOSARIO = [
-  {term:"Chango / changa", def:"Forma cariñosa de decir \"chico\" o \"joven\" en todo el norte. \"Chango, vení que hay empanadas\" es una invitación, no un reto."},
-  {term:"Guagua", def:"Bebé o niño muy chico, palabra de origen quechua que se usa en gran parte de los Andes, de Tucumán hasta Bolivia y Perú."},
-  {term:"Yapa", def:"El \"regalito\" extra que te da el vendedor después de pagar — unas hojas de más en la feria, una empanada de propina. Viene del quechua y sigue muy vivo en los mercados del norte."},
-  {term:"Chuy / Tuy", def:"\"Qué frío\" y \"qué calor\", respectivamente. Se usan solas, casi como una exclamación, y también vienen del quechua."},
-  {term:"Cayote", def:"Zapallo grande de cáscara dura y pulpa fibrosa con el que se hace el dulce de cayote, un clásico de las queserías y dulcerías de Tafí."},
-  {term:"Chaguar / chagualera", def:"El chaguar es una planta textil andina de la que se saca una fibra resistente para tejer; \"chagualera\" es el terreno donde crece. Parte de la misma tradición textil que se ve en la Ruta del Artesano."},
-  {term:"Alfeñique", def:"Golosina artesanal a base de miel de caña, típica de las ferias y kioscos del interior tucumano."},
-  {term:"Achilata", def:"Hielo raspado con jarabe de colores — el \"raspadillo\" de toda la vida, ideal para el calor de la siesta."},
-  {term:"Turucutu", def:"Llevar a alguien sentado sobre los hombros o la espalda. En Salta a lo mismo le dicen \"cococho\"."},
-  {term:"Ahicito", def:"Ojo con este falso amigo: en el NOA no significa \"cerquita\" como sugiere el diminutivo, sino todo lo contrario — \"lejísimos\"."},
-  {term:"Yastá", def:"\"Ya está\": listo, de acuerdo, se terminó el tema. Sirve para cerrar casi cualquier conversación."}
-];
-
 const CHECKLIST_ITEMS = [
   "Documento / DNI",
   "Reserva alojamiento capital",
@@ -1796,206 +1204,30 @@ const CHECKLIST_ITEMS = [
   "Bolso chico para las 3 noches en Tafí"
 ];
 
-const DEFAULT_BUDGET_ITEMS = [
-  {label:"Alojamiento (capital + Tafí)", estimado:0, real:0},
-  {label:"Combis / micros (capital ↔ Tafí)", estimado:0, real:0},
-  {label:"Excursión a Quilmes", estimado:0, real:0},
-  {label:"Comidas", estimado:0, real:0},
-  {label:"Entradas y museos", estimado:0, real:0},
-  {label:"Artesanías y regalos", estimado:0, real:0},
-  {label:"Imprevistos", estimado:0, real:0}
-];
-
 /* ===================== RENDER ===================== */
 const tabbar = document.getElementById('tabbar');
 const sectionsRoot = document.getElementById('sections');
-
-/* ===================== BUSCADOR DEL ITINERARIO ===================== */
-let itinerarySearchIndex = [];
-
-function normalizeForSearch(str){
-  return String(str || '')
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, ''); // saca tildes para que "queso" encuentre "quesería" igual
-}
-
-function bindItinSearchEvents(wrap){
-  const input = wrap.querySelector('#itinSearchInput');
-  const clearBtn = wrap.querySelector('#itinSearchClear');
-  const resultsBox = wrap.querySelector('#itinSearchResults');
-  if(!input || !resultsBox) return;
-
-  const renderResults = (matches)=>{
-    if(!matches.length){
-      resultsBox.innerHTML = `<div class="itin-search-empty">No encontré nada con esa búsqueda. Probá con otra palabra.</div>`;
-      resultsBox.classList.add('show');
-      return;
-    }
-    resultsBox.innerHTML = matches.slice(0, 20).map(m => `
-      <button type="button" class="itin-search-result" data-day="${m.dayId}" data-stop="${m.stopId}">
-        <span class="itin-search-result-day">${m.dayLabel} · ${m.time}</span>
-        <span class="itin-search-result-name">${m.name}</span>
-      </button>
-    `).join('');
-    resultsBox.classList.add('show');
-    resultsBox.querySelectorAll('.itin-search-result').forEach(btn=>{
-      btn.addEventListener('click', ()=> jumpToStop(btn.dataset.day, btn.dataset.stop));
-    });
-  };
-
-  input.addEventListener('input', ()=>{
-    const q = normalizeForSearch(input.value.trim());
-    clearBtn.style.display = q ? 'flex' : 'none';
-    if(!q){ resultsBox.classList.remove('show'); resultsBox.innerHTML = ''; return; }
-    const matches = itinerarySearchIndex.filter(item => item.searchText.includes(q));
-    renderResults(matches);
-  });
-
-  clearBtn.addEventListener('click', ()=>{
-    input.value = '';
-    clearBtn.style.display = 'none';
-    resultsBox.classList.remove('show');
-    resultsBox.innerHTML = '';
-    input.focus();
-  });
-}
-
-function bindMapSearchEvents(wrap, mapSearchIndex){
-  const input = wrap.querySelector('#mapSearchInput');
-  const clearBtn = wrap.querySelector('#mapSearchClear');
-  const resultsBox = wrap.querySelector('#mapSearchResults');
-  if(!input || !resultsBox) return;
-
-  const renderResults = (matches)=>{
-    if(!matches.length){
-      resultsBox.innerHTML = `<div class="itin-search-empty">No encontré nada con esa búsqueda. Probá con otra palabra.</div>`;
-      resultsBox.classList.add('show');
-      return;
-    }
-    resultsBox.innerHTML = matches.slice(0, 20).map(m => `
-      <button type="button" class="itin-search-result" data-type="${m.type}" data-id="${m.id}">
-        <span class="itin-search-result-day">${m.sub}</span>
-        <span class="itin-search-result-name">${m.label}</span>
-      </button>
-    `).join('');
-    resultsBox.classList.add('show');
-    resultsBox.querySelectorAll('.itin-search-result').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        input.value = '';
-        clearBtn.style.display = 'none';
-        resultsBox.classList.remove('show');
-        resultsBox.innerHTML = '';
-        if(btn.dataset.type === 'extra') goToMapExtra(btn.dataset.id);
-        else goToMapStop(btn.dataset.id);
-      });
-    });
-  };
-
-  input.addEventListener('input', ()=>{
-    const q = normalizeForSearch(input.value.trim());
-    clearBtn.style.display = q ? 'flex' : 'none';
-    if(!q){ resultsBox.classList.remove('show'); resultsBox.innerHTML = ''; return; }
-    const matches = mapSearchIndex.filter(item => item.searchText.includes(q));
-    renderResults(matches);
-  });
-
-  clearBtn.addEventListener('click', ()=>{
-    input.value = '';
-    clearBtn.style.display = 'none';
-    resultsBox.classList.remove('show');
-    resultsBox.innerHTML = '';
-    input.focus();
-  });
-}
-
-function jumpToStop(dayId, stopId){
-  showDay(dayId);
-
-  const input = document.getElementById('itinSearchInput');
-  const clearBtn = document.getElementById('itinSearchClear');
-  const resultsBox = document.getElementById('itinSearchResults');
-  if(input) input.value = '';
-  if(clearBtn) clearBtn.style.display = 'none';
-  if(resultsBox){ resultsBox.classList.remove('show'); resultsBox.innerHTML = ''; }
-
-  requestAnimationFrame(()=>{
-    const extra = document.getElementById(stopId);
-    if(!extra) return;
-    const card = extra.closest('.stop');
-    if(!card) return;
-
-    if(!extra.classList.contains('open')){
-      const toggleBtn = document.querySelector(`.pill-toggle[data-target="${stopId}"]`);
-      extra.classList.add('open');
-      if(toggleBtn){
-        toggleBtn.classList.add('open');
-        toggleBtn.setAttribute('aria-expanded', 'true');
-        const label = toggleBtn.querySelector('.toggle-label');
-        if(label) label.textContent = ' Ocultar';
-      }
-    }
-
-    card.scrollIntoView({behavior:'smooth', block:'center'});
-    card.classList.add('search-highlight');
-    setTimeout(()=> card.classList.remove('search-highlight'), 2200);
-  });
-}
-
-function jumpToExtra(extraId){
-  switchToTab('extras');
-  requestAnimationFrame(()=>{
-    const card = document.querySelector(`.extras-card[data-extra="${extraId}"]`);
-    if(!card) return;
-    card.scrollIntoView({behavior:'smooth', block:'center'});
-    card.classList.add('search-highlight');
-    setTimeout(()=> card.classList.remove('search-highlight'), 2200);
-  });
-}
 
 function buildItinerarioSection(){
   const wrap = document.createElement('div');
   wrap.className = 'section'; wrap.id = 'sec-itinerario'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Itinerario'); wrap.setAttribute('tabindex','-1');
 
-  const initialIdx = getInitialDayIndex();
-
   const subTabs = document.createElement('div');
   subTabs.className = 'tabbar'; subTabs.style.position='static'; subTabs.style.borderBottom='none'; subTabs.style.padding='0 0 14px';
-  let activeTabBtn = null;
   DAYS.forEach((d,i)=>{
     const b = document.createElement('button');
-    b.className = 'tab' + (i===initialIdx?' active':'');
-    b.dataset.dayId = d.id;
+    b.className = 'tab' + (i===0?' active':'');
     b.textContent = d.weekdayShort ? `${d.weekdayShort} ${d.dateLabel}` : `Día ${d.num}`;
-    b.onclick = ()=>{ showDay(d.id); };
-    if(i===initialIdx) activeTabBtn = b;
+    b.onclick = ()=>{ showDay(d.id); [...subTabs.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); };
     subTabs.appendChild(b);
   });
   wrap.appendChild(subTabs);
-
-  if(activeTabBtn){
-    requestAnimationFrame(()=> activeTabBtn.scrollIntoView({inline:'center', block:'nearest'}));
-  }
-
-  const searchWrap = document.createElement('div');
-  searchWrap.className = 'itin-search-wrap';
-  searchWrap.innerHTML = `
-    <div class="itin-search-box">
-      <span class="itin-search-icon" aria-hidden="true">🔎</span>
-      <input type="search" id="itinSearchInput" class="itin-search-input" placeholder="Buscar en el itinerario (ej. queso, museo, combi)..." autocomplete="off">
-      <button type="button" id="itinSearchClear" class="itin-search-clear" style="display:none;" aria-label="Borrar búsqueda">✕</button>
-    </div>
-    <div id="itinSearchResults" class="itin-search-results"></div>
-  `;
-  wrap.appendChild(searchWrap);
-
-  itinerarySearchIndex = [];
 
   DAYS.forEach((day, idx)=>{
     const dayDiv = document.createElement('div');
     dayDiv.className = 'day-block';
     dayDiv.id = 'day-'+day.id;
-    dayDiv.style.display = idx===initialIdx ? 'block':'none';
+    dayDiv.style.display = idx===0 ? 'block':'none';
 
     dayDiv.innerHTML = `
       <div class="day-banner">
@@ -2008,26 +1240,10 @@ function buildItinerarioSection(){
 
     day.stops.forEach((s, sIdx)=>{
       const stopId = `${day.id}-stop-${sIdx}`;
-
-      itinerarySearchIndex.push({
-        dayId: day.id,
-        dayLabel: day.weekdayShort ? `${day.weekdayShort} ${day.dateLabel}` : `Día ${day.num}`,
-        stopId, time: s.time, name: s.name,
-        searchText: normalizeForSearch([day.title, s.name, s.desc, s.dish, s.history, s.curiosity, s.tip, s.winterTip, s.access, (s.checklist||[]).join(' ')].filter(Boolean).join(' '))
-      });
-
       const card = document.createElement('div');
       card.className = 'stop';
       card.innerHTML = `
-        <div class="stop-gallery">
-          <div class="stop-gallery-track" data-gallery-track="${stopId}">
-            ${s.imgs.map((imgSrc, i) => `<img class="zoomable-img" src="${imgSrc}" alt="${s.name}" data-gallery="${stopId}" data-gallery-idx="${i}" loading="lazy" onerror="this.style.display='none'">`).join('')}
-          </div>
-          ${s.imgs.length > 1 ? `<div class="stop-gallery-dots" data-gallery-dots="${stopId}">
-            ${s.imgs.map((_, i) => `<span class="stop-gallery-dot${i === 0 ? ' active' : ''}"></span>`).join('')}
-          </div>` : ''}
-        </div>
-        <span class="zoom-hint" aria-hidden="true">🔍</span>
+        <img src="${s.img}" alt="${s.name}" loading="lazy" onerror="this.style.display='none'">
         <span class="stop-visited-badge">✓ Visitado</span>
         <div class="stop-body">
           <div class="stop-head-row">
@@ -2039,18 +1255,10 @@ function buildItinerarioSection(){
           </div>
           <h3>${s.name}</h3>
           <p class="desc">${s.desc}</p>
-          ${s.dish ? `<div class="dish-block">
-            <span class="dish-icon" aria-hidden="true">🍴</span>
-            <div class="dish-text">
-              <div class="dish-label">Plato recomendado</div>
-              <p>${s.dish}</p>
-            </div>
-          </div>` : ''}
           <div class="badges">
             ${s.duration ? `<span class="badge">⏱ ${s.duration}</span>` : ''}
             ${s.price ? `<span class="badge">💰 ${s.price}</span>` : ''}
             ${s.checklist && s.checklist.length ? `<span class="badge stop-progress-badge" data-progress-for="${stopId}">✅ 0/${s.checklist.length}</span>` : ''}
-            <span class="badge note-badge" data-note-for="${stopId}" style="display:none;">📝 Nota</span>
           </div>
           <button class="pill-toggle" data-target="${stopId}" aria-expanded="false" aria-controls="${stopId}">
             <span class="arrow" aria-hidden="true">▶</span><span class="toggle-label"> Ver más: historia, curiosidad y tips</span>
@@ -2097,11 +1305,6 @@ function buildItinerarioSection(){
                 `).join('')}
               </div>
             </div>` : ''}
-            <div class="block">
-              <div class="label note">📝 Tus notas</div>
-              <textarea class="stop-note" data-stop="${stopId}" rows="2" placeholder="Anotá lo que quieras: gastos, impresiones, recordatorios ('reservar antes del jueves')..."></textarea>
-              <div class="note-save-hint" data-hint-for="${stopId}"></div>
-            </div>
           </div>
         </div>
       `;
@@ -2111,17 +1314,12 @@ function buildItinerarioSection(){
     wrap.appendChild(dayDiv);
   });
 
-  bindItinSearchEvents(wrap);
-
   return wrap;
 }
 
 function showDay(id){
   document.querySelectorAll('.day-block').forEach(d=>{
     d.style.display = (d.id === 'day-'+id) ? 'block' : 'none';
-  });
-  document.querySelectorAll('.tabbar .tab[data-day-id]').forEach(t=>{
-    t.classList.toggle('active', t.dataset.dayId === id);
   });
 }
 
@@ -2157,19 +1355,6 @@ function buildTipsSection(){
     c.innerHTML = `<h4>${t.icon} ${t.title}</h4><p>${t.body}</p>`;
     wrap.appendChild(c);
   });
-
-  const glosarioHeader = document.createElement('div');
-  glosarioHeader.innerHTML = `<h3 class="glosario-title">🗣️ Glosario NOA</h3>
-    <p class="glosario-intro">Palabras y expresiones que vas a escuchar seguido en el norte — no hace falta usarlas, pero ayuda entenderlas.</p>`;
-  wrap.appendChild(glosarioHeader);
-
-  GLOSARIO.forEach(g=>{
-    const item = document.createElement('div');
-    item.className = 'glosario-item';
-    item.innerHTML = `<p class="glosario-term">${g.term}</p><p class="glosario-def">${g.def}</p>`;
-    wrap.appendChild(item);
-  });
-
   return wrap;
 }
 
@@ -2179,23 +1364,6 @@ function buildChecklistSection(){
   wrap.innerHTML = `<h2 class="section-title">Checklist de viaje</h2>
     <p class="section-sub">Se guarda automáticamente en este dispositivo.</p>
     <div id="checklistItems"></div>`;
-  return wrap;
-}
-
-function buildPresupuestoSection(){
-  const wrap = document.createElement('div');
-  wrap.className = 'section'; wrap.id = 'sec-presupuesto'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Presupuesto'); wrap.setAttribute('tabindex','-1');
-  wrap.innerHTML = `<h2 class="section-title">💰 Presupuesto</h2>
-    <p class="section-sub">Un presupuesto simple para todo el viaje. Se guarda automáticamente en este dispositivo.</p>
-    <div class="budget-header">
-      <span class="budget-col-label">Rubro</span>
-      <span class="budget-col-num">Estimado</span>
-      <span class="budget-col-num">Real</span>
-      <span class="budget-col-spacer" aria-hidden="true"></span>
-    </div>
-    <div id="presupuestoRows"></div>
-    <button class="budget-add-btn" id="addBudgetRow">+ Agregar rubro</button>
-    <div class="budget-summary" id="budgetSummary"></div>`;
   return wrap;
 }
 
@@ -2364,14 +1532,11 @@ function buildExtrasSection(){
   let html = `<h2 class="section-title">✨ Lugares extras</h2>
     <p class="section-sub">Opcionales no incluidos en el itinerario — para si sobra tiempo o querés explorar más.</p>`;
 
-  EXTRAS.forEach((group, gIdx)=>{
+  EXTRAS.forEach(group=>{
     html += `<h3 class="extras-zone-title">${group.zone}</h3>`;
-    group.places.forEach((p, pIdx)=>{
-      const extraId = `extra-${gIdx}-${pIdx}`;
-      html += `<div class="extras-card" data-extra="${extraId}">
-        <img class="zoomable-img" src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
-        <span class="zoom-hint" aria-hidden="true">🔍</span>
-        <span class="extras-visited-badge">✓ Visitado</span>
+    group.places.forEach(p=>{
+      html += `<div class="extras-card">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
         <div class="extras-body">
           <div class="extras-header">
             <span class="extras-icon">${p.icon}</span>
@@ -2380,12 +1545,6 @@ function buildExtrasSection(){
           </div>
           <p class="extras-desc">${p.desc}</p>
           <div class="extras-tip">🎒 ${p.tip}</div>
-          <div class="extras-check-row">
-            <label class="extras-visited-toggle">
-              <input type="checkbox" class="extras-visited-check" data-extra="${extraId}">
-              <span>Visitado</span>
-            </label>
-          </div>
         </div>
       </div>`;
     });
@@ -2441,31 +1600,6 @@ function buildAjustesSection(){
     </div>
 
     <div class="ajustes-group">
-      <div class="ajustes-group-title">Al abrir la app</div>
-      <label class="ajustes-toggle-row">
-        <span>Abrir directo en el día de hoy</span>
-        <input type="checkbox" id="openTodayToggle">
-      </label>
-      <p class="text-only-note">Si está desactivado, la guía siempre abre en el Día 1.</p>
-    </div>
-
-    <div class="ajustes-group">
-      <div class="ajustes-group-title">Datos y conexión</div>
-      <label class="ajustes-toggle-row">
-        <span>Modo solo texto (ocultar fotos para ahorrar datos)</span>
-        <input type="checkbox" id="textOnlyToggle">
-      </label>
-      <p class="text-only-note">Con esto activado no se cargan las fotos de las paradas ni de Extras. El mapa y el clima siguen necesitando conexión igual.</p>
-    </div>
-
-    <div class="ajustes-group">
-      <div class="ajustes-group-title">📤 Compartir itinerario</div>
-      <p class="ajustes-reset-desc">Arma un texto con tus días y horarios configurados, listo para mandarle a quien viaje con vos.</p>
-      <button class="ajustes-share-btn" id="shareItineraryBtn">📲 Compartir por WhatsApp / apps</button>
-      <button class="ajustes-copy-btn" id="copyItineraryBtn">📋 Copiar como texto</button>
-    </div>
-
-    <div class="ajustes-group">
       <div class="ajustes-group-title">Restablecer</div>
       <button class="ajustes-reset-btn" id="a11yReset">Volver a los valores de accesibilidad originales</button>
     </div>
@@ -2499,32 +1633,6 @@ function buildAjustesSection(){
     sec.querySelector('#a11yReduceMotion').addEventListener('change', e=>{ a11yState.reduceMotion=e.target.checked; applyA11y(); saveA11y(); });
     sec.querySelector('#a11yReset').addEventListener('click', ()=>{ a11yState={...A11Y_DEFAULTS}; applyA11y(); saveA11y(); });
 
-    // Abrir directo en el día de hoy
-    const openTodayCb = sec.querySelector('#openTodayToggle');
-    openTodayCb.checked = openTodayMode;
-    openTodayCb.addEventListener('change', e=>{
-      openTodayMode = e.target.checked;
-      saveOpenTodayMode();
-      const idx = getInitialDayIndex();
-      if(DAYS[idx]) showDay(DAYS[idx].id);
-    });
-
-    // Modo solo texto (ahorrar datos)
-    const textOnlyCb = sec.querySelector('#textOnlyToggle');
-    textOnlyCb.checked = textOnlyMode;
-    textOnlyCb.addEventListener('change', e=>{
-      textOnlyMode = e.target.checked;
-      applyTextOnlyMode();
-      saveTextOnlyMode();
-      if(textOnlyMode){
-        document.getElementById('dataSaverBanner').classList.remove('show');
-      }
-    });
-
-    // Compartir / copiar itinerario
-    sec.querySelector('#shareItineraryBtn').addEventListener('click', shareItinerary);
-    sec.querySelector('#copyItineraryBtn').addEventListener('click', copyItineraryText);
-
     // Reset everything
     const resetAllBtn = sec.querySelector('#resetAllBtn');
     const resetConfirm = sec.querySelector('#resetConfirm');
@@ -2541,7 +1649,7 @@ function buildAjustesSection(){
     });
     resetConfirmOk.addEventListener('click', async ()=>{
       // Clear all localStorage keys for this app
-      const keys = ['checklist-state','stop-checklists-state','visited-stops','visited-extras','stop-notes','presupuesto','trip-config','a11y'];
+      const keys = ['checklist-state','stop-checklists-state','visited-stops','trip-config','a11y'];
       for(const k of keys){ await appStorage.set(k, null); localStorage.removeItem('tucuman-app:'+k); }
 
       // Reset trip config to today
@@ -2551,10 +1659,6 @@ function buildAjustesSection(){
       // Reset a11y
       a11yState = { ...A11Y_DEFAULTS };
       applyA11y();
-
-      // Reset estado en memoria de "visitado" (paradas), no solo el storage
-      visitedStopsState = {};
-      visitedExtrasState = {};
 
       // Rebuild everything
       updateHeroEyebrow();
@@ -2590,12 +1694,6 @@ function buildMapaSection(){
     filter.appendChild(chip);
   });
 
-  const extrasChip = document.createElement('button');
-  extrasChip.className = 'map-chip map-chip-extras';
-  extrasChip.dataset.day = 'extras';
-  extrasChip.textContent = '✨ Extras';
-  filter.appendChild(extrasChip);
-
   // Listeners attached here so they survive every renderAll() rebuild
   filter.addEventListener('click', (e)=>{
     const chip = e.target.closest('.map-chip');
@@ -2607,134 +1705,11 @@ function buildMapaSection(){
 
   wrap.appendChild(filter);
 
-  const mapSearchWrap = document.createElement('div');
-  mapSearchWrap.className = 'itin-search-wrap map-search-wrap';
-  mapSearchWrap.innerHTML = `
-    <div class="itin-search-box">
-      <span class="itin-search-icon" aria-hidden="true">🔎</span>
-      <input type="search" id="mapSearchInput" class="itin-search-input" placeholder="Buscar un lugar en el mapa..." autocomplete="off">
-      <button type="button" id="mapSearchClear" class="itin-search-clear" style="display:none;" aria-label="Borrar búsqueda">✕</button>
-    </div>
-    <div id="mapSearchResults" class="itin-search-results"></div>
-  `;
-  wrap.appendChild(mapSearchWrap);
-
-  const mapSearchIndex = [];
-  DAYS.forEach(day=>{
-    day.stops.forEach((s, i)=>{
-      if(s.lat == null) return;
-      mapSearchIndex.push({
-        type:'stop', id:`${day.id}-stop-${i}`,
-        label:s.name,
-        sub: day.weekdayShort ? `📍 ${day.weekdayShort} ${day.dateLabel}` : `📍 Día ${day.num}`,
-        searchText: normalizeForSearch([s.name, day.title].join(' '))
-      });
-    });
-  });
-  EXTRAS.forEach((group, gIdx)=>{
-    group.places.forEach((p, pIdx)=>{
-      if(p.lat == null) return;
-      mapSearchIndex.push({
-        type:'extra', id:`extra-${gIdx}-${pIdx}`,
-        label:p.name,
-        sub:`✨ ${group.zone}`,
-        searchText: normalizeForSearch([p.name, group.zone].join(' '))
-      });
-    });
-  });
-
-  bindMapSearchEvents(wrap, mapSearchIndex);
-
   const mapDiv = document.createElement('div');
   mapDiv.id = 'leafletMap';
   mapDiv.setAttribute('role', 'application');
   mapDiv.setAttribute('aria-label', 'Mapa interactivo con las paradas del itinerario');
   wrap.appendChild(mapDiv);
-
-  const styleSwitcher = document.createElement('div');
-  styleSwitcher.className = 'map-style-switcher';
-  Object.keys(MAP_BASE_LAYERS).forEach(key=>{
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'map-style-btn' + (key === currentMapStyle ? ' active' : '');
-    btn.dataset.style = key;
-    btn.textContent = MAP_BASE_LAYERS[key].label;
-    styleSwitcher.appendChild(btn);
-  });
-  styleSwitcher.addEventListener('click', (e)=>{
-    const btn = e.target.closest('.map-style-btn');
-    if(!btn) return;
-    setMapStyle(btn.dataset.style);
-  });
-  wrap.appendChild(styleSwitcher);
-
-  const locateBtn = document.createElement('button');
-  locateBtn.className = 'locate-btn';
-  locateBtn.id = 'locateBtn';
-  locateBtn.type = 'button';
-  locateBtn.setAttribute('aria-label', 'Mostrar mi ubicación en el mapa');
-  locateBtn.textContent = '🎯';
-  wrap.appendChild(locateBtn);
-
-  const locateStatus = document.createElement('div');
-  locateStatus.className = 'locate-status';
-  locateStatus.id = 'locateStatus';
-  wrap.appendChild(locateStatus);
-
-  locateBtn.addEventListener('click', locateUser);
-
-  const legendBtn = document.createElement('button');
-  legendBtn.className = 'legend-btn';
-  legendBtn.id = 'legendBtn';
-  legendBtn.type = 'button';
-  legendBtn.setAttribute('aria-label', 'Mostrar referencias de íconos del mapa');
-  legendBtn.setAttribute('aria-expanded', 'false');
-  legendBtn.textContent = '🏷️';
-  wrap.appendChild(legendBtn);
-
-  const extrasIconList = [];
-  EXTRAS.forEach((group, gIdx)=>{
-    group.places.forEach((p, pIdx)=>{
-      extrasIconList.push({icon:p.icon, name:p.name, extraId:`extra-${gIdx}-${pIdx}`});
-    });
-  });
-
-  const legendPanel = document.createElement('div');
-  legendPanel.className = 'legend-panel';
-  legendPanel.id = 'legendPanel';
-  legendPanel.innerHTML = `
-    <div class="legend-title">Referencias</div>
-    <div class="legend-row">
-      <span class="legend-swatch-day">3</span>
-      <span>Parada del itinerario (número = día)</span>
-    </div>
-    <div class="legend-row">
-      <span class="legend-swatch-visited">✓</span>
-      <span>Ya lo marcaste como visitado</span>
-    </div>
-    <div class="legend-divider"></div>
-    <div class="legend-subtitle">✨ Íconos de lugares extra — tocá uno para verlo en el mapa</div>
-    ${extrasIconList.map(item=>`
-      <button type="button" class="legend-row legend-row-clickable" data-extra-id="${item.extraId}">
-        <span class="legend-swatch-extra">${item.icon}</span>
-        <span>${item.name}</span>
-      </button>
-    `).join('')}
-  `;
-  wrap.appendChild(legendPanel);
-
-  legendBtn.addEventListener('click', ()=>{
-    const isOpen = legendPanel.classList.toggle('show');
-    legendBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-  });
-
-  legendPanel.addEventListener('click', (e)=>{
-    const row = e.target.closest('.legend-row-clickable');
-    if(!row) return;
-    goToMapExtra(row.dataset.extraId);
-    legendPanel.classList.remove('show');
-    legendBtn.setAttribute('aria-expanded', 'false');
-  });
 
   return wrap;
 }
@@ -2745,11 +1720,7 @@ function renderAll(){
   if(mapaSection) mapaSection.classList.remove('active');
 
   // Reset map instance so it gets rebuilt fresh against the new DAYS
-  if(leafletMap){
-    try{ leafletMap.remove(); }catch(e){}
-    leafletMap = null; mapLayers = []; userLocationMarker = null; userLocationCircle = null;
-    Object.keys(MAP_BASE_LAYERS).forEach(key=>{ MAP_BASE_LAYERS[key].layer = null; });
-  }
+  if(leafletMap){ try{ leafletMap.remove(); }catch(e){} leafletMap = null; mapLayers = []; }
 
   sectionsRoot.innerHTML = '';
   sectionsRoot.appendChild(buildItinerarioSection());
@@ -2758,7 +1729,6 @@ function renderAll(){
   sectionsRoot.appendChild(buildExtrasSection());
   sectionsRoot.appendChild(buildTipsSection());
   sectionsRoot.appendChild(buildChecklistSection());
-  sectionsRoot.appendChild(buildPresupuestoSection());
   sectionsRoot.appendChild(buildAjustesSection());
 
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -2769,11 +1739,7 @@ function renderAll(){
 
   initStopChecklists();
   initVisitedToggles();
-  initExtrasVisitedToggles();
-  initStopNotes();
-  initStopGalleries();
   renderChecklist();
-  renderPresupuesto();
 }
 
 /* expand/collapse curiosity+tip */
@@ -2789,286 +1755,20 @@ document.addEventListener('click', (e)=>{
   label.textContent = isOpen ? ' Ocultar' : ' Ver más: historia, curiosidad y tips';
 });
 
-/* ===================== LIGHTBOX (ampliar foto) ===================== */
-const lightboxBackdrop = document.getElementById('lightboxBackdrop');
-const lightboxImg = document.getElementById('lightboxImg');
-const lightboxCaption = document.getElementById('lightboxCaption');
-const lightboxCounter = document.getElementById('lightboxCounter');
-const lightboxPrevBtn = document.getElementById('lightboxPrev');
-const lightboxNextBtn = document.getElementById('lightboxNext');
-let lightboxLastFocus = null;
-let lightboxGallery = [];
-let lightboxIndex = 0;
-
-function renderLightboxImage(){
-  const src = lightboxGallery[lightboxIndex];
-  if(!src) return;
-  lightboxImg.src = src;
-  lightboxImg.alt = lightboxCaption.textContent || '';
-  const multi = lightboxGallery.length > 1;
-  lightboxPrevBtn.style.display = multi ? 'flex' : 'none';
-  lightboxNextBtn.style.display = multi ? 'flex' : 'none';
-  lightboxCounter.textContent = multi ? `${lightboxIndex + 1} / ${lightboxGallery.length}` : '';
-  lightboxCounter.style.display = multi ? 'block' : 'none';
-}
-
-function openLightbox(imgs, startIndex, caption, triggerEl){
-  lightboxGallery = imgs;
-  lightboxIndex = startIndex || 0;
-  lightboxCaption.textContent = caption || '';
-  renderLightboxImage();
-  lightboxBackdrop.classList.add('open');
-  lightboxLastFocus = triggerEl || document.activeElement;
-  document.getElementById('lightboxClose').focus();
-}
-function closeLightbox(){
-  lightboxBackdrop.classList.remove('open');
-  lightboxImg.src = '';
-  lightboxGallery = [];
-  if(lightboxLastFocus && lightboxLastFocus.focus) lightboxLastFocus.focus();
-}
-function lightboxGoPrev(){
-  if(!lightboxGallery.length) return;
-  lightboxIndex = (lightboxIndex - 1 + lightboxGallery.length) % lightboxGallery.length;
-  renderLightboxImage();
-}
-function lightboxGoNext(){
-  if(!lightboxGallery.length) return;
-  lightboxIndex = (lightboxIndex + 1) % lightboxGallery.length;
-  renderLightboxImage();
-}
-
-document.addEventListener('click', (e)=>{
-  const img = e.target.closest('.zoomable-img');
-  if(!img) return;
-  if(!img.src || img.style.display === 'none') return; // imagen rota, no hay nada que ampliar
-
-  if(img.dataset.gallery){
-    // Foto dentro del carrusel de una parada: juntamos todas las del mismo grupo
-    const siblings = Array.from(document.querySelectorAll(`.zoomable-img[data-gallery="${img.dataset.gallery}"]`));
-    const imgs = siblings.map(el => el.src);
-    const idx = siblings.indexOf(img);
-    openLightbox(imgs, idx, img.alt, img);
-  }else{
-    openLightbox([img.src], 0, img.alt, img);
-  }
-});
-document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-lightboxPrevBtn.addEventListener('click', (e)=>{ e.stopPropagation(); lightboxGoPrev(); });
-lightboxNextBtn.addEventListener('click', (e)=>{ e.stopPropagation(); lightboxGoNext(); });
-lightboxBackdrop.addEventListener('click', (e)=>{
-  if(e.target === lightboxBackdrop) closeLightbox();
-});
-document.addEventListener('keydown', (e)=>{
-  if(!lightboxBackdrop.classList.contains('open')) return;
-  if(e.key === 'Escape') closeLightbox();
-  else if(e.key === 'ArrowLeft') lightboxGoPrev();
-  else if(e.key === 'ArrowRight') lightboxGoNext();
-});
-
-/* Deslizar con el dedo para pasar de foto dentro del lightbox */
-(function initLightboxSwipe(){
-  let touchStartX = null;
-  lightboxImg.addEventListener('touchstart', (e)=>{ touchStartX = e.touches[0].clientX; }, {passive:true});
-  lightboxImg.addEventListener('touchend', (e)=>{
-    if(touchStartX == null) return;
-    const dx = e.changedTouches[0].clientX - touchStartX;
-    if(Math.abs(dx) > 40){ dx > 0 ? lightboxGoPrev() : lightboxGoNext(); }
-    touchStartX = null;
-  }, {passive:true});
-})();
-
-/* Puntitos activos del carrusel de fotos en cada tarjeta de parada */
-function initStopGalleries(){
-  document.querySelectorAll('.stop-gallery-track').forEach(track=>{
-    const stopId = track.dataset.galleryTrack;
-    const dotsWrap = document.querySelector(`.stop-gallery-dots[data-gallery-dots="${stopId}"]`);
-    if(!dotsWrap) return;
-    const dots = dotsWrap.querySelectorAll('.stop-gallery-dot');
-    if(dots.length < 2) return;
-
-    let scrollTimeout = null;
-    track.addEventListener('scroll', ()=>{
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(()=>{
-        const idx = Math.round(track.scrollLeft / track.clientWidth);
-        dots.forEach((d, i)=> d.classList.toggle('active', i === idx));
-      }, 80);
-    });
-  });
-}
-initStopGalleries();
-
 /* ===================== MAPA (Leaflet) ===================== */
 const DAY_COLORS = {dia1:"#1F3D2E", dia2:"#2F5942", dia3:"#C2622F", dia4:"#2B2A4C", dia5:"#8C6A1F", dia6:"#A0522D", diaExtraCapital:"#5B7C8D"};
 let leafletMap = null;
 let mapLayers = [];
-let userLocationMarker = null;
-let userLocationCircle = null;
-
-function buildMarkerIcon(dayNum, color, isVisited){
-  const label = isVisited ? '✓' : dayNum;
-  return L.divIcon({
-    className:'',
-    html:`<div class="day-marker-icon${isVisited ? ' visited-marker' : ''}" style="background:${color}">${label}</div>`,
-    iconSize:[28,28], iconAnchor:[14,14]
-  });
-}
-
-function updateMapMarkerVisited(stopId, isVisited){
-  const marker = mapLayers.find(l => l.stopId === stopId);
-  if(!marker) return;
-  marker.setIcon(buildMarkerIcon(marker.dayNum, marker.markerColor, isVisited));
-  if(marker.isPopupOpen()){
-    marker.setPopupContent(buildStopPopupHtml(marker.dayId, marker.stopId, marker.dayNum, marker.stopTime, marker.stopName, marker.stopDesc, isVisited));
-  }
-}
-
-function buildStopPopupHtml(dayId, stopId, dayNum, time, name, desc, isVisited){
-  return `
-    <div class="popup-time">${time} · Día ${dayNum}</div>
-    <div class="popup-name">${name}</div>
-    <p class="popup-desc">${desc.slice(0,110)}${desc.length>110?'…':''}</p>
-    <label class="popup-visited-toggle">
-      <input type="checkbox" ${isVisited ? 'checked' : ''} onchange="setStopVisited('${stopId}', this.checked); this.nextElementSibling.textContent = this.checked ? '✓ Visitada' : 'Marcar visitada';">
-      <span>${isVisited ? '✓ Visitada' : 'Marcar visitada'}</span>
-    </label>
-    <button type="button" class="popup-goto-btn" onclick="goToItineraryStop('${dayId}','${stopId}')">📖 Ver en itinerario</button>
-  `;
-}
-
-function buildExtraMarkerIcon(icon, isVisited){
-  return L.divIcon({
-    className:'',
-    html:`<div class="extra-marker-icon${isVisited ? ' visited-marker' : ''}">${isVisited ? '✓' : icon}</div>`,
-    iconSize:[26,26], iconAnchor:[13,13]
-  });
-}
-
-function updateMapExtraMarkerVisited(extraId, isVisited){
-  const marker = mapLayers.find(l => l.extraId === extraId);
-  if(!marker) return;
-  marker.setIcon(buildExtraMarkerIcon(marker.extraIcon, isVisited));
-  if(marker.isPopupOpen()){
-    marker.setPopupContent(buildExtraPopupHtml(marker.extraId, marker.extraZone, marker.extraName, marker.extraDesc, marker.extraPrice, isVisited));
-  }
-}
-
-function goToMapExtra(extraId){
-  if(!leafletMap) return;
-
-  // Nos aseguramos de que el filtro esté en "Todos" para que el marcador exista en el mapa
-  const filter = document.querySelector('.map-day-filter');
-  if(filter){
-    filter.querySelectorAll('.map-chip').forEach(c=>c.classList.toggle('active', c.dataset.day === 'all'));
-  }
-  renderMapMarkers('all');
-
-  const marker = mapLayers.find(l => l.extraId === extraId);
-  if(!marker) return;
-  leafletMap.setView(marker.getLatLng(), Math.max(leafletMap.getZoom(), 14));
-  marker.openPopup();
-}
-
-function goToMapStop(stopId){
-  if(!leafletMap) return;
-
-  const filter = document.querySelector('.map-day-filter');
-  if(filter){
-    filter.querySelectorAll('.map-chip').forEach(c=>c.classList.toggle('active', c.dataset.day === 'all'));
-  }
-  renderMapMarkers('all');
-
-  const marker = mapLayers.find(l => l.stopId === stopId);
-  if(!marker) return;
-  leafletMap.setView(marker.getLatLng(), Math.max(leafletMap.getZoom(), 14));
-  marker.openPopup();
-}
-
-function buildExtraPopupHtml(extraId, zone, name, desc, price, isVisited){
-  return `
-    <div class="popup-time">✨ ${zone}</div>
-    <div class="popup-name">${name}</div>
-    <p class="popup-desc">${desc.slice(0,110)}${desc.length>110?'…':''}</p>
-    <span class="badge" style="margin-bottom:8px;display:inline-block;">${price}</span>
-    <label class="popup-visited-toggle">
-      <input type="checkbox" ${isVisited ? 'checked' : ''} onchange="setExtraVisited('${extraId}', this.checked); this.nextElementSibling.textContent = this.checked ? '✓ Visitado' : 'Marcar visitado';">
-      <span>${isVisited ? '✓ Visitado' : 'Marcar visitado'}</span>
-    </label>
-    <button type="button" class="popup-goto-btn popup-goto-btn-extra" onclick="jumpToExtra('${extraId}')">✨ Ver en Extras</button>
-  `;
-}
-
-const MAP_BASE_LAYERS = {
-  calles: {
-    label:'🗺️ Calles',
-    layer: null,
-    create: ()=> L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution:'&copy; OpenStreetMap',
-      maxZoom: 19
-    })
-  },
-  satelite: {
-    label:'🛰️ Satélite',
-    layer: null,
-    create: ()=> L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      attribution:'Tiles &copy; Esri — Source: Esri, Maxar, Earthstar Geographics',
-      maxZoom: 19
-    })
-  },
-  topo: {
-    label:'⛰️ Topográfico',
-    layer: null,
-    create: ()=> L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-      attribution:'Map data: &copy; OpenStreetMap contributors, SRTM — Map style: &copy; OpenTopoMap (CC-BY-SA)',
-      subdomains:'abc',
-      maxZoom: 17
-    })
-  }
-};
-let currentMapStyle = 'calles';
-
-(async function loadMapStyle(){
-  try{
-    const res = await appStorage.get('map-style');
-    if(res && res.value && MAP_BASE_LAYERS[res.value]){
-      currentMapStyle = res.value;
-      document.querySelectorAll('.map-style-btn').forEach(b=>{
-        b.classList.toggle('active', b.dataset.style === currentMapStyle);
-      });
-      if(leafletMap) setMapStyle(currentMapStyle);
-    }
-  }catch(e){}
-})();
 
 renderAll();
-
-function setMapStyle(styleKey){
-  if(!leafletMap || !MAP_BASE_LAYERS[styleKey]) return;
-
-  Object.keys(MAP_BASE_LAYERS).forEach(key=>{
-    const entry = MAP_BASE_LAYERS[key];
-    if(entry.layer && leafletMap.hasLayer(entry.layer)){
-      leafletMap.removeLayer(entry.layer);
-    }
-  });
-
-  const entry = MAP_BASE_LAYERS[styleKey];
-  if(!entry.layer) entry.layer = entry.create();
-  entry.layer.addTo(leafletMap);
-  currentMapStyle = styleKey;
-
-  document.querySelectorAll('.map-style-btn').forEach(b=>{
-    b.classList.toggle('active', b.dataset.style === styleKey);
-  });
-
-  try{ appStorage.set('map-style', styleKey); }catch(e){}
-}
 
 function initMap(){
   if(leafletMap) return;
   leafletMap = L.map('leafletMap', {scrollWheelZoom:true}).setView([-26.78, -65.55], 9);
-  setMapStyle(currentMapStyle);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution:'&copy; OpenStreetMap',
+    maxZoom: 18
+  }).addTo(leafletMap);
   renderMapMarkers('all');
 
   // Reliable resize handling: recalculates whenever the container's
@@ -3087,197 +1787,64 @@ function renderMapMarkers(filterDay){
   mapLayers.forEach(l => leafletMap.removeLayer(l));
   mapLayers = [];
 
+  const daysToShow = filterDay === 'all' ? DAYS : DAYS.filter(d=>d.id===filterDay);
   const allPoints = [];
-  const showDays = filterDay === 'all' || DAYS.some(d=>d.id===filterDay);
-  const showExtras = filterDay === 'all' || filterDay === 'extras';
-  const fullTripCoords = [];
 
-  if(showDays && filterDay !== 'extras'){
-    const daysToShow = filterDay === 'all' ? DAYS : DAYS.filter(d=>d.id===filterDay);
+  daysToShow.forEach(day=>{
+    const color = DAY_COLORS[day.id] || "#1F3D2E";
+    const routeCoords = [];
 
-    daysToShow.forEach(day=>{
-      const color = DAY_COLORS[day.id] || "#1F3D2E";
-      const routeCoords = [];
+    day.stops.forEach((s, i)=>{
+      if(s.lat == null) return;
+      routeCoords.push([s.lat, s.lng]);
+      allPoints.push([s.lat, s.lng]);
 
-      day.stops.forEach((s, i)=>{
-        if(s.lat == null) return;
-        routeCoords.push([s.lat, s.lng]);
-        allPoints.push([s.lat, s.lng]);
-        if(filterDay === 'all') fullTripCoords.push([s.lat, s.lng]);
-
-        const stopId = `${day.id}-stop-${i}`;
-        const isVisited = !!visitedStopsState[stopId];
-        const icon = buildMarkerIcon(day.num, color, isVisited);
-        const marker = L.marker([s.lat, s.lng], {icon}).addTo(leafletMap);
-
-        // Guardamos los datos en el propio marcador para poder actualizarlo después sin re-renderizar todo
-        marker.dayId = day.id;
-        marker.stopId = stopId;
-        marker.dayNum = day.num;
-        marker.markerColor = color;
-        marker.stopTime = s.time;
-        marker.stopName = s.name;
-        marker.stopDesc = s.desc;
-
-        marker.bindPopup(buildStopPopupHtml(day.id, stopId, day.num, s.time, s.name, s.desc, isVisited));
-        mapLayers.push(marker);
+      const icon = L.divIcon({
+        className:'',
+        html:`<div class="day-marker-icon" style="background:${color}">${day.num}</div>`,
+        iconSize:[28,28], iconAnchor:[14,14]
       });
-
-      if(routeCoords.length > 1 && filterDay !== 'all'){
-        const line = L.polyline(routeCoords, {color, weight:3, dashArray:'6,6', opacity:0.8}).addTo(leafletMap);
-        mapLayers.push(line);
-      }
+      const marker = L.marker([s.lat, s.lng], {icon}).addTo(leafletMap);
+      marker.bindPopup(`
+        <div class="popup-time">${s.time} · Día ${day.num}</div>
+        <div class="popup-name">${s.name}</div>
+        <p class="popup-desc">${s.desc.slice(0,110)}${s.desc.length>110?'…':''}</p>
+      `);
+      mapLayers.push(marker);
     });
 
-    // Ruta completa del viaje: conecta todas las paradas de todos los días en orden,
-    // solo cuando se ven todos juntos (con "Todos" seleccionado).
-    if(filterDay === 'all' && fullTripCoords.length > 1){
-      const fullLine = L.polyline(fullTripCoords, {
-        color:'#8A8478', weight:2, dashArray:'2,8', opacity:0.6, lineCap:'round'
-      }).addTo(leafletMap);
-      fullLine.bringToBack();
-      mapLayers.push(fullLine);
+    if(routeCoords.length > 1 && filterDay !== 'all'){
+      const line = L.polyline(routeCoords, {color, weight:3, dashArray:'6,6', opacity:0.8}).addTo(leafletMap);
+      mapLayers.push(line);
     }
-  }
-
-  if(showExtras){
-    EXTRAS.forEach((group, gIdx)=>{
-      group.places.forEach((p, pIdx)=>{
-        if(p.lat == null) return;
-        const extraId = `extra-${gIdx}-${pIdx}`;
-        allPoints.push([p.lat, p.lng]);
-
-        const isVisited = !!visitedExtrasState[extraId];
-        const icon = buildExtraMarkerIcon(p.icon, isVisited);
-        const marker = L.marker([p.lat, p.lng], {icon}).addTo(leafletMap);
-
-        marker.extraId = extraId;
-        marker.extraIcon = p.icon;
-        marker.extraZone = group.zone;
-        marker.extraName = p.name;
-        marker.extraDesc = p.desc;
-        marker.extraPrice = p.price;
-
-        marker.bindPopup(buildExtraPopupHtml(extraId, group.zone, p.name, p.desc, p.price, isVisited));
-        mapLayers.push(marker);
-      });
-    });
-  }
+  });
 
   if(allPoints.length){
     leafletMap.fitBounds(allPoints, {padding:[30,30]});
   }
 }
 
-/* ===================== MI UBICACIÓN ===================== */
-function showLocateStatus(message, autoHide){
-  const status = document.getElementById('locateStatus');
-  if(!status) return;
-  status.textContent = message;
-  status.classList.add('show');
-  if(autoHide){
-    setTimeout(()=>{
-      if(status.textContent === message) status.classList.remove('show');
-    }, 3200);
-  }
-}
-
-function locateUser(){
-  if(!leafletMap) return;
-  const btn = document.getElementById('locateBtn');
-
-  if(!('geolocation' in navigator)){
-    showLocateStatus('Tu navegador no soporta geolocalización.', true);
-    return;
-  }
-
-  if(btn){ btn.classList.add('locating'); btn.disabled = true; }
-  showLocateStatus('📡 Buscando tu ubicación...', false);
-
-  navigator.geolocation.getCurrentPosition(
-    (pos)=>{
-      if(btn){ btn.classList.remove('locating'); btn.disabled = false; }
-      const { latitude, longitude, accuracy } = pos.coords;
-
-      if(userLocationMarker){ leafletMap.removeLayer(userLocationMarker); }
-      if(userLocationCircle){ leafletMap.removeLayer(userLocationCircle); }
-
-      const dotIcon = L.divIcon({
-        className:'',
-        html:`<div class="user-location-dot"></div>`,
-        iconSize:[18,18], iconAnchor:[9,9]
-      });
-      userLocationMarker = L.marker([latitude, longitude], {icon:dotIcon, zIndexOffset:1000}).addTo(leafletMap);
-      userLocationCircle = L.circle([latitude, longitude], {
-        radius: accuracy,
-        color:'#2B6CB0', weight:1, fillColor:'#2B6CB0', fillOpacity:0.15
-      }).addTo(leafletMap);
-
-      leafletMap.setView([latitude, longitude], Math.max(leafletMap.getZoom(), 13));
-      showLocateStatus('📍 Esta es tu ubicación aproximada.', true);
-    },
-    (err)=>{
-      if(btn){ btn.classList.remove('locating'); btn.disabled = false; }
-      let msg = 'No se pudo obtener tu ubicación.';
-      if(err.code === err.PERMISSION_DENIED) msg = 'No diste permiso de ubicación — podés habilitarlo en la configuración del navegador.';
-      else if(err.code === err.TIMEOUT) msg = 'Tardó demasiado en responder. Probá de nuevo.';
-      showLocateStatus(msg, true);
-    },
-    { enableHighAccuracy:true, timeout:10000, maximumAge:60000 }
-  );
-}
-
 /* ===================== BOTTOM NAV ===================== */
-function updateBottomnavScrollHint(){
-  const nav = document.getElementById('bottomnav');
-  const hint = document.getElementById('bottomnavScrollHint');
-  if(!nav || !hint) return;
-  const hasMoreToRight = (nav.scrollWidth - nav.clientWidth - nav.scrollLeft) > 4;
-  hint.classList.toggle('show', hasMoreToRight);
-}
-
-(function initBottomnavScrollHint(){
-  const nav = document.getElementById('bottomnav');
-  if(!nav) return;
-  nav.addEventListener('scroll', updateBottomnavScrollHint);
-  window.addEventListener('resize', updateBottomnavScrollHint);
-  window.addEventListener('orientationchange', ()=> setTimeout(updateBottomnavScrollHint, 250));
-  // Chequeo inicial (con un pequeño delay para que el navegador ya haya calculado el layout)
-  setTimeout(updateBottomnavScrollHint, 100);
-})();
-
-function switchToTab(target){
-  document.querySelectorAll('.nav-btn').forEach(b=>{
-    const isTarget = b.dataset.target === target;
-    b.classList.toggle('active', isTarget);
-    if(isTarget) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
-  });
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  const activeSection = document.getElementById('sec-'+target);
-  if(!activeSection) return;
-  activeSection.classList.add('active');
-  if(target !== 'mapa'){ activeSection.focus({ preventScroll: true }); }
-  if(target === 'mapa'){
-    initMap();
-    requestAnimationFrame(()=>requestAnimationFrame(()=>{
-      if(leafletMap) leafletMap.invalidateSize();
-    }));
-    setTimeout(()=>leafletMap && leafletMap.invalidateSize(), 300);
-  }
-  if(target === 'clima'){ loadClima(); }
-}
-
 document.querySelectorAll('.nav-btn').forEach(btn=>{
   btn.addEventListener('click', ()=>{
-    switchToTab(btn.dataset.target);
+    document.querySelectorAll('.nav-btn').forEach(b=>{ b.classList.remove('active'); b.removeAttribute('aria-current'); });
+    btn.classList.add('active');
+    btn.setAttribute('aria-current', 'page');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    const activeSection = document.getElementById('sec-'+btn.dataset.target);
+    activeSection.classList.add('active');
+    if(btn.dataset.target !== 'mapa'){ activeSection.focus({ preventScroll: true }); }
+    if(btn.dataset.target === 'mapa'){
+      initMap();
+      requestAnimationFrame(()=>requestAnimationFrame(()=>{
+        if(leafletMap) leafletMap.invalidateSize();
+      }));
+      setTimeout(()=>leafletMap && leafletMap.invalidateSize(), 300);
+    }
+    if(btn.dataset.target === 'clima'){ loadClima(); }
     window.scrollTo({top:0, behavior:'smooth'});
   });
 });
-
-function goToItineraryStop(dayId, stopId){
-  switchToTab('itinerario');
-  jumpToStop(dayId, stopId);
-}
 
 /* ===================== CHECKLIST (persisted via window.storage) ===================== */
 async function renderChecklist(){
@@ -3304,108 +1871,6 @@ async function renderChecklist(){
   });
 }
 renderChecklist();
-
-/* ===================== PRESUPUESTO (persisted via window.storage) ===================== */
-let budgetItems = [];
-
-function escapeHtml(str){
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;');
-}
-
-function formatMoney(n){
-  const num = Number(n) || 0;
-  return '$' + num.toLocaleString('es-AR', {maximumFractionDigits:0});
-}
-
-async function saveBudget(){
-  try{ await appStorage.set('presupuesto', JSON.stringify(budgetItems)); }catch(err){}
-}
-
-function updateBudgetSummary(){
-  const summary = document.getElementById('budgetSummary');
-  if(!summary) return;
-  const totalEst = budgetItems.reduce((sum, it)=> sum + (Number(it.estimado) || 0), 0);
-  const totalReal = budgetItems.reduce((sum, it)=> sum + (Number(it.real) || 0), 0);
-  const diff = totalEst - totalReal;
-  const diffClass = diff >= 0 ? 'budget-diff-ok' : 'budget-diff-over';
-  const diffLabel = diff >= 0 ? `${formatMoney(diff)} por debajo del estimado` : `${formatMoney(Math.abs(diff))} por encima del estimado`;
-  summary.innerHTML = `
-    <div class="budget-summary-row"><span>Total estimado</span><b>${formatMoney(totalEst)}</b></div>
-    <div class="budget-summary-row"><span>Total real</span><b>${formatMoney(totalReal)}</b></div>
-    <div class="budget-summary-row ${diffClass}"><span>Diferencia</span><b>${diffLabel}</b></div>
-  `;
-}
-
-function bindBudgetRowEvents(){
-  document.querySelectorAll('.budget-label-input').forEach(input=>{
-    input.addEventListener('input', ()=>{
-      const item = budgetItems.find(it=>it.id === input.dataset.id);
-      if(item){ item.label = input.value; saveBudget(); }
-    });
-  });
-  document.querySelectorAll('.budget-estimado').forEach(input=>{
-    input.addEventListener('input', ()=>{
-      const item = budgetItems.find(it=>it.id === input.dataset.id);
-      if(item){ item.estimado = input.value === '' ? 0 : Number(input.value); updateBudgetSummary(); saveBudget(); }
-    });
-  });
-  document.querySelectorAll('.budget-real').forEach(input=>{
-    input.addEventListener('input', ()=>{
-      const item = budgetItems.find(it=>it.id === input.dataset.id);
-      if(item){ item.real = input.value === '' ? 0 : Number(input.value); updateBudgetSummary(); saveBudget(); }
-    });
-  });
-  document.querySelectorAll('.budget-remove').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      budgetItems = budgetItems.filter(it=>it.id !== btn.dataset.id);
-      drawBudgetRows();
-      saveBudget();
-    });
-  });
-}
-
-function drawBudgetRows(){
-  const rowsRoot = document.getElementById('presupuestoRows');
-  if(!rowsRoot) return;
-  rowsRoot.innerHTML = budgetItems.map(it => `
-    <div class="budget-row" data-id="${it.id}">
-      <input type="text" class="budget-label-input" data-id="${it.id}" value="${escapeHtml(it.label)}" aria-label="Rubro">
-      <input type="number" inputmode="decimal" min="0" class="budget-input budget-estimado" data-id="${it.id}" value="${it.estimado || ''}" placeholder="0" aria-label="Monto estimado">
-      <input type="number" inputmode="decimal" min="0" class="budget-input budget-real" data-id="${it.id}" value="${it.real || ''}" placeholder="0" aria-label="Monto real">
-      <button class="budget-remove" data-id="${it.id}" aria-label="Quitar rubro">✕</button>
-    </div>
-  `).join('');
-  bindBudgetRowEvents();
-  updateBudgetSummary();
-}
-
-async function renderPresupuesto(){
-  let saved = null;
-  try{
-    const res = await appStorage.get('presupuesto');
-    if(res && res.value) saved = JSON.parse(res.value);
-  }catch(e){ /* no saved state yet */ }
-
-  budgetItems = (saved && saved.length) ? saved : DEFAULT_BUDGET_ITEMS.map((it, i)=>({id:'b'+i, ...it}));
-  drawBudgetRows();
-
-  const addBtn = document.getElementById('addBudgetRow');
-  if(addBtn){
-    addBtn.addEventListener('click', ()=>{
-      const newItem = {id:'b'+Date.now(), label:'Nuevo rubro', estimado:0, real:0};
-      budgetItems.push(newItem);
-      drawBudgetRows();
-      saveBudget();
-      const newInput = document.querySelector(`.budget-label-input[data-id="${newItem.id}"]`);
-      if(newInput){ newInput.focus(); newInput.select(); }
-    });
-  }
-}
-renderPresupuesto();
 
 /* ===================== PER-STOP CHECKLISTS (persisted via window.storage) ===================== */
 async function initStopChecklists(){
@@ -3443,137 +1908,28 @@ async function initStopChecklists(){
 initStopChecklists();
 
 /* ===================== VISITED TOGGLE (persisted via window.storage) ===================== */
-let visitedStopsState = {};
-
-async function loadVisitedStopsState(){
+async function initVisitedToggles(){
+  let saved = {};
   try{
     const res = await appStorage.get('visited-stops');
-    if(res && res.value) visitedStopsState = JSON.parse(res.value);
+    if(res && res.value) saved = JSON.parse(res.value);
   }catch(e){ /* no saved state yet */ }
-}
-
-async function saveVisitedStopsState(){
-  try{ await appStorage.set('visited-stops', JSON.stringify(visitedStopsState)); }catch(err){}
-}
-
-function setStopVisited(stopId, isVisited){
-  visitedStopsState[stopId] = isVisited;
-  saveVisitedStopsState();
-
-  // Sincroniza el checkbox de la tarjeta del itinerario, si está en el DOM
-  const cb = document.querySelector(`.visited-check[data-stop="${stopId}"]`);
-  if(cb){
-    cb.checked = isVisited;
-    const card = cb.closest('.stop');
-    if(card) card.classList.toggle('is-visited', isVisited);
-  }
-
-  // Sincroniza el marcador del mapa, si está inicializado
-  if(leafletMap) updateMapMarkerVisited(stopId, isVisited);
-}
-
-async function initVisitedToggles(){
-  if(!Object.keys(visitedStopsState).length){
-    await loadVisitedStopsState();
-  }
 
   document.querySelectorAll('.visited-check').forEach(cb=>{
     const stopId = cb.dataset.stop;
     const card = cb.closest('.stop');
-    const isVisited = !!visitedStopsState[stopId];
+    const isVisited = !!saved[stopId];
     cb.checked = isVisited;
     card.classList.toggle('is-visited', isVisited);
 
-    cb.addEventListener('change', ()=>{
-      setStopVisited(stopId, cb.checked);
+    cb.addEventListener('change', async ()=>{
+      saved[stopId] = cb.checked;
+      card.classList.toggle('is-visited', cb.checked);
+      try{ await appStorage.set('visited-stops', JSON.stringify(saved)); }catch(err){}
     });
   });
 }
 initVisitedToggles();
-
-/* ===================== EXTRAS VISITED TOGGLE (persisted via window.storage) ===================== */
-let visitedExtrasState = {};
-
-async function loadVisitedExtrasState(){
-  try{
-    const res = await appStorage.get('visited-extras');
-    if(res && res.value) visitedExtrasState = JSON.parse(res.value);
-  }catch(e){ /* no saved state yet */ }
-}
-
-async function saveVisitedExtrasState(){
-  try{ await appStorage.set('visited-extras', JSON.stringify(visitedExtrasState)); }catch(err){}
-}
-
-function setExtraVisited(extraId, isVisited){
-  visitedExtrasState[extraId] = isVisited;
-  saveVisitedExtrasState();
-
-  const cb = document.querySelector(`.extras-visited-check[data-extra="${extraId}"]`);
-  if(cb){
-    cb.checked = isVisited;
-    const card = cb.closest('.extras-card');
-    if(card) card.classList.toggle('is-visited', isVisited);
-  }
-
-  if(leafletMap) updateMapExtraMarkerVisited(extraId, isVisited);
-}
-
-async function initExtrasVisitedToggles(){
-  if(!Object.keys(visitedExtrasState).length){
-    await loadVisitedExtrasState();
-  }
-
-  document.querySelectorAll('.extras-visited-check').forEach(cb=>{
-    const extraId = cb.dataset.extra;
-    const card = cb.closest('.extras-card');
-    if(!card) return;
-    const isVisited = !!visitedExtrasState[extraId];
-    cb.checked = isVisited;
-    card.classList.toggle('is-visited', isVisited);
-
-    cb.addEventListener('change', ()=>{
-      setExtraVisited(extraId, cb.checked);
-    });
-  });
-}
-initExtrasVisitedToggles();
-
-/* ===================== NOTAS PROPIAS POR PARADA (persisted via window.storage) ===================== */
-async function initStopNotes(){
-  let savedAll = {};
-  try{
-    const res = await appStorage.get('stop-notes');
-    if(res && res.value) savedAll = JSON.parse(res.value);
-  }catch(e){ /* no saved state yet */ }
-
-  document.querySelectorAll('.stop-note').forEach(textarea=>{
-    const stopId = textarea.dataset.stop;
-    const badge = document.querySelector(`.note-badge[data-note-for="${stopId}"]`);
-    const hint = document.querySelector(`.note-save-hint[data-hint-for="${stopId}"]`);
-    const saved = savedAll[stopId] || '';
-    textarea.value = saved;
-    if(badge) badge.style.display = saved.trim() ? 'inline-block' : 'none';
-
-    let saveTimeout = null;
-    textarea.addEventListener('input', ()=>{
-      if(badge) badge.style.display = textarea.value.trim() ? 'inline-block' : 'none';
-      if(hint) hint.textContent = '';
-      clearTimeout(saveTimeout);
-      saveTimeout = setTimeout(async ()=>{
-        savedAll[stopId] = textarea.value;
-        try{
-          await appStorage.set('stop-notes', JSON.stringify(savedAll));
-          if(hint){
-            hint.textContent = '✓ Guardado';
-            setTimeout(()=>{ if(hint.textContent === '✓ Guardado') hint.textContent = ''; }, 1500);
-          }
-        }catch(err){}
-      }, 600);
-    });
-  });
-}
-initStopNotes();
 
 /* ===================== SETTINGS MODAL (dynamic trip config) ===================== */
 function updateHeroEyebrow(){
@@ -3583,71 +1939,6 @@ function updateHeroEyebrow(){
     const first = `${DAYS[0].weekdayShort} ${DAYS[0].dateLabel}`;
     const last = `${DAYS[DAYS.length-1].weekdayShort} ${DAYS[DAYS.length-1].dateLabel}`;
     eyebrow.textContent = `Guía interactiva · ${tripConfig.totalDays} días (${first} – ${last})`;
-  }
-}
-
-/* ===================== COMPARTIR ITINERARIO (texto plano) ===================== */
-function buildItineraryText(){
-  const lines = [];
-  const first = DAYS[0], last = DAYS[DAYS.length - 1];
-  lines.push(`🗺️ VIAJE A TUCUMÁN — ${tripConfig.totalDays} días`);
-  if(first && first.weekday){
-    lines.push(`${first.weekday} ${first.dateLabel} → ${last.weekday} ${last.dateLabel}`);
-  }
-  lines.push('');
-
-  DAYS.forEach(day=>{
-    lines.push(`📅 ${day.weekday ? day.weekday + ' ' + day.dateLabel + ' · ' : ''}Día ${day.num} — ${day.title}`);
-    lines.push(`📍 ${day.base}`);
-    day.stops.forEach(s=>{
-      lines.push(`   ${s.time}  ${s.name}`);
-    });
-    lines.push('');
-  });
-
-  lines.push('— Armado con la guía de viaje a Tucumán 🌄');
-  return lines.join('\n');
-}
-
-async function shareItinerary(){
-  const text = buildItineraryText();
-  if(navigator.share){
-    try{
-      await navigator.share({ title:'Itinerario Tucumán', text });
-    }catch(e){ /* el usuario canceló el share, no hacemos nada */ }
-  }else{
-    const waUrl = 'https://wa.me/?text=' + encodeURIComponent(text);
-    window.open(waUrl, '_blank');
-  }
-}
-
-async function copyItineraryText(){
-  const text = buildItineraryText();
-  const btn = document.getElementById('copyItineraryBtn');
-  const original = btn ? btn.textContent : '';
-  try{
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      await navigator.clipboard.writeText(text);
-    }else{
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      ta.style.position = 'fixed';
-      ta.style.opacity = '0';
-      document.body.appendChild(ta);
-      ta.focus();
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-    }
-    if(btn){
-      btn.textContent = '✓ Copiado al portapapeles';
-      setTimeout(()=>{ btn.textContent = original; }, 1800);
-    }
-  }catch(e){
-    if(btn){
-      btn.textContent = 'No se pudo copiar — probá de nuevo';
-      setTimeout(()=>{ btn.textContent = original; }, 1800);
-    }
   }
 }
 
@@ -3741,29 +2032,6 @@ document.getElementById('settingsApply').addEventListener('click', async ()=>{
   }catch(e){ /* no saved config yet, keep default */ }
   updateHeroEyebrow();
 })();
-
-/* ===================== ESTADO DE CONEXIÓN (offline banner) ===================== */
-let offlineDismissedForThisOutage = false;
-
-function updateOfflineBanner(){
-  const banner = document.getElementById('offlineBanner');
-  if(!banner) return;
-  if(!navigator.onLine){
-    if(!offlineDismissedForThisOutage) banner.classList.add('show');
-  }else{
-    banner.classList.remove('show');
-    offlineDismissedForThisOutage = false; // reset para la próxima vez que se corte
-  }
-}
-
-document.getElementById('offlineDismiss').addEventListener('click', ()=>{
-  document.getElementById('offlineBanner').classList.remove('show');
-  offlineDismissedForThisOutage = true;
-});
-
-window.addEventListener('online', updateOfflineBanner);
-window.addEventListener('offline', updateOfflineBanner);
-updateOfflineBanner(); // chequeo inicial al cargar la app
 
 /* ===================== PWA: service worker (real file, see sw.js) ===================== */
 if('serviceWorker' in navigator){
