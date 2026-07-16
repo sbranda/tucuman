@@ -770,8 +770,8 @@ const BLOCKS = [
     ]
   },
   {
-    id:"dia4", num:4, weekday:"Viernes", title:"Día libre en Tafí: El Mollar y Menhires", base:"Tafí del Valle",
-    narrative:"Último día completo en el valle, sin excursión organizada y a ritmo propio. El Mollar y el Parque de los Menhires quedan a poca distancia de Tafí, y queda tiempo libre para descansar, pasear por el pueblo o volver a algún lugar que haya gustado antes de bajar a la capital al día siguiente.",
+    id:"dia4", num:4, weekday:"Viernes", title:"Día libre en Tafí y bajada nocturna", base:"Tafí del Valle → San Miguel de Tucumán",
+    narrative:"Último día en el valle, sin excursión organizada y a ritmo propio. El Mollar y el Parque de los Menhires quedan a poca distancia de Tafí, con tiempo libre para descansar, pasear por el pueblo o volver a algún lugar que haya gustado. A la noche, combi de regreso a San Miguel de Tucumán para dormir ya en la capital.",
     stops:[
       {
         time:"10:30", name:"Parque de los Menhires, El Mollar",
@@ -795,30 +795,31 @@ const BLOCKS = [
         tip:"Aprovechá para hacer las últimas compras de regionales (quesos, tejidos, dulces) antes de bajar — en la capital cuesta encontrar los mismos productos.",
         duration:"Tarde libre", price:"Variable", access:"Pueblo chico y caminable, sin necesidad de coordinar transporte para esta tarde.",
         checklist:["Comprar productos regionales de despedida del valle", "Aprovechar para descansar antes de bajar", "Empezar a armar el bolso para la bajada"]
+      },
+      {
+        time:"19:30", name:"Combi nocturna de regreso a la capital",
+        lat:-26.852686, lng:-65.7105579,
+        img:IMG("Ruta 307 - panoramio.jpg"),
+        desc:"Vuelta a la capital en combi de noche (~2 h desde Tafí, misma empresa que el viaje de ida). Antes de subir, buen momento para una última pasada por la oficina de turismo de Tafí si falta comprar algo.",
+        history:"La oficina de turismo de Tafí funciona como punto de coordinación entre las distintas cooperativas de productores de queso y artesanos del valle, y suele tener folletería con mapas y recomendaciones actualizadas.",
+        curiosity:"De noche, la Cuesta del Clavillo y El Infiernillo se sienten mucho más solitarios y fríos que de día — es habitual que las combis nocturnas casi no crucen otros vehículos en el tramo de montaña.",
+        tip:"Confirmá el horario exacto de la combi nocturna el día anterior — de noche suele haber menos frecuencias que de día. Si comprás queso para el resto del viaje, pedí que te lo envuelvan al vacío.",
+        winterTip:"En invierno, de noche, el frío en El Infiernillo puede ser intenso — llevá abrigo extra para el viaje, sobre todo si el micro no tiene buena calefacción.",
+        duration:"~2 h de viaje", price:"Tarifa de combi (consultar en terminal)", access:"Viaje nocturno, sin vista del paisaje — buen momento para descansar en el trayecto. Folletería impresa disponible en la oficina de turismo antes de subir.",
+        schedule:["16:30 (todos los días)","17:50 (todos los días)","19:30 (domingos)","21:00 (todos los días)","21:50 (todos los días)"],
+        scheduleNote:"Horarios de referencia de la empresa Aconquija (Tafí del Valle → San Miguel), pueden cambiar sin aviso — confirmá el día antes en la boletería de Tafí (Av. Gobernador Crítto s/n, terminal) o al 0800-444-9275.",
+        roadStatus:"Antes de bajar, vale la pena confirmar que no haya cortes en El Infiernillo (3.042 msnm) por obras de repavimentación, hielo o derrumbes — de noche es más difícil ver el estado real del camino.",
+        roadContacts:["Vialidad Nacional: 0800-222-6272 / 0800-333-0073","Web: argentina.gob.ar/transporte/vialidad-nacional/estado-de-rutas"],
+        checklist:["Confirmar horario de la combi nocturna", "Abrigo extra para el frío de noche", "Pedir queso envuelto al vacío si compraste", "Revisar que no quede nada en el alojamiento"]
       }
     ]
   },
   {
-    id:"dia5", num:5, weekday:"Sábado", title:"Bajada a la capital: historia y parques", base:"San Miguel de Tucumán",
-    narrative:"Bajada de la montaña a la capital en combi. Tarde y noche dedicadas al centro histórico — la Casa Histórica y el Parque 9 de Julio quedan para esta segunda mitad del viaje.",
+    id:"dia5", num:5, weekday:"Sábado", title:"Historia y parques en la capital", base:"San Miguel de Tucumán",
+    narrative:"Día completo en la capital, sin bajada de por medio ya que se viajó la noche anterior desde Tafí. Mañana y tarde dedicadas al centro histórico — la Casa Histórica y el Parque 9 de Julio son el foco de este día.",
     stops:[
       {
-        time:"09:00", name:"Combi de regreso a la capital",
-        lat:-26.852686, lng:-65.7105579,
-        img:IMG("Ruta 307 - panoramio.jpg"),
-        desc:"Vuelta a la capital en combi (~2 h desde Tafí, misma empresa que el viaje de ida). Antes de subir, buen momento para una última pasada por la oficina de turismo de Tafí si falta comprar algo.",
-        history:"La oficina de turismo de Tafí funciona como punto de coordinación entre las distintas cooperativas de productores de queso y artesanos del valle, y suele tener folletería con mapas y recomendaciones actualizadas.",
-        curiosity:"El queso tafinisto se elabora todavía con leche cruda de tambos familiares pequeños; cada productor tiene su propia variación de maduración y sabor.",
-        tip:"Si comprás queso para el resto del viaje, pedí que te lo envuelvan al vacío — aguanta mucho mejor el calor de la bajada y los días que quedan en la capital.",
-        duration:"~2 h de viaje", price:"Tarifa de combi (consultar en terminal)", access:"Folletería impresa disponible en la oficina de turismo, buena opción para consultar sin depender de conversación oral.",
-        schedule:["04:00 (lun-sáb)","05:00 (lun-sáb)","06:00 (lun-sáb)","10:00 (todos los días)","12:00 (domingos)","13:40 (lun-sáb)","14:00 (domingos)","16:30 (todos los días)","17:50 (todos los días)","19:30 (domingos)","21:00 (todos los días)","21:50 (todos los días)"],
-        scheduleNote:"Horarios de referencia de la empresa Aconquija (Tafí del Valle → San Miguel), pueden cambiar sin aviso — confirmá el día antes en la boletería de Tafí (Av. Gobernador Crítto s/n, terminal) o al 0800-444-9275.",
-        roadStatus:"Antes de bajar, vale la pena confirmar que no haya cortes en El Infiernillo (3.042 msnm) por obras de repavimentación, hielo o derrumbes — es un tramo de montaña que cambia según la época.",
-        roadContacts:["Vialidad Nacional: 0800-222-6272 / 0800-333-0073","Web: argentina.gob.ar/transporte/vialidad-nacional/estado-de-rutas"],
-        checklist:["Confirmar horario de la combi de bajada", "Pedir queso envuelto al vacío si compraste", "Revisar que no quede nada en el alojamiento"]
-      },
-      {
-        time:"13:00", name:"Casa Histórica de la Independencia",
+        time:"09:30", name:"Casa Histórica de la Independencia",
         lat:-26.8331348, lng:-65.2038418,
         img:IMG("Casa Histórica de Tucumán 04.JPG"),
         desc:"Donde 29 diputados firmaron la independencia el 9 de julio de 1816. El edificio actual es en gran parte una reconstrucción de los años 40, ya que el original sufrió demoliciones y refacciones a lo largo del siglo XIX.",
@@ -829,7 +830,7 @@ const BLOCKS = [
         checklist:["DNI o documento (a veces lo piden en la entrada)", "Reservar el show nocturno si querés verlo", "Cargar batería de cámara/celular"]
       },
       {
-        time:"15:30", name:"Parque 9 de Julio",
+        time:"12:30", name:"Parque 9 de Julio",
         lat:-26.8292678, lng:-65.1916518,
         img:IMG("PLAZA INDEPENDENCIA, CIUDAD DE TUCUMÁN..JPG"),
         desc:"Con 40 hectáreas, es uno de los parques urbanos más grandes de Argentina, diseñado por Carlos Thays (el mismo paisajista del Jardín Botánico de Buenos Aires y Parque Sarmiento en Córdoba).",
@@ -984,7 +985,7 @@ function assembleBlockOrder(totalDays){
   return order;
 }
 
-const TAFI_BLOCK_IDS = ["dia1","dia2","dia3","dia4"]; // every block where you sleep in Tafí
+const TAFI_BLOCK_IDS = ["dia1","dia2","dia3"]; // every block where you sleep in Tafí
 
 function buildScheduleDays(totalDays, arrivalDateStr, arrivalTime){
   const order = assembleBlockOrder(totalDays);
@@ -1369,7 +1370,7 @@ function buildChecklistSection(){
 
 /* ===================== CLIMA (Open-Meteo, sin API key) ===================== */
 const CIUDADES = [
-  { name:'San Miguel de Tucumán', lat:-26.8241, lon:-65.2226, dias:['dia1','dia2','dia5','dia6'] },
+  { name:'San Miguel de Tucumán', lat:-26.8241, lon:-65.2226, dias:['dia1','dia2','dia4','dia5','dia6'] },
   { name:'Tafí del Valle', lat:-26.853, lon:-65.708, dias:['dia3','dia4','diaExtraCapital'] }
 ];
 
