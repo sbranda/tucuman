@@ -306,6 +306,31 @@
   .tip-card h4{margin:0 0 4px;color:var(--verde);font-size:1rem;}
   .tip-card p{margin:0;font-size:13.5px;color:var(--gris);line-height:1.5;}
 
+  /* ---------- SUB-TABS (Tips / Historia) ---------- */
+  .subtab-bar{display:flex;gap:8px;margin:4px 0 18px;}
+  .subtab{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    flex:1;padding:9px 0;border-radius:10px;border:1.5px solid var(--crema-osc);
+    background:#fff;color:var(--gris);font-size:13px;font-weight:700;cursor:pointer;
+  }
+  .subtab.active{background:var(--verde);border-color:var(--verde);color:#fff;}
+
+  /* ---------- HISTORIA ---------- */
+  .era-block{
+    background:#fff;border-radius:14px;padding:16px 18px;margin-bottom:14px;
+    border:1px solid var(--crema-osc);box-shadow:0 1px 3px rgba(0,0,0,0.05);
+  }
+  .era-header{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px;}
+  .era-icon{font-size:22px;flex:0 0 auto;line-height:1.3;}
+  .era-period{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    font-size:10.5px;text-transform:uppercase;letter-spacing:0.08em;font-weight:800;
+    color:var(--terracota);margin-bottom:2px;
+  }
+  .era-title{margin:0;font-size:1.08rem;color:var(--verde);line-height:1.3;}
+  .era-text p{font-size:14px;line-height:1.62;color:var(--texto);margin:0 0 12px;}
+  .era-text p:last-child{margin-bottom:0;}
+
   /* ---------- CHECKLIST ---------- */
   .check-item{
     display:flex;align-items:center;gap:12px;background:#fff;border-radius:10px;
@@ -1345,17 +1370,127 @@ function buildCuriosidadesSection(){
   return wrap;
 }
 
+const HISTORIA = [
+  {
+    icon:"🏔️", period:"Hasta el siglo XVI", title:"Pueblos originarios y resistencia calchaquí",
+    paragraphs:[
+      "Mucho antes de la llegada española, el actual territorio tucumano estuvo habitado por distintos pueblos originarios. En las alturas de Tafí se desarrolló la cultura arqueológica Tafí (aproximadamente entre los siglos I y VIII d.C.), agricultores y pastores de llamas que dejaron como huella los menhires — piedras paradas talladas, hoy reunidas en el Parque de los Menhires de El Mollar — que marcaban sitios ceremoniales y funerarios.",
+      "Con el correr de los siglos, distintos grupos diaguitas y calchaquíes fueron ocupando los valles, desarrollando agricultura en terrazas, metalurgia y una intensa vida ceremonial. Hacia el siglo XV, el Imperio Inca extendió su influencia hasta esta región (el límite sur del Tawantinsuyu), aunque sin una dominación tan profunda como en otras zonas andinas.",
+      "La llegada española en el siglo XVI encontró una resistencia excepcionalmente prolongada. Entre 1560 y 1667, en lo que se conoce como las Guerras Calchaquíes, los pueblos de los valles se levantaron en al menos tres grandes rebeliones (1560-1565, 1630-1643 y 1656-1667) contra el sistema de encomienda y el avance colonial. La segunda, liderada por el curaca diaguita Juan Chelemín, logró expulsar a los españoles de buena parte del territorio durante años. La tercera tuvo el episodio singular de Pedro Bohórquez, un aventurero andaluz que se hizo pasar por descendiente inca y llegó a liderar un ejército indígena de varios miles de guerreros.",
+      "La resistencia terminó recién en 1665-1667 con la derrota del señorío de los Quilmes, el último bastión diaguita. Como castigo y para evitar nuevos alzamientos, la corona española aplicó la política de \"desnaturalización\": el desarraigo forzado de comunidades enteras, obligadas a caminar cientos de kilómetros hasta zonas bajo control directo español. Los quilmes sobrevivientes fueron trasladados a pie hasta las cercanías de Buenos Aires, donde con el tiempo se fundó la ciudad que hoy lleva su nombre. Otros grupos calchaquíes fueron reubicados en los alrededores de San Miguel de Tucumán, y sus descendientes son hoy la base de comunidades como la de Amaicha del Valle."
+    ]
+  },
+  {
+    icon:"⛪", period:"1565 – 1685", title:"Conquista, fundación y el traslado a La Toma",
+    paragraphs:[
+      "San Miguel de Tucumán fue fundada el 31 de mayo de 1565 por el capitán Diego de Villarroel, por encargo del gobernador Francisco de Aguirre, en un paraje llamado Ibatín (cerca de la actual Monteros, unos 60 km al sur de la ciudad actual). Se le dio el nombre completo de \"San Miguel de Tucumán y Nueva Tierra de Promisión\". Como en toda fundación española de la época, se trazó una plaza central, se repartieron solares entre los vecinos y se clavó el \"árbol de la justicia\", tronco símbolo de la autoridad real donde se ejecutaban las condenas.",
+      "La vida en Ibatín fue dura desde el inicio: en 1578 los indios solcos, liderados por el cacique Gualán, estuvieron cerca de arrasar la ciudad por completo. A esto se sumaron inundaciones recurrentes del río cercano y brotes de paludismo (fiebres palúdicas) causados por las aguas estancadas, que diezmaron a la población durante décadas.",
+      "Hacia la década de 1680, el gobernador Fernando de Mendoza y Mate de Luna impulsó el traslado definitivo de la ciudad a un sitio más saludable y mejor conectado, conocido como \"La Toma\", junto al río Salí — el emplazamiento que ocupa la actual San Miguel de Tucumán. La mudanza se concretó el 29 de septiembre de 1685: se cargaron en carretas el archivo del Cabildo y el propio árbol de la justicia, símbolos de continuidad institucional entre la vieja y la nueva ciudad. El sitio original de Ibatín quedó abandonado y hoy es un área arqueológica protegida."
+    ]
+  },
+  {
+    icon:"🍷", period:"Siglo XVII – 1767", title:"Época colonial y las estancias jesuíticas",
+    paragraphs:[
+      "Durante el período colonial, San Miguel de Tucumán se consolidó como un punto de paso obligado en la ruta comercial entre el Río de la Plata y el Alto Perú (actual Bolivia), lo que le dio relevancia económica y estratégica dentro de la gobernación del Tucumán, mucho más extensa que la provincia actual.",
+      "En el valle de Tafí, la Compañía de Jesús estableció desde el siglo XVII una estancia dedicada a la ganadería, la producción textil y la elaboración de quesos, aprovechando los pastizales de altura. La estancia funcionaba como una unidad productiva casi autosuficiente, con mano de obra indígena y esclava, y abastecía de alimentos y cueros a otras posesiones jesuíticas de la región.",
+      "Este período de expansión de las misiones y estancias jesuíticas en toda Sudamérica terminó abruptamente en 1767, cuando el rey Carlos III de España ordenó la expulsión de la Compañía de Jesús de todos sus dominios, por sospechas de que las misiones habían acumulado demasiado poder económico y político autónomo. Las propiedades jesuíticas, incluida la estancia de Tafí, pasaron a manos privadas o de otras órdenes religiosas. La técnica quesera, sin embargo, quedó en manos de las familias y comunidades locales, dando origen a la tradición del queso de Tafí que continúa hasta hoy."
+    ]
+  },
+  {
+    icon:"🇦🇷", period:"1810 – 1816", title:"Independencia: Belgrano, la Batalla de Tucumán y el Congreso",
+    paragraphs:[
+      "El proceso independentista argentino se inició formalmente con la Revolución de Mayo de 1810 en Buenos Aires, que depuso al virrey español y estableció la Primera Junta de gobierno. Pero consolidar esa independencia en el interior del territorio, con España todavía intentando reconquistarlo desde el Alto Perú, tomó años de guerra.",
+      "En 1812, ante el avance de las tropas realistas desde el norte, el general Manuel Belgrano ordenó el célebre Éxodo Jujeño: la evacuación forzosa de la población de Jujuy y Salta hacia el sur, quemando cultivos y recursos a su paso para no dejarle nada útil al enemigo. Belgrano se replegó hasta Tucumán, donde — desobedeciendo la orden de seguir retirándose hasta Córdoba — decidió presentar batalla. El 24 de septiembre de 1812 se libró la Batalla de Tucumán, en la que las fuerzas de Belgrano, con apoyo decisivo de la población local (incluyendo civiles armados de última hora), derrotaron al ejército realista al mando de Pío Tristán. Fue una victoria clave que frenó el avance español hacia el sur y salvó a las Provincias Unidas de una reconquista temprana.",
+      "Cuatro años más tarde, con la necesidad de definir institucionalmente la situación política del territorio, se reunió en San Miguel de Tucumán el Congreso General Constituyente, que sesionó desde el 24 de marzo de 1816 en la casa de Francisca Bazán de Laguna (hoy Casa Histórica de la Independencia). Participaron representantes de las Provincias Unidas y de algunas regiones del Alto Perú, entre ellas Charcas, Chichas y Mizque, hoy territorio boliviano. Se eligió a Francisco Narciso de Laprida, diputado por San Juan, como presidente del cuerpo el día de la votación.",
+      "El 9 de julio de 1816, tras arduos debates —incluyendo una propuesta de Belgrano de establecer una monarquía moderada con un príncipe inca, que finalmente no prosperó— los diputados presentes votaron afirmativamente la independencia. Del total de representantes electos, 29 firmaron el Acta de la Declaración de Independencia, declarando a las Provincias Unidas en Sudamérica \"nación libre e independiente de los reyes de España, sus sucesores y metrópoli\". Días después, el Congreso amplió la declaración para excluir también cualquier sometimiento a otra potencia extranjera, como Portugal. La sala donde se firmó el Acta no se conserva tal cual era: fue reconstruida en el siglo XX a partir de planos, pinturas y testimonios de la época."
+    ]
+  },
+  {
+    icon:"⚔️", period:"1820 – 1880", title:"Guerras civiles y organización nacional",
+    paragraphs:[
+      "Lograda la independencia formal, el siglo XIX argentino estuvo marcado por décadas de conflictos internos entre distintos proyectos de país: unitarios, que buscaban un gobierno centralizado desde Buenos Aires, y federales, partidarios de la autonomía de las provincias. Tucumán, como el resto del interior, atravesó este período con gobernadores y caudillos locales que alternaron alianzas según la coyuntura, y sufrió los efectos económicos de la fragmentación política y las guerras entre provincias.",
+      "La provincia también estuvo influenciada por el ciclo de conflictos regionales del noroeste, incluyendo la guerra con la Confederación Perú-Boliviana en la década de 1830, que afectó el comercio con el Alto Perú del que Tucumán dependía históricamente.",
+      "Recién con la sanción de la Constitución Nacional de 1853 y la posterior unificación del país tras la batalla de Pavón (1861), Tucumán se integró plenamente al esquema institucional de la República Argentina organizada, sentando las bases administrativas y económicas sobre las que después se montaría el auge azucarero de fin de siglo."
+    ]
+  },
+  {
+    icon:"🚂", period:"1876 – 1920", title:"El auge azucarero, el ferrocarril y la inmigración",
+    paragraphs:[
+      "El cultivo de caña de azúcar existía en Tucumán desde comienzos del siglo XIX, pero a escala modesta: hacia 1855 apenas 190 hectáreas producían unas 300 toneladas anuales. Todo cambió en 1876, cuando el ferrocarril llegó a la provincia y la conectó con Córdoba y el litoral pampeano. El entonces presidente Nicolás Avellaneda, tucumano, calificó la llegada del riel como un acontecimiento nacional.",
+      "El ferrocarril permitió importar maquinaria industrial pesada a bajo costo — trapiches de hierro, máquinas centrífugas de purga que redujeron un proceso de tres meses a minutos — y abrió el mercado de todo el país al azúcar tucumana, que hasta entonces competía en desventaja con el azúcar importada de Cuba y Brasil. En apenas veinte años, decenas de pequeños trapiches artesanales fueron reemplazados por una treintena de grandes ingenios industriales equipados con tecnología británica, francesa y alemana.",
+      "Este boom industrial atrajo una fuerte ola de inmigración europea — italianos, españoles y franceses en su mayoría, junto con comunidades árabes — que se sumó a trabajadores golondrina de otras provincias del norte y del Chaco para las cosechas. La sociedad tucumana se transformó profundamente: surgieron nuevos oficios especializados (mecánicos, torneros, técnicos azucareros), nuevos pueblos alrededor de las estaciones de tren, y una élite empresarial azucarera con enorme peso político y económico en la provincia.",
+      "El crecimiento no estuvo exento de crisis: la sobreproducción llevó a caídas de precios recurrentes, que el gobierno provincial intentó regular con medidas como la llamada \"Ley Machete\" de 1902. Paralelamente, esa misma generación de intelectuales y empresarios ligados al azúcar (entre ellos Juan B. Terán y Alberto Rougés) impulsó proyectos de modernización cultural e institucional, entre ellos la fundación de la Universidad Nacional de Tucumán en 1914."
+    ]
+  },
+  {
+    icon:"🕊️", period:"1930 – 1983", title:"Golpes de Estado, el Operativo Independencia y la última dictadura",
+    paragraphs:[
+      "Como en el resto de Argentina, el siglo XX tucumano estuvo atravesado por una serie de golpes de Estado (1930, 1943, 1955, 1962, 1966, 1976) que interrumpieron reiteradamente los gobiernos constitucionales, alternando etapas democráticas con gobiernos militares de facto. La actividad azucarera, motor económico de la provincia, también atravesó su propia crisis estructural en la década de 1960, con el cierre de varios ingenios y una fuerte conflictividad social y laboral.",
+      "El episodio más grave y determinante de esta etapa fue el llamado Operativo Independencia. El 5 de febrero de 1975, en democracia, la entonces presidenta María Estela Martínez de Perón firmó el decreto secreto 261/75, que ordenaba al Ejército y a la Fuerza Aérea \"neutralizar y/o aniquilar\" el accionar de organizaciones guerrilleras en la provincia de Tucumán, principalmente el Ejército Revolucionario del Pueblo (ERP), que había intentado instalar un foco de guerrilla rural en el monte tucumano, además de Montoneros.",
+      "Bajo la conducción del general Acdel Vilas y luego Antonio Domingo Bussi, el operativo excedió ampliamente el combate a la guerrilla armada: se instaló un régimen de terror sobre partidos políticos, sindicatos, organizaciones estudiantiles y religiosas. En Famaillá se instaló \"La Escuelita\", reconocido como el primer centro clandestino de detención de la Argentina, más de un año antes del golpe de Estado de 1976. Investigadores y organismos de derechos humanos coinciden en que el Operativo Independencia funcionó como el ensayo piloto de la metodología de desaparición forzada que la dictadura extendería después a todo el país.",
+      "El golpe de Estado del 24 de marzo de 1976 dio inicio a la última dictadura militar (el autodenominado \"Proceso de Reorganización Nacional\"), que gobernó hasta el retorno de la democracia el 10 de diciembre de 1983. En Tucumán, Bussi asumió como gobernador de facto e intensificó la represión, con centros clandestinos de detención en distintos puntos de la provincia. Las estimaciones sobre víctimas del período varían según la fuente, pero coinciden en varios cientos de personas asesinadas y desaparecidas solo en territorio tucumano, con un fuerte impacto en trabajadores azucareros, estudiantes y militantes políticos y sociales. Hoy varios de esos sitios (como la ex Escuelita de Famaillá) son Espacios para la Memoria, abiertos a la visita."
+    ]
+  },
+  {
+    icon:"🎶", period:"1983 – actualidad", title:"Retorno a la democracia y la identidad tucumana hoy",
+    paragraphs:[
+      "Con el retorno a la democracia en 1983 se inició un largo proceso de reconstrucción institucional y de búsqueda de justicia por los crímenes de la dictadura, que en Tucumán tuvo hitos judiciales relevantes en las décadas siguientes, incluyendo juicios a responsables del Operativo Independencia y de los centros clandestinos provinciales.",
+      "Económicamente, la provincia diversificó su matriz más allá del azúcar: hoy Tucumán es uno de los principales productores mundiales de limón, además de mantener una industria azucarera modernizada, actividad citrícola, sojera y un sector de servicios y universidades en expansión (la UNT sigue siendo una de las más importantes del interior del país).",
+      "Culturalmente, Tucumán es cuna de figuras centrales del folclore argentino — la más conocida, Mercedes Sosa, nacida en la capital en 1935 y hoy reconocida internacionalmente como \"La Voz de América\" — y sostiene una identidad regional fuerte, apoyada en la doble marca de \"Cuna de la Independencia\" y \"Jardín de la República\", por la exuberancia de su paisaje serrano en contraste con las llanuras vecinas.",
+      "Hoy la provincia combina ese peso histórico y simbólico —cada 9 de julio, los actos oficiales por el aniversario de la independencia se realizan en la Casa Histórica— con una vida cotidiana volcada a la universidad, la gastronomía regional y el turismo hacia los valles calchaquíes, que sigue el mismo camino que hace siglos usaban los pueblos originarios y, después, los ejércitos independentistas."
+    ]
+  }
+];
+
+
 function buildTipsSection(){
   const wrap = document.createElement('div');
   wrap.className = 'section'; wrap.id = 'sec-tips'; wrap.setAttribute('role','region'); wrap.setAttribute('aria-label','Tips'); wrap.setAttribute('tabindex','-1');
-  wrap.innerHTML = `<h2 class="section-title">Tips prácticos</h2>
-    <p class="section-sub">Lo esencial para que el viaje salga redondo.</p>`;
+  wrap.innerHTML = `<h2 class="section-title">Tips e historia</h2>
+    <p class="section-sub">Lo esencial para el viaje, y el trasfondo histórico de Tucumán.</p>
+    <div class="subtab-bar">
+      <button class="subtab active" data-subtab="tips">🎒 Tips</button>
+      <button class="subtab" data-subtab="historia">📖 Historia</button>
+    </div>
+    <div id="tipsPane"></div>
+    <div id="historiaPane" style="display:none;"></div>
+  `;
+
+  const tipsPane = wrap.querySelector('#tipsPane');
   TIPS.forEach(t=>{
     const c = document.createElement('div');
     c.className = 'tip-card';
     c.innerHTML = `<h4>${t.icon} ${t.title}</h4><p>${t.body}</p>`;
-    wrap.appendChild(c);
+    tipsPane.appendChild(c);
   });
+
+  const historiaPane = wrap.querySelector('#historiaPane');
+  HISTORIA.forEach(era=>{
+    const c = document.createElement('div');
+    c.className = 'era-block';
+    c.innerHTML = `
+      <div class="era-header">
+        <span class="era-icon">${era.icon}</span>
+        <div>
+          <div class="era-period">${era.period}</div>
+          <h4 class="era-title">${era.title}</h4>
+        </div>
+      </div>
+      <div class="era-text">${era.paragraphs.map(p=>`<p>${p}</p>`).join('')}</div>
+    `;
+    historiaPane.appendChild(c);
+  });
+
+  wrap.querySelectorAll('.subtab').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      wrap.querySelectorAll('.subtab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      const isTips = btn.dataset.subtab === 'tips';
+      tipsPane.style.display = isTips ? 'block' : 'none';
+      historiaPane.style.display = isTips ? 'none' : 'block';
+    });
+  });
+
   return wrap;
 }
 
