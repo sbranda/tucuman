@@ -2155,6 +2155,7 @@ document.getElementById('settingsApply').addEventListener('click', async ()=>{
 });
 
 (async function loadTripConfig(){
+  let hasSavedConfig = false;
   try{
     const res = await appStorage.get('trip-config');
     if(res && res.value){
@@ -2163,10 +2164,21 @@ document.getElementById('settingsApply').addEventListener('click', async ()=>{
         tripConfig = saved;
         DAYS = buildScheduleDays(tripConfig.totalDays, tripConfig.arrivalDate, tripConfig.arrivalTime);
         renderAll();
+        hasSavedConfig = true;
       }
     }
   }catch(e){ /* no saved config yet, keep default */ }
   updateHeroEyebrow();
+
+  if(!hasSavedConfig){
+    pendingArrivalDate = tripConfig.arrivalDate;
+    pendingArrivalTime = tripConfig.arrivalTime;
+    pendingTotalDays = tripConfig.totalDays;
+    arrivalDateInput.value = pendingArrivalDate;
+    arrivalTimeInput.value = pendingArrivalTime;
+    renderDayStepper();
+    settingsBackdrop.classList.add('open');
+  }
 })();
 
 /* ===================== PWA: service worker (real file, see sw.js) ===================== */
